@@ -8,10 +8,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  /* BRAND COLOURS — swap these for the rubbish.com palette.
+  /* BRAND COLOURS — rubbish.com: safety yellow + black.
      --green = accent (buttons, highlights), --black = dark (header, hero), --grey = dark card */
   :root{
-    --green:#00ED00; --black:#050505; --white:#FFFFFF; --grey:#111111;
+    --green:#FFD400; --black:#050505; --white:#FFFFFF; --grey:#111111;
     --line:#E6E6E6; --muted:#5C5C5C; --soft:#F4F4F2;
   }
   *{box-sizing:border-box;margin:0;padding:0}
@@ -31,7 +31,7 @@
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:999px;padding:12px 20px;font-weight:600;font-size:15px;text-decoration:none;transition:transform .12s, background .15s}
   .btn:active{transform:scale(.97)}
   .btn-green{background:var(--green);color:var(--black)}
-  .btn-green:hover{background:#2bff2b}
+  .btn-green:hover{background:#ffe04d}
   .btn-ghost{background:transparent;color:var(--white);border:1.5px solid #333}
   .btn-ghost:hover{border-color:var(--white)}
   .btn-dark{background:var(--black);color:var(--white)}
@@ -61,7 +61,7 @@
   .arrows{display:flex;gap:8px;flex-shrink:0}
   .arrows button{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--line);background:var(--white);font-size:18px}
   .arrows button:hover{border-color:var(--black)}
-  .live-dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px rgba(0,237,0,.2);margin-right:8px;vertical-align:middle}
+  .live-dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px rgba(255,212,0,.25);margin-right:8px;vertical-align:middle}
 
   .track{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 20px 24px;margin:0 -20px;scrollbar-width:none}
   .track::-webkit-scrollbar{display:none}
