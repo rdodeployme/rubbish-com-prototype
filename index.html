@@ -116,6 +116,101 @@
   .sizes label small{display:block;font-weight:400;color:var(--muted);font-size:11.5px}
   .sizes input:checked + label{border-color:var(--black);background:var(--green)}
   .note{font-size:12.5px;color:var(--muted)}
+  .confirm{display:flex !important;gap:12px;align-items:flex-start;font-weight:500 !important;background:var(--soft);border-radius:12px;padding:14px;font-size:14px;line-height:1.45}
+  .confirm input{width:22px;height:22px;flex-shrink:0;margin-top:1px;accent-color:var(--black)}
+  .sample{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+  .see-all{background:none;border:0;font-weight:700;font-size:15px;text-decoration:underline;text-underline-offset:4px;padding:10px 0;white-space:nowrap}
+  .menu{display:flex;align-items:center;gap:26px;margin-left:auto;margin-right:22px}
+  .menu a,.menu button{color:#d6d6d6;text-decoration:none;font-weight:600;font-size:15px;background:none;border:0;padding:8px 0}
+  .menu a:hover,.menu a.on{color:var(--white)}
+  .menu a.on{box-shadow:inset 0 -2px 0 var(--green)}
+  .menu-join{display:none}
+  .burger{display:none;width:44px;height:44px;border:1.5px solid #333;border-radius:12px;background:none;flex-direction:column;justify-content:center;align-items:center;gap:4px}
+  .burger span{display:block;width:18px;height:2px;background:var(--white);border-radius:2px}
+  .how-page{padding-top:28px;padding-bottom:64px;max-width:820px}
+  .how-tabs{display:inline-flex;background:var(--soft);border-radius:999px;padding:4px;margin-bottom:26px}
+  .how-tabs button{border:0;background:none;border-radius:999px;padding:10px 18px;font-weight:700;font-size:14.5px;min-height:44px}
+  .how-tabs button.on{background:var(--black);color:var(--white)}
+  .how-track{display:grid;gap:14px;justify-items:start}
+  .how-step{display:flex;gap:16px;background:var(--soft);border-radius:18px;padding:20px;width:100%}
+  .how-step > b{display:inline-flex;width:38px;height:38px;border-radius:50%;background:var(--black);color:var(--green);align-items:center;justify-content:center;font-family:"Inter Tight";flex-shrink:0}
+  .how-step h3{font-size:19px;margin-bottom:4px}
+  .how-step p{color:#333;font-size:15px}
+  .how-track .btn{margin-top:8px}
+  .rules{margin-top:44px;background:var(--black);color:var(--white);border-radius:20px;padding:24px}
+  .rules h2,.faq h2{font-size:26px;font-weight:800;margin-bottom:6px}
+  .rules p{color:#bbb;margin-bottom:12px}
+  .rules ul{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+  .rules li{border:1.5px solid #333;border-radius:999px;padding:7px 13px;font-size:14px;font-weight:600}
+  .rules li::before{content:"✕ ";color:var(--green)}
+  .faq{margin-top:44px}
+  .faq details{border-bottom:1.5px solid var(--line);padding:16px 0}
+  .faq summary{font-weight:700;cursor:pointer;font-size:16px}
+  .faq details p{color:#333;margin-top:8px}
+  @media(max-width:820px){
+    .burger{display:flex}
+    .menu{display:none;position:absolute;top:64px;left:0;right:0;background:var(--black);flex-direction:column;align-items:stretch;gap:0;margin:0;padding:6px 20px 16px;border-top:1px solid #222}
+    .menu.open{display:flex}
+    .menu a,.menu button{padding:14px 0;border-bottom:1px solid #222;font-size:17px;text-align:left}
+    .menu-join{display:block}
+    .nav-actions .btn-ghost{display:none}
+  }
+  .cname{background:none;border:0;padding:0;font:inherit;font-weight:700;font-size:16px;text-align:left;color:var(--black);text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:3px;cursor:pointer;display:block}
+  .cname.sm{display:inline;font-size:13px;font-weight:600;color:var(--black)}
+  .stars-inline{color:var(--black);letter-spacing:1px;font-size:14px}
+  .rnum{color:var(--black)}
+  .col-head{display:flex;gap:16px;align-items:center;margin-bottom:18px}
+  .avatar{width:64px;height:64px;border-radius:50%;background:var(--black);color:var(--green);display:flex;align-items:center;justify-content:center;font-family:"Inter Tight";font-weight:800;font-size:24px;flex-shrink:0}
+  .col-head h2{font-size:24px}
+  .col-rating{display:flex;align-items:center;gap:8px;margin-top:4px;font-weight:700}
+  .col-rating .stars-inline{font-size:18px}
+  .col-facts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:18px}
+  .col-facts div{background:var(--soft);border-radius:12px;padding:10px 12px;font-size:12.5px;color:var(--muted)}
+  .col-facts b{display:block;color:var(--black);font-size:15px}
+  .hist{display:grid;gap:10px}
+  .hist-row{border:1.5px solid var(--line);border-radius:14px;padding:12px 14px}
+  .hist-top{display:flex;justify-content:space-between;gap:10px;font-weight:700}
+  .hist-row .muted{font-size:13px;color:var(--muted)}
+  .hist-row p{font-size:14px;font-style:italic;margin-top:4px}
+  .head-actions{display:flex;align-items:center;gap:18px}
+  .see-all{color:var(--black);text-decoration:underline;text-underline-offset:4px}
+  .see-all-big{display:none;width:100%;margin-top:-6px}
+  .jobs-top{background:var(--black);color:var(--white);padding:28px 0 32px}
+  .jobs-top h1{font-size:clamp(34px,5vw,56px);font-weight:800;line-height:1.05;margin-top:10px}
+  .jobs-top p{color:#bbb;margin-top:6px}
+  .back{color:var(--green);font-weight:600;text-decoration:none}
+  .jobs-layout{display:grid;grid-template-columns:270px 1fr;gap:32px;padding-top:28px;padding-bottom:64px;align-items:start}
+  .filters{display:grid;gap:14px;position:sticky;top:84px;background:var(--soft);border-radius:18px;padding:18px}
+  .filters input:not([type=checkbox]),.filters select{padding:10px 12px;font-size:15px}
+  .flabel{display:block;font-size:14px;font-weight:600;margin-bottom:6px}
+  .filters .mats label{padding:7px 11px;font-size:12.5px;background:var(--white)}
+  .toggle{display:flex !important;gap:10px;align-items:center;font-weight:500 !important}
+  .toggle input{width:20px;height:20px;accent-color:var(--black)}
+  .btn-ghost-dark{background:transparent;border:1.5px solid var(--black);color:var(--black)}
+  .jobs-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;font-weight:600;min-height:44px}
+  .filters-btn{display:none}
+  .jobs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px}
+  .jobs-grid .card{flex:none}
+  .empty{padding:40px 20px;text-align:center;color:var(--muted);border:1.5px dashed var(--line);border-radius:18px;grid-column:1/-1}
+  .price-line{font-family:"Inter Tight";font-weight:800;font-size:20px}
+  .price-line small{font-family:Inter;font-weight:500;font-size:12.5px;color:var(--muted);margin-left:4px}
+  @media(max-width:900px){
+    .jobs-layout{grid-template-columns:1fr;gap:0}
+    .filters{display:none;position:static;margin-bottom:16px}
+    .filters.open{display:grid}
+    .filters-btn{display:inline-flex}
+    .see-all-big{display:flex}
+    .head-actions .see-all{display:none}
+  }
+  .all-grid{display:grid;gap:12px}
+  .all-row{display:flex;gap:14px;align-items:center;border:1.5px solid var(--line);border-radius:14px;padding:10px;text-align:left;background:var(--white);width:100%;cursor:pointer}
+  .all-row:hover{border-color:var(--black)}
+  .all-row img,.all-row .noimg{width:64px;height:64px;border-radius:10px;object-fit:cover;flex-shrink:0;background:var(--soft)}
+  .all-row b{display:block;font-size:15px}
+  .all-row span{font-size:13px;color:var(--muted)}
+  .filter{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+  .filter button{border:1.5px solid var(--line);background:var(--white);border-radius:999px;padding:8px 14px;font-weight:600;font-size:13.5px}
+  .filter button.on{background:var(--black);color:var(--white);border-color:var(--black)}
   .success{text-align:center;padding:20px 0}
   .success .tick{width:64px;height:64px;border-radius:50%;background:var(--green);display:inline-flex;align-items:center;justify-content:center;font-size:30px;margin-bottom:14px}
   .success h2{margin-bottom:6px}
@@ -182,14 +277,21 @@
 
 <header>
   <div class="wrap nav">
-    <a class="logo" href="#">rubbish<span>.com</span></a>
+    <a class="logo" href="#" data-go="home">rubbish<span>.com</span></a>
+    <nav class="menu" id="menu">
+      <a href="#jobs" data-go="jobs">All jobs</a>
+      <a href="#how" data-go="how">How it works</a>
+      <button class="menu-join" data-open="join">Become a collector</button>
+    </nav>
     <div class="nav-actions">
+      <button class="burger" id="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
       <button class="btn btn-ghost btn-sm" data-open="join">Become a collector</button>
       <button class="btn btn-green btn-sm" data-open="post">Post a job</button>
     </div>
   </div>
 </header>
 
+<div id="home-view">
 <section class="hero">
   <div class="wrap hero-grid">
     <div>
@@ -224,12 +326,16 @@
         <h2><span class="live-dot"></span>Jobs looking for quotes</h2>
         <p>Open jobs posted near you right now.</p>
       </div>
-      <div class="arrows">
-        <button aria-label="Previous" data-scroll="open" data-dir="-1">←</button>
-        <button aria-label="Next" data-scroll="open" data-dir="1">→</button>
+      <div class="head-actions">
+        <a class="see-all" href="#jobs" data-go="jobs">See all jobs →</a>
+        <div class="arrows">
+          <button aria-label="Previous" data-scroll="open" data-dir="-1">←</button>
+          <button aria-label="Next" data-scroll="open" data-dir="1">→</button>
+        </div>
       </div>
     </div>
     <div class="track" id="open"></div>
+    <a class="btn btn-dark see-all-big" href="#jobs" data-go="jobs">See all jobs</a>
   </section>
 
   <section class="block">
@@ -252,6 +358,101 @@
     <div class="step"><b>3</b><h3>Book it, it's gone</h3><p>Pick on price and rating. Your collector gets the job and the nearest drop-off for each material.</p></div>
   </div>
 </main>
+</div>
+
+<!-- ALL JOBS PAGE -->
+<div id="jobs-view" hidden>
+  <div class="jobs-top">
+    <div class="wrap">
+      <a class="back" href="#" data-go="home">← Back</a>
+      <h1>All jobs</h1>
+      <p id="jobs-count"></p>
+    </div>
+  </div>
+  <div class="wrap jobs-layout">
+    <aside class="filters" id="filters">
+      <label>Search<input id="fl-q" placeholder="Suburb or keyword"></label>
+      <label>Sort by
+        <select id="fl-sort"><option value="new">Newest first</option><option value="near">Nearest first</option><option value="low">Price: low to high</option><option value="high">Price: high to low</option></select>
+      </label>
+      <label>Distance
+        <select id="fl-km"><option value="999">Any distance</option><option value="5">Within 5 km</option><option value="10">Within 10 km</option><option value="25">Within 25 km</option><option value="50">Within 50 km</option></select>
+      </label>
+      <label>Price
+        <select id="fl-price"><option value="any">Any price</option><option value="0-300">Under $300</option><option value="300-600">$300 – $600</option><option value="600-1000">$600 – $1,000</option><option value="1000-99999">$1,000+</option></select>
+      </label>
+      <label>Job size
+        <select id="fl-size"><option value="any">Any size</option><option>A few items</option><option>Quarter load</option><option>Half load</option><option>Full load</option></select>
+      </label>
+      <label>Time window
+        <select id="fl-win"><option value="any">Any time</option><option>5am – 8am</option><option>8am – 12pm</option><option>1pm – 3pm</option><option>3pm – 5pm</option></select>
+      </label>
+      <div>
+        <span class="flabel">Material</span>
+        <div class="mats" id="fl-mats"></div>
+      </div>
+      <label class="toggle"><input type="checkbox" id="fl-need"> Still needs quotes (under 3)</label>
+      <button class="btn btn-ghost-dark" id="fl-reset" type="button">Clear filters</button>
+    </aside>
+    <div>
+      <div class="jobs-bar">
+        <span id="jobs-shown"></span>
+        <button class="btn btn-dark btn-sm filters-btn" id="filters-btn" type="button">Filters</button>
+      </div>
+      <div class="jobs-grid" id="jobs-grid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS PAGE -->
+<div id="how-view" hidden>
+  <div class="jobs-top">
+    <div class="wrap">
+      <a class="back" href="#" data-go="home">← Back</a>
+      <h1>How it works</h1>
+      <p>Post your rubbish, get quotes from local collectors, book one. That's it.</p>
+    </div>
+  </div>
+  <div class="wrap how-page">
+    <div class="how-tabs">
+      <button class="on" data-tab="cust">I have rubbish</button>
+      <button data-tab="col">I'm a collector</button>
+    </div>
+
+    <div class="how-track" id="tab-cust">
+      <div class="how-step"><b>1</b><div><h3>Post your job</h3><p>Tell us what needs to go, roughly how much, what it's made of, and your suburb. Add a photo if you can — it gets you more accurate quotes. Posting is free.</p></div></div>
+      <div class="how-step"><b>2</b><div><h3>Pick a day and time window</h3><p>Choose the date and one of four windows: <strong>5am – 8am, 8am – 12pm, 1pm – 3pm or 3pm – 5pm</strong>.</p></div></div>
+      <div class="how-step"><b>3</b><div><h3>Get quotes</h3><p>We aim to get you <strong>3 quotes</strong> from registered local collectors. Sometimes you'll get more, sometimes fewer. Each quote shows the collector's price, star rating and completed jobs.</p></div></div>
+      <div class="how-step"><b>4</b><div><h3>Check the collector, then book</h3><p>Tap any collector to see their profile, reviews and past jobs. Book the one you want — you don't have to wait for all 3 quotes.</p></div></div>
+      <div class="how-step"><b>5</b><div><h3>It's gone. Rate them.</h3><p>Your collector turns up in your window and takes it away. Afterwards you rate the job out of 5 stars, which helps the next customer choose.</p></div></div>
+      <button class="btn btn-green" data-open="post">Post a job</button>
+    </div>
+
+    <div class="how-track" id="tab-col" hidden>
+      <div class="how-step"><b>1</b><div><h3>Register</h3><p>Sign up with your ABN, area, vehicle and contact details. We check your ABN and public liability insurance before you can quote.</p></div></div>
+      <div class="how-step"><b>2</b><div><h3>Browse jobs and quote</h3><p>See every open job near you on the jobs page. Filter by distance, price, size, time window and material, then send your price.</p></div></div>
+      <div class="how-step"><b>3</b><div><h3>Win the job</h3><p>When a customer books you, you get a job pack: the address, time window, what's there, and <strong>the nearest drop-off for each material</strong> — cardboard, polystyrene, mattresses, green waste, e-waste, metal and general waste.</p></div></div>
+      <div class="how-step"><b>4</b><div><h3>Do the job, build your rating</h3><p>Collect in the booked window and dispose at licensed facilities. Every completed job and star rating shows on your profile, so good work wins more work.</p></div></div>
+      <button class="btn btn-green" data-open="join">Become a collector</button>
+    </div>
+
+    <div class="rules">
+      <h2>What we can't take</h2>
+      <p>Every customer confirms their job has none of these before posting:</p>
+      <ul>
+        <li>Asbestos</li><li>Explosives and ammunition</li><li>Poisons and chemicals</li><li>Gas bottles and fuel</li><li>Paint and solvents</li><li>Medical and clinical waste</li>
+      </ul>
+    </div>
+
+    <div class="faq">
+      <h2>Questions</h2>
+      <details><summary>How much does it cost to post a job?</summary><p>Nothing. You only pay the price you accept from a collector.</p></details>
+      <details><summary>What if I only get one or two quotes?</summary><p>You can book any quote you've received, or wait for more. We aim for 3 but it depends on how many collectors cover your area that day.</p></details>
+      <details><summary>How are collectors checked?</summary><p>We check each collector's ABN and public liability insurance before they can quote, and their star rating builds from real completed jobs.</p></details>
+      <details><summary>Where does my rubbish go?</summary><p>Collectors get the nearest drop-off for each type of material with every job, so recyclable items can go to the right place instead of straight to landfill.</p></details>
+    </div>
+  </div>
+</div>
 
 <div class="proto">Prototype — all jobs, prices and ratings shown are sample data.</div>
 <footer>
@@ -269,9 +470,8 @@
         <div><h2 id="post-title">Post a job</h2><p class="sub">Free. Takes a minute.</p></div>
         <button class="x" data-close aria-label="Close">✕</button>
       </div>
-      <form name="post-job" id="f-post" data-netlify="true" netlify-honeypot="bot">
-        <input type="hidden" name="form-name" value="post-job">
-        <p hidden><input name="bot"></p>
+      <form name="post-job" id="f-post">
+                <p hidden><input name="bot"></p>
         <label>What needs to go?
           <input name="title" required placeholder="e.g. Garage clean-out, old furniture and boxes">
         </label>
@@ -301,19 +501,27 @@
         </div>
         <div class="row">
           <label>Suburb<input name="suburb" required placeholder="e.g. Brunswick"></label>
-          <label>When?
-            <select name="when">
-              <option>As soon as possible</option><option>This week</option><option>Next week</option><option>I'm flexible</option>
-            </select>
-          </label>
+          <label>Date<input name="date" type="date" required id="f-date"></label>
+        </div>
+        <div>
+          <label style="margin-bottom:6px">Time window</label>
+          <div class="sizes">
+            <input type="radio" name="window" id="w1" value="5am – 8am" required><label for="w1">5am – 8am<small>Early</small></label>
+            <input type="radio" name="window" id="w2" value="8am – 12pm"><label for="w2">8am – 12pm<small>Morning</small></label>
+            <input type="radio" name="window" id="w3" value="1pm – 3pm"><label for="w3">1pm – 3pm<small>Early arvo</small></label>
+            <input type="radio" name="window" id="w4" value="3pm – 5pm"><label for="w4">3pm – 5pm<small>Late arvo</small></label>
+          </div>
         </div>
         <label>Photo (optional)<input type="file" name="photo" accept="image/*"></label>
         <div class="row">
           <label>Your name<input name="name" required></label>
           <label>Mobile<input name="phone" type="tel" required></label>
         </div>
+        <label class="confirm">
+          <input type="checkbox" name="hazard_ok" value="yes" required>
+          <span>I confirm there are <b>no hazardous items</b> — no asbestos, explosives or ammunition, poisons or chemicals, gas bottles, fuel, paint or medical waste.</span>
+        </label>
         <button class="btn btn-dark" type="submit">Post job &amp; get quotes</button>
-        <p class="note">No asbestos or hazardous waste.</p>
       </form>
     </div>
     <div class="success" hidden>
@@ -336,6 +544,11 @@
   </div>
 </div>
 
+<!-- Collector profile -->
+<div class="modal" id="m-col" role="dialog" aria-modal="true" aria-labelledby="col-title">
+  <div class="sheet" id="col-body"></div>
+</div>
+
 <!-- Become a collector -->
 <div class="modal" id="m-join" role="dialog" aria-modal="true" aria-labelledby="join-title">
   <div class="sheet">
@@ -344,8 +557,8 @@
         <div><h2 id="join-title">Become a collector</h2><p class="sub">Register, get verified, start quoting.</p></div>
         <button class="x" data-close aria-label="Close">✕</button>
       </div>
-      <form name="register-collector" id="f-join" data-netlify="true" netlify-honeypot="bot">
-        <input type="hidden" name="form-name" value="register-collector">
+      <form name="register-collector" id="f-join">
+        <input type="hidden" name="type" value="collector">
         <p hidden><input name="bot"></p>
         <div class="row">
           <label>Your name<input name="name" required></label>
@@ -383,21 +596,32 @@
 
 <script>
 const openJobs = [
-  {t:"Cardboard & packaging pickup",img:"https://images.unsplash.com/photo-1766040923580-16ad32fae8b4?w=700&q=65&auto=format&fit=crop",d:"Flattened boxes and polystyrene from a house move. About 30 boxes, all in the carport.",sub:"Reservoir VIC",size:"Quarter load",when:"This week",ago:"12 min ago",q:2,m:["Cardboard","Polystyrene"]},
-  {t:"Deceased estate — 3 bedroom house",img:"https://images.unsplash.com/photo-1784064857689-5f17c9e1539c?w=700&q=65&auto=format&fit=crop",d:"Full house of furniture and belongings. Family has taken what they want. Need it cleared for sale.",sub:"Carina QLD",size:"Full load",when:"Next week",ago:"40 min ago",q:4,m:["General","Mattresses","E-waste","Metal"]},
-  {t:"End-of-lease clear out",img:"https://images.unsplash.com/photo-1779643302127-0d0bbfa19524?w=700&q=65&auto=format&fit=crop",d:"Couch, two mattresses, desk and about 10 bags. Second-floor unit, there is a lift.",sub:"Footscray VIC",size:"Quarter load",when:"ASAP",ago:"1 hr ago",q:3,m:["General","Mattresses"]},
-  {t:"Backyard green waste",img:"https://images.unsplash.com/photo-1779631572359-c2be9512b317?w=700&q=65&auto=format&fit=crop",d:"Pile of branches and palm fronds from a tree trim, plus an old steel shed frame.",sub:"Chermside QLD",size:"Half load",when:"Flexible",ago:"2 hrs ago",q:1,m:["Green waste","Metal"]},
-  {t:"Office furniture removal",img:"https://images.unsplash.com/photo-1718220216044-006f43e3a9b1?w=700&q=65&auto=format&fit=crop",d:"12 desks, 20 chairs, filing cabinets and old monitors. Ground floor, loading dock available.",sub:"Richmond VIC",size:"Full load",when:"This week",ago:"3 hrs ago",q:3,m:["General","Metal","E-waste"]},
-  {t:"Garage clean-out",img:"https://images.unsplash.com/photo-1635108198854-26645ffe6714?w=700&q=65&auto=format&fit=crop",d:"Old shelving, boxes, a broken treadmill and a couple of bikes. Garage is at street level.",sub:"Coorparoo QLD",size:"Half load",when:"ASAP",ago:"5 hrs ago",q:0,m:["General","Cardboard","Metal"]},
+  {t:"Cardboard & packaging pickup",img:"https://images.unsplash.com/photo-1766040923580-16ad32fae8b4?w=700&q=65&auto=format&fit=crop",d:"Flattened boxes and polystyrene from a house move. About 30 boxes, all in the carport.",sub:"Reservoir VIC",size:"Quarter load",day:"Thu 2 Oct",win:"8am – 12pm",when:"Thu 2 Oct · 8am – 12pm",ago:"12 min ago",q:2,m:["Cardboard", "Polystyrene"],km:3.2,order:1},
+  {t:"Deceased estate — 3 bedroom house",img:"https://images.unsplash.com/photo-1784064857689-5f17c9e1539c?w=700&q=65&auto=format&fit=crop",d:"Full house of furniture and belongings. Family has taken what they want. Need it cleared for sale.",sub:"Carina QLD",size:"Full load",day:"Mon 6 Oct",win:"8am – 12pm",when:"Mon 6 Oct · 8am – 12pm",ago:"40 min ago",q:4,m:["General", "Mattresses", "E-waste", "Metal"],km:6.8,order:2},
+  {t:"End-of-lease clear out",img:"https://images.unsplash.com/photo-1779643302127-0d0bbfa19524?w=700&q=65&auto=format&fit=crop",d:"Couch, two mattresses, desk and about 10 bags. Second-floor unit, there is a lift.",sub:"Footscray VIC",size:"Quarter load",day:"Wed 1 Oct",win:"1pm – 3pm",when:"Wed 1 Oct · 1pm – 3pm",ago:"1 hr ago",q:3,m:["General", "Mattresses"],km:8.1,order:3},
+  {t:"Backyard green waste",img:"https://images.unsplash.com/photo-1779631572359-c2be9512b317?w=700&q=65&auto=format&fit=crop",d:"Pile of branches and palm fronds from a tree trim, plus an old steel shed frame.",sub:"Chermside QLD",size:"Half load",day:"Fri 3 Oct",win:"5am – 8am",when:"Fri 3 Oct · 5am – 8am",ago:"2 hrs ago",q:1,m:["Green waste", "Metal"],km:11.5,order:4},
+  {t:"Office furniture removal",img:"https://images.unsplash.com/photo-1718220216044-006f43e3a9b1?w=700&q=65&auto=format&fit=crop",d:"12 desks, 20 chairs, filing cabinets and old monitors. Ground floor, loading dock available.",sub:"Richmond VIC",size:"Full load",day:"Sat 4 Oct",win:"5am – 8am",when:"Sat 4 Oct · 5am – 8am",ago:"3 hrs ago",q:3,m:["General", "Metal", "E-waste"],km:4.4,order:5},
+  {t:"Garage clean-out",img:"https://images.unsplash.com/photo-1635108198854-26645ffe6714?w=700&q=65&auto=format&fit=crop",d:"Old shelving, boxes, a broken treadmill and a couple of bikes. Garage is at street level.",sub:"Coorparoo QLD",size:"Half load",day:"Thu 2 Oct",win:"3pm – 5pm",when:"Thu 2 Oct · 3pm – 5pm",ago:"5 hrs ago",q:0,m:["General", "Cardboard", "Metal"],km:14.9,order:6},
+  {t:"Shed full of junk",img:"https://images.unsplash.com/photo-1726929219819-b90904f9d329?w=700&q=65&auto=format&fit=crop",d:"Old tools, paint-free timber, a mower that doesn\'t run and a pile of pots.",sub:"Glenroy VIC",size:"Half load",day:"Fri 3 Oct",win:"8am – 12pm",when:"Fri 3 Oct · 8am – 12pm",ago:"6 hrs ago",q:2,m:["General", "Metal", "Green waste"],km:9.7,order:7},
+  {t:"Three mattresses and bed bases",img:"https://images.unsplash.com/photo-1759373348074-2c144f0166d4?w=700&q=65&auto=format&fit=crop",d:"Queen and two singles, plus bases. Upstairs bedroom, narrow staircase.",sub:"Toowong QLD",size:"A few items",day:"Wed 1 Oct",win:"3pm – 5pm",when:"Wed 1 Oct · 3pm – 5pm",ago:"7 hrs ago",q:3,m:["Mattresses"],km:21.3,order:8},
+  {t:"Moving house — rubbish only",img:"https://images.unsplash.com/photo-1653508310311-127794be33b6?w=700&q=65&auto=format&fit=crop",d:"About 25 bags of household rubbish plus flattened boxes. All at the front of the house.",sub:"Brunswick VIC",size:"Quarter load",day:"Thu 2 Oct",win:"5am – 8am",when:"Thu 2 Oct · 5am – 8am",ago:"9 hrs ago",q:1,m:["General", "Cardboard"],km:2.1,order:9},
+  {t:"Kitchen reno waste",img:"https://images.unsplash.com/photo-1773649967611-5f00e2838bbf?w=700&q=65&auto=format&fit=crop",d:"Old cabinets, benchtop, tiles and plasterboard. Bagged where possible.",sub:"Ascot QLD",size:"Half load",day:"Mon 6 Oct",win:"1pm – 3pm",when:"Mon 6 Oct · 1pm – 3pm",ago:"Yesterday",q:2,m:["General", "Metal"],km:17.6,order:10},
+  {t:"Warehouse pallet and packaging clear",img:"https://images.unsplash.com/photo-1577412647305-991150c7d163?w=700&q=65&auto=format&fit=crop",d:"Stacks of cardboard, polystyrene packaging and broken pallets. Forklift on site.",sub:"Dandenong VIC",size:"Full load",day:"Tue 7 Oct",win:"5am – 8am",when:"Tue 7 Oct · 5am – 8am",ago:"Yesterday",q:4,m:["Cardboard", "Polystyrene", "General"],km:32.4,order:11},
+  {t:"Storm clean-up",img:"https://images.unsplash.com/photo-1772981145873-d2a51a3f8e4c?w=700&q=65&auto=format&fit=crop",d:"Fallen branches across the backyard and front lawn after the storm.",sub:"The Gap QLD",size:"Half load",day:"Wed 1 Oct",win:"8am – 12pm",when:"Wed 1 Oct · 8am – 12pm",ago:"2 days ago",q:0,m:["Green waste"],km:27.8,order:12},
 ];
 
 // Sample collectors who quote
 const collectors = [
-  {n:"Clear Out Co.",r:4.9,jobs:212},
-  {n:"Dave's Ute Runs",r:4.8,jobs:87},
-  {n:"Northside Removals",r:4.7,jobs:143},
-  {n:"Tidy Trailer",r:4.9,jobs:61},
+  {n:"Clear Out Co.",r:4.9,jobs:212,area:"Melbourne — north & west",veh:"Tipper truck",since:"2024",
+   hist:[["Garage clean-out","Pascoe Vale VIC",380,5,"Quick, careful and swept up after."],["Deceased estate clear","Essendon VIC",1650,5,"Respectful and got the whole house done in a day."],["Office chairs & desks","Docklands VIC",890,5,"Worked around our office hours."],["Backyard junk","Coburg VIC",340,4,"Good job, arrived a bit later than the window."]]},
+  {n:"Dave's Ute Runs",r:4.8,jobs:87,area:"Melbourne — inner north",veh:"Ute + trailer",since:"2025",
+   hist:[["Move-out rubbish","Brunswick VIC",260,5,"Quoted within ten minutes and came the same afternoon."],["Couch and mattress","Northcote VIC",180,5,"Friendly and fast."],["Cardboard pickup","Thornbury VIC",120,4,"Did the job, a few scraps left behind."]]},
+  {n:"Northside Removals",r:4.7,jobs:143,area:"Brisbane — north side",veh:"Box truck",since:"2024",
+   hist:[["Full house clear for sale","Ashgrove QLD",1850,5,"Took everything in one day. Made a hard week much easier."],["Garden waste","Wynnum QLD",210,5,"Fast and friendly. Would use again."],["Shed clean-out","Stafford QLD",460,4,"Solid job, good price."]]},
+  {n:"Tidy Trailer",r:4.9,jobs:61,area:"Brisbane — inner south",veh:"Ute + trailer",since:"2025",
+   hist:[["Renovation waste","Paddington QLD",690,5,"Cheaper than a skip and no council permit needed."],["End-of-lease clear","West End QLD",310,5,"Great communication the whole way."]]},
 ];
+const starsHTML = r => `<span class="stars-inline" aria-label="${r} out of 5 stars">${'★'.repeat(Math.round(r))}${'☆'.repeat(5-Math.round(r))}</span>`;
 
 // Drop-off directory by material. PROTOTYPE: placeholder depots — the real build pulls
 // licensed facilities by material and sorts by distance from the job address.
@@ -411,12 +635,12 @@ const depotTypes = {
   "Metal":       "Scrap metal yard",
 };
 const doneJobs = [
-  {t:"Shed clean-out",img:"https://images.unsplash.com/photo-1726929219819-b90904f9d329?w=700&q=65&auto=format&fit=crop",sub:"Preston VIC",price:420,r:"On time, did all the lifting and swept out the shed after.",by:"Sarah M."},
-  {t:"Full house clear for sale",img:"https://images.unsplash.com/photo-1765000884289-baee6a441acd?w=700&q=65&auto=format&fit=crop",sub:"Ashgrove QLD",price:1850,r:"Took everything in one day. Made a hard week much easier.",by:"David K."},
-  {t:"Move-out rubbish",img:"https://images.unsplash.com/photo-1759373348074-2c144f0166d4?w=700&q=65&auto=format&fit=crop",sub:"Brunswick VIC",price:260,r:"Quoted within ten minutes and came the same afternoon.",by:"Priya S."},
-  {t:"Renovation waste",img:"https://images.unsplash.com/photo-1773649967611-5f00e2838bbf?w=700&q=65&auto=format&fit=crop",sub:"Paddington QLD",price:690,r:"Cheaper than a skip and no council permit needed.",by:"Tom R."},
-  {t:"Office clear-out",img:"https://images.unsplash.com/photo-1577412647305-991150c7d163?w=700&q=65&auto=format&fit=crop",sub:"Collingwood VIC",price:1340,r:"Worked around our hours and left the floor spotless.",by:"Emma L."},
-  {t:"Garden waste",img:"https://images.unsplash.com/photo-1772981145873-d2a51a3f8e4c?w=700&q=65&auto=format&fit=crop",sub:"Wynnum QLD",price:210,r:"Fast and friendly. Would use again.",by:"Mark H."},
+  {t:"Shed clean-out",c:0,img:"https://images.unsplash.com/photo-1726929219819-b90904f9d329?w=700&q=65&auto=format&fit=crop",sub:"Preston VIC",price:420,r:"On time, did all the lifting and swept out the shed after.",by:"Sarah M."},
+  {t:"Full house clear for sale",c:2,img:"https://images.unsplash.com/photo-1765000884289-baee6a441acd?w=700&q=65&auto=format&fit=crop",sub:"Ashgrove QLD",price:1850,r:"Took everything in one day. Made a hard week much easier.",by:"David K."},
+  {t:"Move-out rubbish",c:1,img:"https://images.unsplash.com/photo-1759373348074-2c144f0166d4?w=700&q=65&auto=format&fit=crop",sub:"Brunswick VIC",price:260,r:"Quoted within ten minutes and came the same afternoon.",by:"Priya S."},
+  {t:"Renovation waste",c:3,img:"https://images.unsplash.com/photo-1773649967611-5f00e2838bbf?w=700&q=65&auto=format&fit=crop",sub:"Paddington QLD",price:690,r:"Cheaper than a skip and no council permit needed.",by:"Tom R."},
+  {t:"Office clear-out",c:0,img:"https://images.unsplash.com/photo-1577412647305-991150c7d163?w=700&q=65&auto=format&fit=crop",sub:"Collingwood VIC",price:1340,r:"Worked around our hours and left the floor spotless.",by:"Emma L."},
+  {t:"Garden waste",c:2,img:"https://images.unsplash.com/photo-1772981145873-d2a51a3f8e4c?w=700&q=65&auto=format&fit=crop",sub:"Wynnum QLD",price:210,r:"Fast and friendly. Would use again.",by:"Mark H."},
 ];
 
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -428,7 +652,8 @@ const openCard = (j, i, isNew) => `
     <h3>${esc(j.t)}</h3>
     <p>${esc(j.d || 'No extra details.')}</p>
     <div class="chips">${(j.m||[]).map(x=>`<span class="chip">${esc(x)}</span>`).join('')}</div>
-    <div class="meta"><span>📍 <b>${esc(j.sub)}</b></span><span>🗓 ${esc(j.when)}</span></div>
+    <div class="meta"><span>📍 <b>${esc(j.sub)}</b>${j.km!=null?` · ${j.km} km`:''}</span><span>🗓 ${esc(j.when)}</span></div>
+    <div class="price-line">${j.q?`From $${fromPrice(j).toLocaleString('en-AU')}<small>lowest quote</small>`:`~$${fromPrice(j).toLocaleString('en-AU')}<small>typical for this size</small>`}</div>
     <div class="card-foot">
       <div><span class="quotes">${j.q>=3?`${j.q} quotes ✓`:`${j.q} of 3 quotes`}</span>${qbar(j.q)}</div>
       <button class="btn btn-dark btn-sm" data-job="${i}">View job</button></div>
@@ -442,7 +667,7 @@ const doneCard = j => `
     <div class="price">$${j.price.toLocaleString('en-AU')}<small>paid</small></div>
     <div class="stars" aria-label="5 out of 5 stars"><span class="s">★★★★★</span></div>
     <p class="review">“${esc(j.r)}”</p>
-    <div class="by">— ${esc(j.by)}</div>
+    <div class="by">— ${esc(j.by)} · done by <button class="cname sm" data-collector="${j.c}">${esc(collectors[j.c].n)}</button></div>
   </article>`;
 
 const openEl = document.getElementById('open');
@@ -475,6 +700,11 @@ function quotesFor(j){
   const base = {"Quarter load":220,"Half load":420,"Full load":900,"A few items":140}[j.size] || 300;
   return collectors.slice(0, Math.max(j.q,0)).map((c,i) => ({...c, price: Math.round((base + i*35 - (i===1?60:0))/5)*5}));
 }
+function fromPrice(j){
+  const qs = quotesFor(j);
+  if (qs.length) return Math.min(...qs.map(q=>q.price));
+  return {"A few items":140,"Quarter load":220,"Half load":420,"Full load":900}[j.size] || 300;
+}
 function showJob(idx){
   const j = openJobs[idx];
   document.getElementById('job-title').textContent = j.t;
@@ -489,7 +719,7 @@ function showJob(idx){
     <div class="qlist">
       ${qs.length ? qs.map((q,i)=>`
         <div class="qrow">
-          <div><b>${esc(q.n)}</b><span class="who">★ ${q.r} · ${q.jobs} jobs done</span></div>
+          <div><button class="cname" data-collector="${i}">${esc(q.n)}</button><span class="who">${starsHTML(q.r)} <b class="rnum">${q.r}</b> · ${q.jobs} jobs done</span></div>
           <div style="display:flex;align-items:center;gap:12px"><span class="amt">$${q.price.toLocaleString('en-AU')}</span>
           <button class="btn btn-green btn-sm" data-book="${idx}:${i}">Book</button></div>
         </div>`).join('') : `<p class="note">No quotes yet — collectors near ${esc(j.sub)} have been notified.</p>`}
@@ -528,6 +758,110 @@ function bookJob(idx, qi){
   openJobs.splice(idx,1); renderOpen();
 }
 
+// Date field can't be in the past
+(() => { const d=document.getElementById('f-date'); if(d){ const t=new Date(); t.setMinutes(t.getMinutes()-t.getTimezoneOffset()); d.min=t.toISOString().slice(0,10);} })();
+
+// ---------- All jobs page ----------
+const homeView = document.getElementById('home-view');
+const jobsView = document.getElementById('jobs-view');
+const MATS = ["General","Cardboard","Polystyrene","Mattresses","Green waste","E-waste","Metal"];
+const flMats = document.getElementById('fl-mats');
+flMats.innerHTML = MATS.map((m,i)=>`<input type="checkbox" id="fm${i}" value="${m}"><label for="fm${i}">${m}</label>`).join('');
+const F = id => document.getElementById(id);
+function renderJobs(){
+  const q = F('fl-q').value.trim().toLowerCase();
+  const km = +F('fl-km').value;
+  const [pMin,pMax] = F('fl-price').value==='any' ? [0,Infinity] : F('fl-price').value.split('-').map(Number);
+  const size = F('fl-size').value, win = F('fl-win').value, need = F('fl-need').checked;
+  const mats = [...flMats.querySelectorAll('input:checked')].map(i=>i.value);
+  let list = openJobs.map((j,i)=>({j,i})).filter(({j}) => {
+    const p = fromPrice(j);
+    if (q && !(`${j.t} ${j.sub} ${j.d}`.toLowerCase().includes(q))) return false;
+    if ((j.km ?? 0) > km) return false;
+    if (p < pMin || p >= pMax) return false;
+    if (size!=='any' && j.size!==size) return false;
+    if (win!=='any' && j.win!==win) return false;
+    if (need && j.q>=3) return false;
+    if (mats.length && !mats.some(m => j.m.includes(m))) return false;
+    return true;
+  });
+  const sort = F('fl-sort').value;
+  list.sort((a,b) => sort==='near' ? (a.j.km??0)-(b.j.km??0)
+    : sort==='low' ? fromPrice(a.j)-fromPrice(b.j)
+    : sort==='high' ? fromPrice(b.j)-fromPrice(a.j)
+    : (a.j.order??0)-(b.j.order??0));
+  F('jobs-count').textContent = `${openJobs.length} open job${openJobs.length===1?'':'s'} looking for quotes`;
+  F('jobs-shown').textContent = `Showing ${list.length} of ${openJobs.length}`;
+  F('jobs-grid').innerHTML = list.length ? list.map(({j,i}) => openCard(j,i,j.mine)).join('')
+    : `<div class="empty"><b>No jobs match those filters.</b><br>Try widening the distance or price.</div>`;
+}
+['fl-q','fl-sort','fl-km','fl-price','fl-size','fl-win','fl-need'].forEach(id => F(id).addEventListener('input', renderJobs));
+flMats.addEventListener('change', renderJobs);
+F('fl-reset').addEventListener('click', () => {
+  F('fl-q').value=''; ['fl-km'].forEach(id=>F(id).value='999'); ['fl-price','fl-size','fl-win'].forEach(id=>F(id).value='any');
+  F('fl-sort').value='new'; F('fl-need').checked=false; flMats.querySelectorAll('input').forEach(i=>i.checked=false); renderJobs();
+});
+F('filters-btn').addEventListener('click', () => F('filters').classList.toggle('open'));
+const howView = document.getElementById('how-view');
+function route(){
+  const h = location.hash.replace('#','');
+  const view = h==='jobs' ? 'jobs' : h==='how' ? 'how' : 'home';
+  homeView.hidden = view!=='home'; jobsView.hidden = view!=='jobs'; howView.hidden = view!=='how';
+  if (view==='jobs') renderJobs();
+  document.querySelectorAll('.menu a').forEach(a => a.classList.toggle('on', a.dataset.go===view));
+  document.getElementById('menu').classList.remove('open');
+  window.scrollTo(0,0);
+}
+document.getElementById('burger').addEventListener('click', () => {
+  const m = document.getElementById('menu'); m.classList.toggle('open');
+  document.getElementById('burger').setAttribute('aria-expanded', m.classList.contains('open'));
+});
+document.querySelectorAll('[data-tab]').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('[data-tab]').forEach(x => x.classList.toggle('on', x===b));
+  document.getElementById('tab-cust').hidden = b.dataset.tab!=='cust';
+  document.getElementById('tab-col').hidden = b.dataset.tab!=='col';
+}));
+window.addEventListener('hashchange', route);
+document.addEventListener('click', e => {
+  const g = e.target.closest('[data-go]'); if (!g) return;
+  e.preventDefault();
+  if (g.dataset.go!=='home') location.hash = g.dataset.go;
+  else history.pushState('', '', location.pathname), route();
+});
+route();
+
+// Collector profile
+const colModal = document.getElementById('m-col');
+function showCollector(ci){
+  const c = collectors[ci];
+  const initials = c.n.replace(/[^A-Za-z ]/g,'').split(' ').filter(Boolean).slice(0,2).map(w=>w[0]).join('');
+  document.getElementById('col-body').innerHTML = `
+    <div class="sheet-head" style="margin-bottom:10px"><span class="step-lbl" style="margin:0">Collector</span><button class="x" data-close aria-label="Close">✕</button></div>
+    <div class="col-head">
+      <div class="avatar">${esc(initials)}</div>
+      <div><h2>${esc(c.n)}</h2><div class="col-rating">${starsHTML(c.r)} ${c.r} <span class="note" style="font-weight:500">(${c.jobs} jobs)</span></div></div>
+    </div>
+    <div class="col-facts">
+      <div><b>${c.jobs}</b>jobs done</div><div><b>${esc(c.veh)}</b>vehicle</div><div><b>${esc(c.since)}</b>member since</div>
+    </div>
+    <p class="note" style="margin:-8px 0 16px">📍 ${esc(c.area)} · ✓ ABN and insurance checked</p>
+    <div class="step-lbl">Recently completed</div>
+    <div class="hist">${c.hist.map(h=>`
+      <div class="hist-row">
+        <div class="hist-top"><span>${esc(h[0])}</span><span>$${h[2].toLocaleString('en-AU')}</span></div>
+        <div class="muted">${esc(h[1])} · ${starsHTML(h[3])}</div>
+        <p>“${esc(h[4])}”</p>
+      </div>`).join('')}</div>`;
+  jobModal.classList.remove('open');
+  Object.values(modals).forEach(m => m.classList.remove('open'));
+  colModal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+document.addEventListener('click', e => {
+  const c = e.target.closest('[data-collector]');
+  if (c) { e.stopPropagation(); showCollector(+c.dataset.collector); }
+}, true);
+
 // Modals
 const modals = {post: document.getElementById('m-post'), join: document.getElementById('m-join')};
 function openModal(k){
@@ -541,6 +875,7 @@ function openModal(k){
 function closeAll(){
   Object.values(modals).forEach(m => m.classList.remove('open'));
   jobModal.classList.remove('open');
+  colModal.classList.remove('open');
   document.body.style.overflow = '';
 }
 document.addEventListener('click', e => {
@@ -558,14 +893,17 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAll(); 
 async function submitForm(form){
   try {
     const fd = new FormData(form);
-    await fetch('/', {method:'POST', body: fd});
+    // Prototype: nothing is sent anywhere yet.
   } catch (_) {}
 }
 document.getElementById('f-post').addEventListener('submit', async e => {
   e.preventDefault();
   const f = e.target, fd = new FormData(f);
   await submitForm(f);
-  openJobs.unshift({t:fd.get('title'), d:fd.get('details'), sub:fd.get('suburb'), size:fd.get('size'), when:fd.get('when'), ago:'Just now', q:0, m:fd.getAll('materials')});
+  const dt = fd.get('date') ? new Date(fd.get('date')+'T00:00') : null;
+  const day = dt ? dt.toLocaleDateString('en-AU',{weekday:'short',day:'numeric',month:'short'}) : 'Flexible';
+  openJobs.unshift({t:fd.get('title'), d:fd.get('details'), sub:fd.get('suburb'), size:fd.get('size'), day, win:fd.get('window'), when:`${day} · ${fd.get('window')}`, ago:'Just now', q:0, m:fd.getAll('materials'), km:0.5, order:0, mine:true});
+  renderJobs();
   renderOpen(true);
   openEl.scrollTo({left:0});
   f.reset();
