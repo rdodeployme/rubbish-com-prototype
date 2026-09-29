@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>rubbish.com — Post your rubbish, get quotes</title>
+<meta name="description" content="Post your rubbish job and get quotes from local registered collectors.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* BRAND COLOURS — swap these for the rubbish.com palette.
+     --green = accent (buttons, highlights), --black = dark (header, hero), --grey = dark card */
+  :root{
+    --green:#00ED00; --black:#050505; --white:#FFFFFF; --grey:#111111;
+    --line:#E6E6E6; --muted:#5C5C5C; --soft:#F4F4F2;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:Inter,system-ui,sans-serif;background:var(--white);color:var(--black);line-height:1.5;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,.logo{font-family:"Inter Tight",Inter,sans-serif;letter-spacing:-.02em}
+  a{color:inherit}
+  button{font:inherit;cursor:pointer}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+  /* Header */
+  header{position:sticky;top:0;z-index:20;background:var(--black);color:var(--white)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .logo{font-size:22px;font-weight:800;text-decoration:none}
+  .logo span{color:var(--green)}
+  .nav-actions{display:flex;gap:10px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:999px;padding:12px 20px;font-weight:600;font-size:15px;text-decoration:none;transition:transform .12s, background .15s}
+  .btn:active{transform:scale(.97)}
+  .btn-green{background:var(--green);color:var(--black)}
+  .btn-green:hover{background:#2bff2b}
+  .btn-ghost{background:transparent;color:var(--white);border:1.5px solid #333}
+  .btn-ghost:hover{border-color:var(--white)}
+  .btn-dark{background:var(--black);color:var(--white)}
+  .btn-dark:hover{background:var(--grey)}
+  .btn-sm{padding:9px 16px;font-size:14px}
+
+  /* Hero */
+  .hero{background:var(--black);color:var(--white);padding:56px 0 64px}
+  .hero h1{font-size:clamp(38px,6.5vw,76px);font-weight:800;line-height:1;max-width:14ch}
+  .hero h1 em{font-style:normal;color:var(--green)}
+  .hero p{color:#BDBDBD;font-size:18px;margin:18px 0 32px;max-width:46ch}
+  .choices{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:760px}
+  .choice{display:block;text-align:left;border-radius:20px;padding:26px;border:0;min-height:170px;position:relative;transition:transform .15s}
+  .choice:hover{transform:translateY(-3px)}
+  .choice small{display:block;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;opacity:.7;margin-bottom:10px}
+  .choice strong{display:block;font-family:"Inter Tight";font-size:28px;font-weight:800;line-height:1.05;margin-bottom:8px}
+  .choice span{font-size:15px;opacity:.8}
+  .choice .arrow{position:absolute;right:22px;bottom:20px;font-size:26px}
+  .choice-post{background:var(--green);color:var(--black)}
+  .choice-join{background:var(--grey);color:var(--white);border:1.5px solid #2a2a2a}
+
+  /* Sections */
+  section.block{padding:56px 0 8px}
+  .block-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:20px}
+  .block-head h2{font-size:clamp(26px,3.4vw,36px);font-weight:800;line-height:1.1}
+  .block-head p{color:var(--muted);margin-top:4px}
+  .arrows{display:flex;gap:8px;flex-shrink:0}
+  .arrows button{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--line);background:var(--white);font-size:18px}
+  .arrows button:hover{border-color:var(--black)}
+  .live-dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px rgba(0,237,0,.2);margin-right:8px;vertical-align:middle}
+
+  .track{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 20px 24px;margin:0 -20px;scrollbar-width:none}
+  .track::-webkit-scrollbar{display:none}
+  .card{scroll-snap-align:start;flex:0 0 300px;background:var(--white);border:1.5px solid var(--line);border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:12px}
+  .card-top{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted)}
+  .tag{background:var(--soft);border-radius:999px;padding:4px 10px;font-weight:600;color:var(--black);font-size:12px}
+  .card h3{font-size:19px;font-weight:700;line-height:1.2}
+  .card p{font-size:14.5px;color:#333}
+  .meta{display:flex;gap:14px;font-size:13.5px;color:var(--muted);flex-wrap:wrap}
+  .meta b{color:var(--black);font-weight:600}
+  .card-foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1px solid var(--line)}
+  .quotes{font-size:14px;font-weight:600}
+  .new{outline:3px solid var(--green)}
+
+  .done .price{font-family:"Inter Tight";font-size:34px;font-weight:800;line-height:1}
+  .done .price small{font-family:Inter;font-size:13px;font-weight:500;color:var(--muted);margin-left:6px}
+  .stars{color:var(--black);font-size:17px;letter-spacing:2px}
+  .stars .s{color:var(--green);-webkit-text-stroke:1px var(--black)}
+  .review{font-size:14.5px;font-style:italic;color:#333}
+  .by{font-size:13px;color:var(--muted)}
+  .done-badge{background:var(--black);color:var(--green);border-radius:999px;padding:4px 10px;font-weight:600;font-size:12px}
+
+  /* How it works */
+  .how{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:48px 0 64px}
+  .step{background:var(--soft);border-radius:18px;padding:24px}
+  .step b{display:inline-flex;width:34px;height:34px;border-radius:50%;background:var(--black);color:var(--green);align-items:center;justify-content:center;font-family:"Inter Tight";margin-bottom:12px}
+  .step h3{font-size:18px;margin-bottom:4px}
+  .step p{color:var(--muted);font-size:14.5px}
+
+  footer{background:var(--black);color:#9a9a9a;padding:32px 0;font-size:14px}
+  footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .proto{font-size:12.5px;color:var(--muted);text-align:center;padding:10px 20px;background:var(--soft)}
+
+  /* Modal */
+  .modal{position:fixed;inset:0;background:rgba(5,5,5,.7);display:none;align-items:flex-end;justify-content:center;z-index:50;padding:0}
+  .modal.open{display:flex}
+  .sheet{background:var(--white);width:100%;max-width:560px;max-height:92vh;overflow:auto;border-radius:22px 22px 0 0;padding:26px 22px 28px}
+  @media(min-width:640px){.modal{align-items:center;padding:20px}.sheet{border-radius:22px}}
+  .sheet-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px}
+  .sheet h2{font-size:26px;font-weight:800;line-height:1.1}
+  .sheet .sub{color:var(--muted);font-size:14.5px;margin-top:4px}
+  .x{border:0;background:var(--soft);width:38px;height:38px;border-radius:50%;font-size:18px;flex-shrink:0}
+  form{display:grid;gap:14px}
+  label{display:grid;gap:6px;font-size:14px;font-weight:600}
+  input,select,textarea{font:inherit;font-weight:400;font-size:16px;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;background:var(--white);color:var(--black);width:100%}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--black)}
+  textarea{min-height:90px;resize:vertical}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .sizes{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .sizes input{display:none}
+  .sizes label{border:1.5px solid var(--line);border-radius:12px;padding:10px 6px;text-align:center;font-size:13px;cursor:pointer;font-weight:600}
+  .sizes label small{display:block;font-weight:400;color:var(--muted);font-size:11.5px}
+  .sizes input:checked + label{border-color:var(--black);background:var(--green)}
+  .note{font-size:12.5px;color:var(--muted)}
+  .success{text-align:center;padding:20px 0}
+  .success .tick{width:64px;height:64px;border-radius:50%;background:var(--green);display:inline-flex;align-items:center;justify-content:center;font-size:30px;margin-bottom:14px}
+  .success h2{margin-bottom:6px}
+
+  .chips{display:flex;gap:6px;flex-wrap:wrap}
+  .chip{font-size:12px;font-weight:600;border:1.5px solid var(--black);border-radius:999px;padding:3px 9px}
+  .qbar{display:flex;gap:4px;margin-top:6px}
+  .qbar i{flex:1;height:6px;border-radius:3px;background:var(--line)}
+  .qbar i.on{background:var(--green)}
+  .mats{display:flex;flex-wrap:wrap;gap:8px}
+  .mats input{display:none}
+  .mats label{border:1.5px solid var(--line);border-radius:999px;padding:8px 14px;font-size:13.5px;cursor:pointer;font-weight:600}
+  .mats input:checked + label{background:var(--green);border-color:var(--black)}
+  .qlist{display:grid;gap:10px;margin:14px 0}
+  .qrow{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1.5px solid var(--line);border-radius:14px;padding:14px}
+  .qrow b{display:block}
+  .qrow > div:first-child{min-width:0}
+  .qrow .who{font-size:13px;color:var(--muted)}
+  .qrow .amt{font-family:"Inter Tight";font-size:22px;font-weight:800}
+  .pack{background:var(--black);color:var(--white);border-radius:18px;padding:20px;margin-top:14px}
+  .pack h3{font-size:18px;margin-bottom:2px}
+  .pack .sub{color:#aaa}
+  .depot{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-top:1px solid #2a2a2a;font-size:14px}
+  .depot:first-of-type{border-top:0}
+  .depot .mat{color:var(--green);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+  .depot .km{white-space:nowrap;color:#ccc}
+  .pack-grp{margin-top:14px}
+  .step-lbl{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:18px 0 4px}
+
+  /* Photos */
+  .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center}
+  .hero-photo{border-radius:24px;overflow:hidden;aspect-ratio:4/5;background:#1a1a1a;position:relative}
+  .hero-photo img{width:100%;height:100%;object-fit:cover;display:block}
+  .hero-photo .badge{position:absolute;left:16px;bottom:16px;background:var(--white);color:var(--black);border-radius:14px;padding:10px 14px;font-size:13px;font-weight:600;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+  .hero-photo .badge b{display:block;font-family:"Inter Tight";font-size:20px}
+  .card{overflow:hidden}
+  .card .ph{margin:-20px -20px 4px;height:170px;background:var(--soft);overflow:hidden}
+  .card .ph img{width:100%;height:100%;object-fit:cover;display:block}
+  .job-ph{border-radius:16px;overflow:hidden;height:190px;margin-bottom:14px;background:var(--soft)}
+  .job-ph img{width:100%;height:100%;object-fit:cover;display:block}
+  @media(max-width:900px){
+    .hero-grid{grid-template-columns:1fr;gap:28px}
+    .hero-photo{aspect-ratio:16/10}
+  }
+
+  @media(max-width:720px){
+    .btn-sm{min-height:44px}
+    .x{width:44px;height:44px}
+    .mats label{padding:11px 14px}
+    .qrow{gap:10px;padding:12px}
+    .qrow .amt{font-size:19px}
+    .nav-actions .btn-ghost{display:none}
+    .choices{grid-template-columns:1fr}
+    .choice{min-height:0}
+    .how{grid-template-columns:1fr}
+    .arrows{display:none}
+    .card{flex-basis:82%}
+    .row{grid-template-columns:1fr}
+    .sizes{grid-template-columns:repeat(2,1fr)}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#">rubbish<span>.com</span></a>
+    <div class="nav-actions">
+      <button class="btn btn-ghost btn-sm" data-open="join">Become a collector</button>
+      <button class="btn btn-green btn-sm" data-open="post">Post a job</button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+    <h1>Post your rubbish. <em>Get quotes.</em></h1>
+    <p>Tell us what needs to go. Local registered collectors send you a price. Pick one and it's gone.</p>
+    <div class="choices">
+      <button class="choice choice-post" data-open="post">
+        <small>I have rubbish</small>
+        <strong>Post a job</strong>
+        <span>Free to post. Quotes in minutes.</span>
+        <i class="arrow">→</i>
+      </button>
+      <button class="choice choice-join" data-open="join">
+        <small>I collect rubbish</small>
+        <strong>Become a collector</strong>
+        <span>Register and start quoting on local jobs.</span>
+        <i class="arrow">→</i>
+      </button>
+    </div>
+    </div>
+    <div class="hero-photo">
+      <img src="https://images.unsplash.com/photo-1781425009053-2baffa997d8c?w=900&q=70&auto=format&fit=crop" alt="Ute loaded with rubbish bags" loading="eager" onerror="this.remove()">
+      <div class="badge"><b>3 quotes</b>is what we aim for on every job</div>
+    </div>
+  </div>
+</section>
+
+<main class="wrap">
+  <section class="block">
+    <div class="block-head">
+      <div>
+        <h2><span class="live-dot"></span>Jobs looking for quotes</h2>
+        <p>Open jobs posted near you right now.</p>
+      </div>
+      <div class="arrows">
+        <button aria-label="Previous" data-scroll="open" data-dir="-1">←</button>
+        <button aria-label="Next" data-scroll="open" data-dir="1">→</button>
+      </div>
+    </div>
+    <div class="track" id="open"></div>
+  </section>
+
+  <section class="block">
+    <div class="block-head">
+      <div>
+        <h2>Recently completed</h2>
+        <p>What people paid, and how they rated it.</p>
+      </div>
+      <div class="arrows">
+        <button aria-label="Previous" data-scroll="done" data-dir="-1">←</button>
+        <button aria-label="Next" data-scroll="done" data-dir="1">→</button>
+      </div>
+    </div>
+    <div class="track" id="done"></div>
+  </section>
+
+  <div class="how">
+    <div class="step"><b>1</b><h3>Post your job</h3><p>What it is, where it is, roughly how much. Add a photo.</p></div>
+    <div class="step"><b>2</b><h3>Get 3 quotes</h3><p>We aim for three from registered local collectors. Sometimes more, sometimes fewer.</p></div>
+    <div class="step"><b>3</b><h3>Book it, it's gone</h3><p>Pick on price and rating. Your collector gets the job and the nearest drop-off for each material.</p></div>
+  </div>
+</main>
+
+<div class="proto">Prototype — all jobs, prices and ratings shown are sample data.</div>
+<footer>
+  <div class="wrap">
+    <span><b style="color:#fff">rubbish<span style="color:var(--green)">.com</span></b> — the marketplace for rubbish removal</span>
+    <span>No asbestos or hazardous waste. Photos: Unsplash.</span>
+  </div>
+</footer>
+
+<!-- Post a job -->
+<div class="modal" id="m-post" role="dialog" aria-modal="true" aria-labelledby="post-title">
+  <div class="sheet">
+    <div class="form-view">
+      <div class="sheet-head">
+        <div><h2 id="post-title">Post a job</h2><p class="sub">Free. Takes a minute.</p></div>
+        <button class="x" data-close aria-label="Close">✕</button>
+      </div>
+      <form name="post-job" id="f-post" data-netlify="true" netlify-honeypot="bot">
+        <input type="hidden" name="form-name" value="post-job">
+        <p hidden><input name="bot"></p>
+        <label>What needs to go?
+          <input name="title" required placeholder="e.g. Garage clean-out, old furniture and boxes">
+        </label>
+        <label>Details
+          <textarea name="details" placeholder="Anything heavy? Stairs? Where is it — garage, backyard, upstairs?"></textarea>
+        </label>
+        <div>
+          <label style="margin-bottom:6px">How much?</label>
+          <div class="sizes">
+            <input type="radio" name="size" id="s1" value="A few items" checked><label for="s1">Few items<small>1–5 things</small></label>
+            <input type="radio" name="size" id="s2" value="Quarter load"><label for="s2">¼ load<small>Car boot+</small></label>
+            <input type="radio" name="size" id="s3" value="Half load"><label for="s3">½ load<small>Room full</small></label>
+            <input type="radio" name="size" id="s4" value="Full load"><label for="s4">Full load<small>Whole house</small></label>
+          </div>
+        </div>
+        <div>
+          <label style="margin-bottom:6px">What's in it? <span style="font-weight:400;color:var(--muted)">(pick any)</span></label>
+          <div class="mats">
+            <input type="checkbox" name="materials" id="mt1" value="General" checked><label for="mt1">General</label>
+            <input type="checkbox" name="materials" id="mt2" value="Cardboard"><label for="mt2">Cardboard</label>
+            <input type="checkbox" name="materials" id="mt3" value="Polystyrene"><label for="mt3">Polystyrene</label>
+            <input type="checkbox" name="materials" id="mt4" value="Mattresses"><label for="mt4">Mattresses</label>
+            <input type="checkbox" name="materials" id="mt5" value="Green waste"><label for="mt5">Green waste</label>
+            <input type="checkbox" name="materials" id="mt6" value="E-waste"><label for="mt6">E-waste</label>
+            <input type="checkbox" name="materials" id="mt7" value="Metal"><label for="mt7">Metal</label>
+          </div>
+        </div>
+        <div class="row">
+          <label>Suburb<input name="suburb" required placeholder="e.g. Brunswick"></label>
+          <label>When?
+            <select name="when">
+              <option>As soon as possible</option><option>This week</option><option>Next week</option><option>I'm flexible</option>
+            </select>
+          </label>
+        </div>
+        <label>Photo (optional)<input type="file" name="photo" accept="image/*"></label>
+        <div class="row">
+          <label>Your name<input name="name" required></label>
+          <label>Mobile<input name="phone" type="tel" required></label>
+        </div>
+        <button class="btn btn-dark" type="submit">Post job &amp; get quotes</button>
+        <p class="note">No asbestos or hazardous waste.</p>
+      </form>
+    </div>
+    <div class="success" hidden>
+      <div class="tick">✓</div>
+      <h2>Your job is live</h2>
+      <p class="sub">We'll aim to get you 3 quotes from local collectors and text you as each one lands. Pick one and book.</p>
+      <br><button class="btn btn-dark" data-close>Done</button>
+    </div>
+  </div>
+</div>
+
+<!-- Job detail: quotes → book → collector job pack -->
+<div class="modal" id="m-job" role="dialog" aria-modal="true" aria-labelledby="job-title">
+  <div class="sheet">
+    <div class="sheet-head">
+      <div><h2 id="job-title"></h2><p class="sub" id="job-sub"></p></div>
+      <button class="x" data-close aria-label="Close">✕</button>
+    </div>
+    <div id="job-body"></div>
+  </div>
+</div>
+
+<!-- Become a collector -->
+<div class="modal" id="m-join" role="dialog" aria-modal="true" aria-labelledby="join-title">
+  <div class="sheet">
+    <div class="form-view">
+      <div class="sheet-head">
+        <div><h2 id="join-title">Become a collector</h2><p class="sub">Register, get verified, start quoting.</p></div>
+        <button class="x" data-close aria-label="Close">✕</button>
+      </div>
+      <form name="register-collector" id="f-join" data-netlify="true" netlify-honeypot="bot">
+        <input type="hidden" name="form-name" value="register-collector">
+        <p hidden><input name="bot"></p>
+        <div class="row">
+          <label>Your name<input name="name" required></label>
+          <label>Business name<input name="business"></label>
+        </div>
+        <div class="row">
+          <label>ABN<input name="abn" inputmode="numeric" required placeholder="11 digits"></label>
+          <label>Mobile<input name="phone" type="tel" required></label>
+        </div>
+        <label>Email<input name="email" type="email" required></label>
+        <div class="row">
+          <label>Area you cover<input name="area" required placeholder="e.g. Inner north Melbourne"></label>
+          <label>Vehicle
+            <select name="vehicle">
+              <option>Ute + trailer</option><option>Tipper truck</option><option>Van</option><option>Box truck</option><option>Other</option>
+            </select>
+          </label>
+        </div>
+        <label style="flex-direction:row;display:flex;gap:10px;align-items:flex-start;font-weight:500">
+          <input type="checkbox" required style="width:auto;margin-top:4px">
+          I hold public liability insurance and dispose of rubbish at licensed facilities.
+        </label>
+        <button class="btn btn-dark" type="submit">Register as a collector</button>
+        <p class="note">We check ABN and insurance before you can quote.</p>
+      </form>
+    </div>
+    <div class="success" hidden>
+      <div class="tick">✓</div>
+      <h2>Thanks — you're registered</h2>
+      <p class="sub">We'll verify your details and text you when you can start quoting.</p>
+      <br><button class="btn btn-dark" data-close>Done</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const openJobs = [
+  {t:"Cardboard & packaging pickup",img:"https://images.unsplash.com/photo-1766040923580-16ad32fae8b4?w=700&q=65&auto=format&fit=crop",d:"Flattened boxes and polystyrene from a house move. About 30 boxes, all in the carport.",sub:"Reservoir VIC",size:"Quarter load",when:"This week",ago:"12 min ago",q:2,m:["Cardboard","Polystyrene"]},
+  {t:"Deceased estate — 3 bedroom house",img:"https://images.unsplash.com/photo-1784064857689-5f17c9e1539c?w=700&q=65&auto=format&fit=crop",d:"Full house of furniture and belongings. Family has taken what they want. Need it cleared for sale.",sub:"Carina QLD",size:"Full load",when:"Next week",ago:"40 min ago",q:4,m:["General","Mattresses","E-waste","Metal"]},
+  {t:"End-of-lease clear out",img:"https://images.unsplash.com/photo-1779643302127-0d0bbfa19524?w=700&q=65&auto=format&fit=crop",d:"Couch, two mattresses, desk and about 10 bags. Second-floor unit, there is a lift.",sub:"Footscray VIC",size:"Quarter load",when:"ASAP",ago:"1 hr ago",q:3,m:["General","Mattresses"]},
+  {t:"Backyard green waste",img:"https://images.unsplash.com/photo-1779631572359-c2be9512b317?w=700&q=65&auto=format&fit=crop",d:"Pile of branches and palm fronds from a tree trim, plus an old steel shed frame.",sub:"Chermside QLD",size:"Half load",when:"Flexible",ago:"2 hrs ago",q:1,m:["Green waste","Metal"]},
+  {t:"Office furniture removal",img:"https://images.unsplash.com/photo-1718220216044-006f43e3a9b1?w=700&q=65&auto=format&fit=crop",d:"12 desks, 20 chairs, filing cabinets and old monitors. Ground floor, loading dock available.",sub:"Richmond VIC",size:"Full load",when:"This week",ago:"3 hrs ago",q:3,m:["General","Metal","E-waste"]},
+  {t:"Garage clean-out",img:"https://images.unsplash.com/photo-1635108198854-26645ffe6714?w=700&q=65&auto=format&fit=crop",d:"Old shelving, boxes, a broken treadmill and a couple of bikes. Garage is at street level.",sub:"Coorparoo QLD",size:"Half load",when:"ASAP",ago:"5 hrs ago",q:0,m:["General","Cardboard","Metal"]},
+];
+
+// Sample collectors who quote
+const collectors = [
+  {n:"Clear Out Co.",r:4.9,jobs:212},
+  {n:"Dave's Ute Runs",r:4.8,jobs:87},
+  {n:"Northside Removals",r:4.7,jobs:143},
+  {n:"Tidy Trailer",r:4.9,jobs:61},
+];
+
+// Drop-off directory by material. PROTOTYPE: placeholder depots — the real build pulls
+// licensed facilities by material and sorts by distance from the job address.
+const depotTypes = {
+  "General":     "Transfer station",
+  "Cardboard":   "Cardboard / paper recycler",
+  "Polystyrene": "EPS (polystyrene) drop-off",
+  "Mattresses":  "Mattress recycler",
+  "Green waste": "Green waste / organics facility",
+  "E-waste":     "E-waste drop-off",
+  "Metal":       "Scrap metal yard",
+};
+const doneJobs = [
+  {t:"Shed clean-out",img:"https://images.unsplash.com/photo-1726929219819-b90904f9d329?w=700&q=65&auto=format&fit=crop",sub:"Preston VIC",price:420,r:"On time, did all the lifting and swept out the shed after.",by:"Sarah M."},
+  {t:"Full house clear for sale",img:"https://images.unsplash.com/photo-1765000884289-baee6a441acd?w=700&q=65&auto=format&fit=crop",sub:"Ashgrove QLD",price:1850,r:"Took everything in one day. Made a hard week much easier.",by:"David K."},
+  {t:"Move-out rubbish",img:"https://images.unsplash.com/photo-1759373348074-2c144f0166d4?w=700&q=65&auto=format&fit=crop",sub:"Brunswick VIC",price:260,r:"Quoted within ten minutes and came the same afternoon.",by:"Priya S."},
+  {t:"Renovation waste",img:"https://images.unsplash.com/photo-1773649967611-5f00e2838bbf?w=700&q=65&auto=format&fit=crop",sub:"Paddington QLD",price:690,r:"Cheaper than a skip and no council permit needed.",by:"Tom R."},
+  {t:"Office clear-out",img:"https://images.unsplash.com/photo-1577412647305-991150c7d163?w=700&q=65&auto=format&fit=crop",sub:"Collingwood VIC",price:1340,r:"Worked around our hours and left the floor spotless.",by:"Emma L."},
+  {t:"Garden waste",img:"https://images.unsplash.com/photo-1772981145873-d2a51a3f8e4c?w=700&q=65&auto=format&fit=crop",sub:"Wynnum QLD",price:210,r:"Fast and friendly. Would use again.",by:"Mark H."},
+];
+
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const qbar = q => `<div class="qbar">${[0,1,2].map(i=>`<i class="${i<q?'on':''}"></i>`).join('')}</div>`;
+const openCard = (j, i, isNew) => `
+  <article class="card${isNew?' new':''}">
+    ${j.img?`<div class="ph"><img src="${esc(j.img)}" alt="" loading="lazy" onerror="this.parentNode.remove()"></div>`:''}
+    <div class="card-top"><span class="tag">${esc(j.size)}</span><span>${esc(j.ago)}</span></div>
+    <h3>${esc(j.t)}</h3>
+    <p>${esc(j.d || 'No extra details.')}</p>
+    <div class="chips">${(j.m||[]).map(x=>`<span class="chip">${esc(x)}</span>`).join('')}</div>
+    <div class="meta"><span>📍 <b>${esc(j.sub)}</b></span><span>🗓 ${esc(j.when)}</span></div>
+    <div class="card-foot">
+      <div><span class="quotes">${j.q>=3?`${j.q} quotes ✓`:`${j.q} of 3 quotes`}</span>${qbar(j.q)}</div>
+      <button class="btn btn-dark btn-sm" data-job="${i}">View job</button></div>
+  </article>`;
+const renderOpen = (newFirst) => openEl.innerHTML = openJobs.map((j,i) => openCard(j, i, newFirst && i===0)).join('');
+const doneCard = j => `
+  <article class="card done">
+    ${j.img?`<div class="ph"><img src="${esc(j.img)}" alt="" loading="lazy" onerror="this.parentNode.remove()"></div>`:''}
+    <div class="card-top"><span class="done-badge">✓ Completed</span><span>${esc(j.sub)}</span></div>
+    <h3>${esc(j.t)}</h3>
+    <div class="price">$${j.price.toLocaleString('en-AU')}<small>paid</small></div>
+    <div class="stars" aria-label="5 out of 5 stars"><span class="s">★★★★★</span></div>
+    <p class="review">“${esc(j.r)}”</p>
+    <div class="by">— ${esc(j.by)}</div>
+  </article>`;
+
+const openEl = document.getElementById('open');
+const doneEl = document.getElementById('done');
+renderOpen();
+doneEl.innerHTML = doneJobs.map(doneCard).join('');
+
+// Carousel arrows
+document.querySelectorAll('[data-scroll]').forEach(b => b.addEventListener('click', () => {
+  const t = document.getElementById(b.dataset.scroll);
+  t.scrollBy({left: (t.querySelector('.card').offsetWidth + 16) * +b.dataset.dir, behavior:'smooth'});
+}));
+
+// Gentle auto-advance on the open-jobs carousel
+let paused = false;
+openEl.addEventListener('pointerenter', () => paused = true);
+openEl.addEventListener('pointerleave', () => paused = false);
+openEl.addEventListener('touchstart', () => paused = true, {passive:true});
+setInterval(() => {
+  if (paused || document.hidden) return;
+  const max = openEl.scrollWidth - openEl.clientWidth;
+  if (openEl.scrollLeft >= max - 5) openEl.scrollTo({left:0, behavior:'smooth'});
+  else openEl.scrollBy({left: openEl.querySelector('.card').offsetWidth + 16, behavior:'smooth'});
+}, 4000);
+
+// Job modal: customer sees quotes → books → collector gets the job pack
+const jobModal = document.getElementById('m-job');
+const jobBody = document.getElementById('job-body');
+function quotesFor(j){
+  const base = {"Quarter load":220,"Half load":420,"Full load":900,"A few items":140}[j.size] || 300;
+  return collectors.slice(0, Math.max(j.q,0)).map((c,i) => ({...c, price: Math.round((base + i*35 - (i===1?60:0))/5)*5}));
+}
+function showJob(idx){
+  const j = openJobs[idx];
+  document.getElementById('job-title').textContent = j.t;
+  document.getElementById('job-sub').textContent = `${j.sub} · ${j.size} · ${j.when}`;
+  const qs = quotesFor(j);
+  const left = Math.max(0, 3 - j.q);
+  jobBody.innerHTML = `
+    ${j.img?`<div class="job-ph"><img src="${esc(j.img)}" alt="" onerror="this.parentNode.remove()"></div>`:''}
+    <div class="chips">${j.m.map(x=>`<span class="chip">${esc(x)}</span>`).join('')}</div>
+    <p style="margin-top:12px;font-size:15px">${esc(j.d || '')}</p>
+    <div class="step-lbl">${j.q>=3?`${j.q} quotes in`:`Quotes · ${j.q} of 3`}</div>${qbar(j.q)}
+    <div class="qlist">
+      ${qs.length ? qs.map((q,i)=>`
+        <div class="qrow">
+          <div><b>${esc(q.n)}</b><span class="who">★ ${q.r} · ${q.jobs} jobs done</span></div>
+          <div style="display:flex;align-items:center;gap:12px"><span class="amt">$${q.price.toLocaleString('en-AU')}</span>
+          <button class="btn btn-green btn-sm" data-book="${idx}:${i}">Book</button></div>
+        </div>`).join('') : `<p class="note">No quotes yet — collectors near ${esc(j.sub)} have been notified.</p>`}
+      ${left && qs.length ? `<p class="note">Waiting on ${left} more quote${left>1?'s':''}. You can book now or wait.</p>` : ''}
+    </div>
+    <button class="btn btn-dark" style="width:100%" data-open="join">I'm a collector — quote on this job</button>`;
+  closeAll();
+  jobModal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function bookJob(idx, qi){
+  const j = openJobs[idx], q = quotesFor(j)[qi];
+  const mats = j.m.length ? j.m : ["General"];
+  jobBody.innerHTML = `
+    <div class="success" style="padding:6px 0 0">
+      <div class="tick">✓</div>
+      <h2>Booked with ${esc(q.n)}</h2>
+      <p class="sub">$${q.price.toLocaleString('en-AU')} · ${esc(j.when)}. They've been sent the job details.</p>
+    </div>
+    <div class="step-lbl">What the collector receives</div>
+    <div class="pack">
+      <h3>Job pack — ${esc(j.t)}</h3>
+      <p class="sub">${esc(j.sub)} · ${esc(j.size)} · $${q.price.toLocaleString('en-AU')} agreed</p>
+      <div class="pack-grp">
+        <div class="step-lbl" style="color:#aaa;margin-top:4px">Nearest drop-off by material</div>
+        ${mats.map((m,i)=>`
+          <div class="depot">
+            <div><span class="mat">${esc(m)}</span><br>${esc(depotTypes[m]||'Transfer station')} near ${esc(j.sub.replace(/ (VIC|QLD)$/,''))}</div>
+            <span class="km">${(2.4 + i*1.7).toFixed(1)} km</span>
+          </div>`).join('')}
+      </div>
+      <p class="note" style="color:#888;margin-top:10px">Prototype: depot names, addresses and hours will come from a verified facility list.</p>
+    </div>
+    <button class="btn btn-dark" style="width:100%;margin-top:16px" data-close>Done</button>`;
+  j.q = 0; // booked — in a real build this job leaves the open list
+  openJobs.splice(idx,1); renderOpen();
+}
+
+// Modals
+const modals = {post: document.getElementById('m-post'), join: document.getElementById('m-join')};
+function openModal(k){
+  const m = modals[k];
+  m.querySelector('.form-view').hidden = false;
+  m.querySelector('.success').hidden = true;
+  m.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => m.querySelector('input:not([type=hidden])')?.focus(), 50);
+}
+function closeAll(){
+  Object.values(modals).forEach(m => m.classList.remove('open'));
+  jobModal.classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('click', e => {
+  const jb = e.target.closest('[data-job]');
+  if (jb) { showJob(+jb.dataset.job); return; }
+  const bk = e.target.closest('[data-book]');
+  if (bk) { const [a,b] = bk.dataset.book.split(':').map(Number); bookJob(a,b); return; }
+  const o = e.target.closest('[data-open]');
+  if (o) { closeAll(); openModal(o.dataset.open); return; }
+  if (e.target.closest('[data-close]') || e.target.classList.contains('modal')) closeAll();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAll(); });
+
+// Submit (Netlify Forms capture when hosted on Netlify; still works as a demo elsewhere)
+async function submitForm(form){
+  try {
+    const fd = new FormData(form);
+    await fetch('/', {method:'POST', body: fd});
+  } catch (_) {}
+}
+document.getElementById('f-post').addEventListener('submit', async e => {
+  e.preventDefault();
+  const f = e.target, fd = new FormData(f);
+  await submitForm(f);
+  openJobs.unshift({t:fd.get('title'), d:fd.get('details'), sub:fd.get('suburb'), size:fd.get('size'), when:fd.get('when'), ago:'Just now', q:0, m:fd.getAll('materials')});
+  renderOpen(true);
+  openEl.scrollTo({left:0});
+  f.reset();
+  const m = modals.post; m.querySelector('.form-view').hidden = true; m.querySelector('.success').hidden = false;
+});
+document.getElementById('f-join').addEventListener('submit', async e => {
+  e.preventDefault();
+  await submitForm(e.target);
+  e.target.reset();
+  const m = modals.join; m.querySelector('.form-view').hidden = true; m.querySelector('.success').hidden = false;
+});
+</script>
+</body>
+</html>
