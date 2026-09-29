@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Rubbish.com.au — Post your rubbish, get quotes</title>
+<title>Rubbish.com.au — Find Your Cheapest Waste Collector</title>
 <meta name="description" content="Post your rubbish job and get quotes from local registered collectors.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -85,7 +85,30 @@
   .done-badge{background:var(--black);color:var(--green);border-radius:999px;padding:4px 10px;font-weight:600;font-size:12px}
 
   /* How it works */
-  .how{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:48px 0 64px}
+  .recycle{background:var(--black);color:var(--white);padding:64px 0;margin-top:8px}
+  .recycle-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:48px;align-items:center}
+  .eyebrow{display:inline-block;color:var(--black);background:var(--green);font-weight:700;font-size:12.5px;text-transform:uppercase;letter-spacing:.08em;border-radius:999px;padding:6px 12px}
+  .pct{font-family:"Inter Tight";font-weight:800;font-size:clamp(120px,19vw,240px);line-height:.9;letter-spacing:-.05em;color:var(--green);margin-top:18px}
+  .pct span{font-size:.5em;vertical-align:.55em;margin-left:4px}
+  .pct-cap{font-size:20px;color:#d6d6d6;max-width:22ch;margin-top:10px;line-height:1.35}
+  .recycle-points h2{font-size:clamp(26px,3vw,36px);font-weight:800;line-height:1.1;margin-bottom:22px}
+  .rp{display:flex;gap:16px;padding:16px 0;border-top:1px solid #222}
+  .rp > b{flex-shrink:0;width:42px;height:42px;border-radius:12px;background:#1a1a1a;color:var(--green);display:flex;align-items:center;justify-content:center;font-size:20px}
+  .rp h3{font-size:18px;margin-bottom:3px}
+  .guarantee{display:flex;gap:18px;align-items:center;margin-top:18px;border:2px solid var(--green);border-radius:16px;padding:16px 18px}
+  .guarantee b{font-family:"Inter Tight";font-weight:800;font-size:30px;color:var(--green);flex-shrink:0;line-height:1}
+  .guarantee p{color:#e6e6e6;font-size:15px;line-height:1.45}
+  .guarantee strong{color:var(--white)}
+  .rp p{color:#bdbdbd;font-size:15px}
+  @media(max-width:860px){ .recycle-grid{grid-template-columns:1fr;gap:28px} .recycle{padding:48px 0} }
+  .price-link{margin:-40px 0 24px;font-weight:700}
+  .trust{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:0 0 56px}
+  .trust-card{display:flex;gap:16px;align-items:flex-start;border:2px solid var(--black);border-radius:18px;padding:22px}
+  .trust-card > b{flex-shrink:0;width:46px;height:46px;border-radius:12px;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:20px}
+  .trust-card h3{font-size:20px;margin-bottom:4px}
+  .trust-card p{color:#333;font-size:15.5px}
+  @media(max-width:720px){ .trust{grid-template-columns:1fr} }
+  .how{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:48px 0 64px}
   .step{background:var(--soft);border-radius:18px;padding:24px}
   .step b{display:inline-flex;width:34px;height:34px;border-radius:50%;background:var(--black);color:var(--green);align-items:center;justify-content:center;font-family:"Inter Tight";margin-bottom:12px}
   .step h3{font-size:18px;margin-bottom:4px}
@@ -137,6 +160,18 @@
   .how-step h3{font-size:19px;margin-bottom:4px}
   .how-step p{color:#333;font-size:15px}
   .how-track .btn{margin-top:8px}
+  .price-factors{margin-top:44px}
+  .price-factors h2{font-size:clamp(24px,3vw,32px);font-weight:800;line-height:1.1}
+  .pf-intro{color:var(--muted);margin:6px 0 16px}
+  .pf-list{display:grid;gap:10px}
+  .pf{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;border:1.5px solid var(--line);border-radius:14px;padding:14px 16px}
+  .pf-n{width:34px;height:34px;border-radius:50%;background:var(--black);color:var(--green);display:flex;align-items:center;justify-content:center;font-family:"Inter Tight";font-weight:800}
+  .pf h3{font-size:16.5px}
+  .pf p{color:#444;font-size:14.5px}
+  .pf-dir{font-size:12px;font-weight:700;border-radius:999px;padding:5px 10px;white-space:nowrap}
+  .pf-dir.up{background:var(--black);color:var(--white)}
+  .pf-dir.down{background:var(--green);color:var(--black)}
+  @media(max-width:560px){ .pf{grid-template-columns:auto 1fr} .pf-dir{grid-column:2;justify-self:start} }
   .rules{margin-top:44px;background:var(--black);color:var(--white);border-radius:20px;padding:24px}
   .rules h2,.faq h2{font-size:26px;font-weight:800;margin-bottom:6px}
   .rules p{color:#bbb;margin-bottom:12px}
@@ -256,6 +291,7 @@
     .hero-photo{aspect-ratio:16/10}
   }
 
+  @media(max-width:980px){ .how{grid-template-columns:repeat(2,1fr)} }
   @media(max-width:720px){
     .btn-sm{min-height:44px}
     .x{width:44px;height:44px}
@@ -295,8 +331,8 @@
 <section class="hero">
   <div class="wrap hero-grid">
     <div>
-    <h1>Post your rubbish. <em>Get quotes.</em></h1>
-    <p>Tell us what needs to go. Local registered collectors send you a price. Pick one and it's gone.</p>
+    <h1>Find Your <em>Cheapest</em> Waste Collector</h1>
+    <p>Post job for free. Choose best quote. Pay after pickup.</p>
     <div class="choices">
       <button class="choice choice-post" data-open="post">
         <small>I have rubbish</small>
@@ -353,10 +389,39 @@
   </section>
 
   <div class="how">
-    <div class="step"><b>1</b><h3>Post your job</h3><p>What it is, where it is, roughly how much. Add a photo.</p></div>
-    <div class="step"><b>2</b><h3>Get 3 quotes</h3><p>We aim for three from registered local collectors. Sometimes more, sometimes fewer.</p></div>
-    <div class="step"><b>3</b><h3>Book it, it's gone</h3><p>Pick on price and rating. Your collector gets the job and the nearest drop-off for each material.</p></div>
+    <div class="step"><b>1</b><h3>Post a job for free</h3><p>Snap a photo to create a listing. Collectors send quotes in seconds.</p></div>
+    <div class="step"><b>2</b><h3>Choose best quote</h3><p>Compare prices and reviews of different collectors. Choose the best.</p></div>
+    <div class="step"><b>3</b><h3>Pay after removal</h3><p>Message each other securely. Pay digitally after your junk removal.</p></div>
+    <div class="step"><b>4</b><h3>Green disposal</h3><p>Waste is reused or recycled. Full documentation provided.</p></div>
   </div>
+  <p class="price-link"><a class="see-all" href="#how" data-go="how" data-anchor="prices">What affects the price? See the 7 key factors →</a></p>
+  <div class="trust">
+    <div class="trust-card"><b>🔒</b><div><h3>Stay safe</h3><p>Message collectors without disclosing personal details.</p></div></div>
+    <div class="trust-card"><b>✓</b><div><h3>Compliant</h3><p>We verify every waste collector's identity, waste carrier licence and insurance details.</p></div></div>
+  </div>
+</main>
+
+<section class="recycle">
+  <div class="wrap recycle-grid">
+    <div class="recycle-big">
+      <span class="eyebrow">Our recycling commitment</span>
+      <div class="pct">80<span>%</span></div>
+      <p class="pct-cap">of every load kept out of landfill — that's our target on every job.</p>
+    </div>
+    <div class="recycle-points">
+      <h2>Landfill is the last resort, not the first stop.</h2>
+      <div class="rp"><b>♻</b><div><h3>Sorted by material</h3><p>Every collector gets the nearest drop-off for each material — cardboard, polystyrene, mattresses, green waste, e-waste and metal — so it goes to recycling, not the tip.</p></div></div>
+      <div class="rp"><b>↺</b><div><h3>Reuse first</h3><p>Furniture and household items that still have life in them are rehomed or donated before anything is recycled.</p></div></div>
+      <div class="rp"><b>✓</b><div><h3>Documented</h3><p>Every job comes with a record of where your waste went — reused, recycled or landfill.</p></div></div>
+      <div class="guarantee">
+        <b>$1,500</b>
+        <p><strong>Illegal dumping guarantee.</strong> If waste is illegally disposed of by a collector via this platform, we will cover any costs and fines you incur, up to $1,500 AUD.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<main class="wrap" style="padding-bottom:8px">
 </main>
 </div>
 
@@ -410,7 +475,7 @@
     <div class="wrap">
       <a class="back" href="#" data-go="home">← Back</a>
       <h1>How it works</h1>
-      <p>Post your rubbish, get quotes from local collectors, book one. That's it.</p>
+      <p>Post job for free. Choose best quote. Pay after pickup.</p>
     </div>
   </div>
   <div class="wrap how-page">
@@ -420,20 +485,34 @@
     </div>
 
     <div class="how-track" id="tab-cust">
-      <div class="how-step"><b>1</b><div><h3>Post your job</h3><p>Tell us what needs to go, roughly how much, what it's made of, and your suburb. Add a photo if you can — it gets you more accurate quotes. Posting is free.</p></div></div>
-      <div class="how-step"><b>2</b><div><h3>Pick a day and time window</h3><p>Choose the date and one of four windows: <strong>5am – 8am, 8am – 12pm, 1pm – 3pm or 3pm – 5pm</strong>.</p></div></div>
-      <div class="how-step"><b>3</b><div><h3>Get quotes</h3><p>We aim to get you <strong>3 quotes</strong> from registered local collectors. Sometimes you'll get more, sometimes fewer. Each quote shows the collector's price, star rating and completed jobs.</p></div></div>
-      <div class="how-step"><b>4</b><div><h3>Check the collector, then book</h3><p>Tap any collector to see their profile, reviews and past jobs. Book the one you want — you don't have to wait for all 3 quotes.</p></div></div>
-      <div class="how-step"><b>5</b><div><h3>It's gone. Rate them.</h3><p>Your collector turns up in your window and takes it away. Afterwards you rate the job out of 5 stars, which helps the next customer choose.</p></div></div>
-      <button class="btn btn-green" data-open="post">Post a job</button>
+      <div class="how-step"><b>1</b><div><h3>Post a job for free</h3><p>Snap a photo to create a listing. Add what's there, your suburb, a date and a time window: <strong>5am – 8am, 8am – 12pm, 1pm – 3pm or 3pm – 5pm</strong>. Collectors send quotes in seconds.</p></div></div>
+      <div class="how-step"><b>2</b><div><h3>Choose best quote</h3><p>Compare prices and reviews of different collectors. Tap any collector to see their star rating and the jobs they've completed, then choose the best.</p></div></div>
+      <div class="how-step"><b>3</b><div><h3>Pay after removal</h3><p>Message each other securely. Pay digitally after your junk removal — not before.</p></div></div>
+      <div class="how-step"><b>4</b><div><h3>Green disposal</h3><p>Waste is reused or recycled. Your collector gets the nearest drop-off for each material, and full documentation is provided.</p></div></div>
+      <button class="btn btn-green" data-open="post">Post a job for free</button>
     </div>
 
     <div class="how-track" id="tab-col" hidden>
-      <div class="how-step"><b>1</b><div><h3>Register</h3><p>Sign up with your ABN, area, vehicle and contact details. We check your ABN and public liability insurance before you can quote.</p></div></div>
+      <div class="how-step"><b>1</b><div><h3>Register</h3><p>Sign up with your ABN, area, vehicle and contact details. We verify your identity, waste carrier licence and insurance before you can quote.</p></div></div>
       <div class="how-step"><b>2</b><div><h3>Browse jobs and quote</h3><p>See every open job near you on the jobs page. Filter by distance, price, size, time window and material, then send your price.</p></div></div>
       <div class="how-step"><b>3</b><div><h3>Win the job</h3><p>When a customer books you, you get a job pack: the address, time window, what's there, and <strong>the nearest drop-off for each material</strong> — cardboard, polystyrene, mattresses, green waste, e-waste, metal and general waste.</p></div></div>
       <div class="how-step"><b>4</b><div><h3>Do the job, build your rating</h3><p>Collect in the booked window and dispose at licensed facilities. Every completed job and star rating shows on your profile, so good work wins more work.</p></div></div>
       <button class="btn btn-green" data-open="join">Become a collector</button>
+    </div>
+
+    <div class="price-factors" id="prices">
+      <h2>7 key factors impacting rubbish removal prices</h2>
+      <p class="pf-intro">The main factors that affect how much you pay for rubbish removal:</p>
+      <div class="pf-list">
+        <div class="pf"><span class="pf-n">1</span><div><h3>Size of load</h3><p>Larger loads increase the price.</p></div><span class="pf-dir up">▲ Price</span></div>
+        <div class="pf"><span class="pf-n">2</span><div><h3>Weight</h3><p>Heavier loads increase the price.</p></div><span class="pf-dir up">▲ Price</span></div>
+        <div class="pf"><span class="pf-n">3</span><div><h3>Fridges and mattresses</h3><p>These cost more to dispose of.</p></div><span class="pf-dir up">▲ Price</span></div>
+        <div class="pf"><span class="pf-n">4</span><div><h3>Sofas and upholstered items</h3><p>Upholstered items can contain POPs (persistent organic pollutants), which need special disposal and increase the price.</p></div><span class="pf-dir up">▲ Price</span></div>
+        <div class="pf"><span class="pf-n">5</span><div><h3>Reusable, resaleable or valuable items</h3><p>Items that can be reused, resold or have value can reduce the price.</p></div><span class="pf-dir down">▼ Price</span></div>
+        <div class="pf"><span class="pf-n">6</span><div><h3>Time slot and pickup day</h3><p>Narrow, out-of-hours and urgent time slots cost more.</p></div><span class="pf-dir up">▲ Price</span></div>
+        <div class="pf"><span class="pf-n">7</span><div><h3>Access and loading time</h3><p>Awkward access and longer loading cost more.</p></div><span class="pf-dir up">▲ Price</span></div>
+      </div>
+      <p class="note" style="margin-top:12px">Add photos and details when you post — the more collectors know, the more accurate your quotes.</p>
     </div>
 
     <div class="rules">
@@ -448,7 +527,9 @@
       <h2>Questions</h2>
       <details><summary>How much does it cost to post a job?</summary><p>Nothing. You only pay the price you accept from a collector.</p></details>
       <details><summary>What if I only get one or two quotes?</summary><p>You can book any quote you've received, or wait for more. We aim for 3 but it depends on how many collectors cover your area that day.</p></details>
-      <details><summary>How are collectors checked?</summary><p>We check each collector's ABN and public liability insurance before they can quote, and their star rating builds from real completed jobs.</p></details>
+      <details><summary>How are collectors checked?</summary><p>We verify every collector's identity, waste carrier licence and insurance details before they can quote, and their star rating builds from real completed jobs.</p></details>
+      <details><summary>Do I have to share my phone number?</summary><p>No. You can message collectors on the platform without disclosing personal details.</p></details>
+      <details><summary>What if my waste gets dumped illegally?</summary><p>If waste is illegally disposed of by a collector via this platform, we will cover any costs and fines you incur, up to $1,500 AUD.</p></details>
       <details><summary>Where does my rubbish go?</summary><p>Collectors get the nearest drop-off for each type of material with every job, so recyclable items can go to the right place instead of straight to landfill.</p></details>
     </div>
   </div>
@@ -566,9 +647,12 @@
         </div>
         <div class="row">
           <label>ABN<input name="abn" inputmode="numeric" required placeholder="11 digits"></label>
-          <label>Mobile<input name="phone" type="tel" required></label>
+          <label>Waste carrier licence no.<input name="licence" required></label>
         </div>
-        <label>Email<input name="email" type="email" required></label>
+        <div class="row">
+          <label>Mobile<input name="phone" type="tel" required></label>
+          <label>Email<input name="email" type="email" required></label>
+        </div>
         <div class="row">
           <label>Area you cover<input name="area" required placeholder="e.g. Inner north Melbourne"></label>
           <label>Vehicle
@@ -579,10 +663,10 @@
         </div>
         <label style="flex-direction:row;display:flex;gap:10px;align-items:flex-start;font-weight:500">
           <input type="checkbox" required style="width:auto;margin-top:4px">
-          I hold public liability insurance and dispose of rubbish at licensed facilities.
+          I hold a waste carrier licence and public liability insurance, and dispose of rubbish at licensed facilities.
         </label>
         <button class="btn btn-dark" type="submit">Register as a collector</button>
-        <p class="note">We check ABN and insurance before you can quote.</p>
+        <p class="note">We verify your identity, waste carrier licence and insurance before you can quote.</p>
       </form>
     </div>
     <div class="success" hidden>
@@ -825,7 +909,7 @@ window.addEventListener('hashchange', route);
 document.addEventListener('click', e => {
   const g = e.target.closest('[data-go]'); if (!g) return;
   e.preventDefault();
-  if (g.dataset.go!=='home') location.hash = g.dataset.go;
+  if (g.dataset.go!=='home') { location.hash = g.dataset.go; if (g.dataset.anchor) setTimeout(() => document.getElementById(g.dataset.anchor)?.scrollIntoView({behavior:'smooth'}), 60); }
   else history.pushState('', '', location.pathname), route();
 });
 route();
@@ -844,7 +928,7 @@ function showCollector(ci){
     <div class="col-facts">
       <div><b>${c.jobs}</b>jobs done</div><div><b>${esc(c.veh)}</b>vehicle</div><div><b>${esc(c.since)}</b>member since</div>
     </div>
-    <p class="note" style="margin:-8px 0 16px">📍 ${esc(c.area)} · ✓ ABN and insurance checked</p>
+    <p class="note" style="margin:-8px 0 16px">📍 ${esc(c.area)} · ✓ ID, waste carrier licence and insurance verified</p>
     <div class="step-lbl">Recently completed</div>
     <div class="hist">${c.hist.map(h=>`
       <div class="hist-row">
