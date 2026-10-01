@@ -196,6 +196,67 @@
     .menu-join{display:block}
     .nav-actions .btn-ghost{display:none}
   }
+  .join-layout{display:grid;grid-template-columns:240px 1fr;gap:32px;padding-top:28px;padding-bottom:64px;align-items:start}
+  .join-steps{position:sticky;top:96px;display:grid;gap:4px}
+  .join-steps button{display:flex;gap:12px;align-items:center;background:none;border:0;text-align:left;padding:10px 12px;border-radius:12px;font-weight:600;color:var(--muted);font-size:14.5px}
+  .join-steps button i{font-style:normal;width:28px;height:28px;border-radius:50%;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+  .join-steps button.on{background:var(--soft);color:var(--black)}
+  .join-steps button.on i{border-color:var(--black);background:var(--black);color:var(--green)}
+  .join-steps button.done{color:var(--black)}
+  .join-steps button.done i{background:var(--green);border-color:var(--green);color:var(--black)}
+  .join-steps button:disabled{cursor:default}
+  .join-progress{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+  #join-bar{height:100%;background:var(--green);width:0;transition:width .25s}
+  .join-count{font-size:13px;font-weight:700;color:var(--muted);margin:8px 0 12px;text-transform:uppercase;letter-spacing:.06em}
+  .join-card{border:1.5px solid var(--line);border-radius:20px;padding:26px;display:block}
+  .join-card[hidden],.join-progress[hidden],.join-count[hidden]{display:none}
+  .jstep{display:grid;gap:14px}
+  .jstep[hidden]{display:none}
+  .jstep h2{font-size:26px;font-weight:800;line-height:1.1}
+  .jsub{color:var(--muted);font-size:14.5px;margin-top:-8px}
+  .jgroup{border-top:1px solid var(--line);padding-top:16px;display:grid;gap:12px}
+  .jgroup h3{font-size:17px;font-weight:800}
+  .opt{font-weight:400;color:var(--muted)}
+  .row3{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:12px}
+  .count{font-weight:400;font-size:12px;color:var(--muted);justify-self:end}
+  .field-hint{font-size:13px;margin-top:-6px}
+  .field-hint.ok{color:#1a7f37}.field-hint.bad{color:#b42318}
+  .seg{display:inline-flex;background:var(--soft);border-radius:12px;padding:4px;gap:4px}
+  .seg input{display:none}
+  .seg label{padding:9px 18px;border-radius:9px;cursor:pointer;font-weight:600;min-height:40px;display:flex;align-items:center}
+  .seg input:checked + label{background:var(--black);color:var(--white)}
+  .vehicle{border:1.5px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:12px;margin-bottom:12px}
+  .vehicle-head{display:flex;justify-content:space-between;align-items:center}
+  .vehicle-head b{font-size:16px}
+  .vehicle-head button{background:none;border:0;color:#b42318;font-weight:600;font-size:14px}
+  input[type=range]{padding:0;border:0;accent-color:var(--black);height:32px}
+  output{font-weight:800;margin-left:6px}
+  .agree{display:grid;gap:10px}
+  .join-nav{display:flex;justify-content:space-between;gap:12px;margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}
+  .join-nav .btn{min-width:130px;min-height:48px}
+  .join-error{background:#fdecea;color:#b42318;border-radius:10px;padding:10px 12px;font-size:14px;margin-top:16px}
+  .jstep :invalid.touched,.jstep .touched:invalid{border-color:#b42318}
+  .mats.bad label{border-color:#b42318}
+  .jreview{display:grid;gap:8px;font-style:normal}
+  .rv{border:1.5px solid var(--line);border-radius:14px;padding:12px 14px}
+  .rv-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+  .rv-head b{font-size:15px}
+  .rv-head button{background:none;border:0;font-weight:700;text-decoration:underline;font-size:13.5px}
+  .rv p{font-size:13.5px;color:#333;line-height:1.5}
+  .join-done{text-align:center}
+  .join-done .tick{width:64px;height:64px;border-radius:50%;background:var(--green);display:inline-flex;align-items:center;justify-content:center;font-size:30px;margin-bottom:12px}
+  .join-done h2{font-size:28px;font-weight:800;margin-bottom:10px}
+  .next-steps{text-align:left;max-width:460px;margin:16px auto 22px;display:grid;gap:10px;padding-left:20px}
+  .next-steps li{font-size:15px}
+  @media(max-width:900px){
+    .join-layout{grid-template-columns:1fr;gap:0}
+    .join-steps{display:none}
+  }
+  @media(max-width:640px){
+    .row3{grid-template-columns:1fr 1fr}
+    .row3 > label:first-child{grid-column:1/-1}
+    .join-card{padding:18px;border-radius:16px}
+  }
   .cname{background:none;border:0;padding:0;font:inherit;font-weight:700;font-size:16px;text-align:left;color:var(--black);text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:3px;cursor:pointer;display:block}
   .cname.sm{display:inline;font-size:13px;font-weight:600;color:var(--black)}
   .stars-inline{color:var(--black);letter-spacing:1px;font-size:14px}
@@ -577,6 +638,220 @@
   </div>
 </div>
 
+<!-- BECOME A COLLECTOR PAGE -->
+<div id="join-view" hidden>
+  <div class="jobs-top">
+    <div class="wrap">
+      <a class="back" href="#" data-go="home">← Back</a>
+      <h1>Become a collector</h1>
+      <p>Get verified once, then quote on local jobs. Takes about 10 minutes — have your licence and insurance handy.</p>
+    </div>
+  </div>
+  <div class="wrap join-layout">
+    <aside class="join-steps" id="join-steps"></aside>
+    <div>
+      <div class="join-progress"><div id="join-bar"></div></div>
+      <p class="join-count" id="join-count"></p>
+      <form id="f-collector" class="join-card" novalidate>
+
+        <!-- 1 ABOUT YOU -->
+        <section class="jstep" data-title="About you">
+          <h2>About you</h2>
+          <p class="jsub">This is what customers see on your profile.</p>
+          <div class="row">
+            <label>First name<input name="first" required autocomplete="given-name"></label>
+            <label>Last name<input name="last" required autocomplete="family-name"></label>
+          </div>
+          <div class="row">
+            <label>Mobile<input name="mobile" type="tel" required pattern="^(\+?61|0)4\d{8}$|^(\+?61\s?|0)4\d{2}\s?\d{3}\s?\d{3}$" placeholder="04xx xxx xxx" autocomplete="tel"></label>
+            <label>Email<input name="email" type="email" required autocomplete="email"></label>
+          </div>
+          <div class="row3">
+            <label>Home base suburb<input name="base_suburb" required placeholder="e.g. Preston"></label>
+            <label>Postcode<input name="base_postcode" required inputmode="numeric" pattern="\d{4}" maxlength="4"></label>
+            <label>State<select name="base_state" required><option value="">Select</option><option>VIC</option><option>QLD</option><option>NSW</option><option>ACT</option><option>SA</option><option>WA</option><option>TAS</option><option>NT</option></select></label>
+          </div>
+          <label>Profile photo <span class="opt">— a clear photo of your face, like a rideshare driver</span>
+            <input type="file" name="photo" accept="image/*" required></label>
+          <label>Short bio <span class="opt">— shown on your profile</span>
+            <textarea name="bio" required maxlength="300" placeholder="Who you are, your crew, the kind of jobs you're best at."></textarea>
+            <span class="count" data-count="bio">0 / 300</span></label>
+          <label>Crew size<select name="crew" required><option value="">Select</option><option>Just me</option><option>2 people</option><option>3 people</option><option>4+ people</option></select></label>
+        </section>
+
+        <!-- 2 BUSINESS -->
+        <section class="jstep" data-title="Business" hidden>
+          <h2>Your business</h2>
+          <p class="jsub">You need an active ABN to quote on Rubbish.com.au.</p>
+          <label>Trading name<input name="trading" required placeholder="e.g. Clear Out Co."></label>
+          <div class="row">
+            <label>Business structure<select name="structure" required><option value="">Select</option><option>Sole trader</option><option>Partnership</option><option>Company (Pty Ltd)</option><option>Trust</option></select></label>
+            <label>ABN<input name="abn" required inputmode="numeric" placeholder="11 digits" data-abn></label>
+          </div>
+          <span class="field-hint" id="abn-hint"></span>
+          <div class="row">
+            <div><span class="flabel">Registered for GST?</span>
+              <div class="seg"><input type="radio" name="gst" id="gst-y" value="Yes" required><label for="gst-y">Yes</label><input type="radio" name="gst" id="gst-n" value="No"><label for="gst-n">No</label></div></div>
+            <label>Years doing rubbish removal<select name="years" required><option value="">Select</option><option>Less than 1</option><option>1–2</option><option>3–5</option><option>6–10</option><option>10+</option></select></label>
+          </div>
+          <label>Website or social page <span class="opt">(optional)</span><input name="website" type="url" placeholder="https://"></label>
+        </section>
+
+        <!-- 3 LICENCES & INSURANCE -->
+        <section class="jstep" data-title="Licences &amp; insurance" hidden>
+          <h2>Licences &amp; insurance</h2>
+          <p class="jsub">We verify every collector's identity, waste carrier licence and insurance before they can quote.</p>
+
+          <div class="jgroup"><h3>Driver licence <span class="opt">(identity check)</span></h3>
+            <div class="row3">
+              <label>Licence number<input name="dl_number" required></label>
+              <label>State<select name="dl_state" required><option value="">Select</option><option>VIC</option><option>QLD</option><option>NSW</option><option>ACT</option><option>SA</option><option>WA</option><option>TAS</option><option>NT</option></select></label>
+              <label>Expiry<input name="dl_expiry" type="date" required data-future></label>
+            </div>
+            <label>Photo of licence (front)<input type="file" name="dl_photo" accept="image/*,application/pdf" required></label>
+          </div>
+
+          <div class="jgroup"><h3>Waste carrier licence / permit</h3>
+            <div class="row3">
+              <label>Licence or permit number<input name="wl_number" required></label>
+              <label>Issued by<select name="wl_issuer" required><option value="">Select</option><option>EPA Victoria</option><option>QLD Dept of Environment</option><option>NSW EPA</option><option>ACT EPA</option><option>SA EPA</option><option>WA DWER</option><option>TAS EPA</option><option>NT EPA</option><option>Local council</option></select></label>
+              <label>Expiry<input name="wl_expiry" type="date" required data-future></label>
+            </div>
+            <label>Copy of licence or permit<input type="file" name="wl_doc" accept="image/*,application/pdf" required></label>
+          </div>
+
+          <div class="jgroup"><h3>Public liability insurance</h3>
+            <div class="row">
+              <label>Insurer<input name="pl_insurer" required></label>
+              <label>Policy number<input name="pl_policy" required></label>
+            </div>
+            <div class="row">
+              <label>Cover amount<select name="pl_cover" required><option value="">Select</option><option>$5 million</option><option>$10 million</option><option>$20 million</option><option>Other</option></select></label>
+              <label>Expiry<input name="pl_expiry" type="date" required data-future></label>
+            </div>
+            <label>Certificate of currency<input type="file" name="pl_doc" accept="image/*,application/pdf" required></label>
+          </div>
+
+          <div class="jgroup"><h3>Employees</h3>
+            <span class="flabel">Do you have employees or regular offsiders?</span>
+            <div class="seg"><input type="radio" name="employees" id="emp-n" value="No" required checked><label for="emp-n">No</label><input type="radio" name="employees" id="emp-y" value="Yes"><label for="emp-y">Yes</label></div>
+            <label class="if-emp" hidden>Workers compensation policy number<input name="wc_policy" data-req-if-emp></label>
+          </div>
+
+          <div class="jgroup"><h3>National police check <span class="opt">(optional)</span></h3>
+            <p class="jsub" style="margin:0 0 8px">Issued in the last 12 months. Adds a "Police checked" badge to your profile.</p>
+            <input type="file" name="police" accept="image/*,application/pdf">
+          </div>
+        </section>
+
+        <!-- 4 VEHICLES -->
+        <section class="jstep" data-title="Vehicles" hidden>
+          <h2>Your vehicles</h2>
+          <p class="jsub">Add every vehicle you'll use. Customers see the vehicle type on your quotes.</p>
+          <div id="vehicles"></div>
+          <button type="button" class="btn btn-ghost-dark" id="add-vehicle">+ Add another vehicle</button>
+        </section>
+
+        <!-- 5 AREA & AVAILABILITY -->
+        <section class="jstep" data-title="Area &amp; availability" hidden>
+          <h2>Where and when you work</h2>
+          <p class="jsub">We'll only show you jobs inside your area and hours.</p>
+          <label>How far will you travel from <b id="base-label">your base</b>? <output id="radius-out">25 km</output>
+            <input type="range" name="radius" min="5" max="100" step="5" value="25" id="radius"></label>
+          <label>Other areas you cover <span class="opt">(optional)</span><input name="extra_areas" placeholder="e.g. Geelong on Fridays"></label>
+          <div><span class="flabel">Days you work</span>
+            <div class="mats" data-need="1" data-name="days">
+              <input type="checkbox" name="days" id="d1" value="Mon" checked><label for="d1">Mon</label>
+              <input type="checkbox" name="days" id="d2" value="Tue" checked><label for="d2">Tue</label>
+              <input type="checkbox" name="days" id="d3" value="Wed" checked><label for="d3">Wed</label>
+              <input type="checkbox" name="days" id="d4" value="Thu" checked><label for="d4">Thu</label>
+              <input type="checkbox" name="days" id="d5" value="Fri" checked><label for="d5">Fri</label>
+              <input type="checkbox" name="days" id="d6" value="Sat"><label for="d6">Sat</label>
+              <input type="checkbox" name="days" id="d7" value="Sun"><label for="d7">Sun</label>
+            </div></div>
+          <div><span class="flabel">Time windows you can do</span>
+            <div class="mats" data-need="1" data-name="windows">
+              <input type="checkbox" name="windows" id="tw1" value="5am – 8am"><label for="tw1">5am – 8am</label>
+              <input type="checkbox" name="windows" id="tw2" value="8am – 12pm" checked><label for="tw2">8am – 12pm</label>
+              <input type="checkbox" name="windows" id="tw3" value="1pm – 3pm" checked><label for="tw3">1pm – 3pm</label>
+              <input type="checkbox" name="windows" id="tw4" value="3pm – 5pm"><label for="tw4">3pm – 5pm</label>
+            </div></div>
+          <label class="toggle"><input type="checkbox" name="same_day" value="Yes"> I take same-day and urgent jobs</label>
+          <label class="toggle"><input type="checkbox" name="out_of_hours" value="Yes"> I'll do out-of-hours jobs (evenings and public holidays)</label>
+        </section>
+
+        <!-- 6 JOBS & DISPOSAL -->
+        <section class="jstep" data-title="Jobs &amp; disposal" hidden>
+          <h2>Jobs you take and where it goes</h2>
+          <p class="jsub">We match you to jobs that fit. Pick everything you're set up for.</p>
+          <div><span class="flabel">Job types</span>
+            <div class="mats" data-need="1" data-name="job_types">
+              <input type="checkbox" name="job_types" id="jt1" value="Household rubbish"><label for="jt1">Household rubbish</label>
+              <input type="checkbox" name="job_types" id="jt2" value="House clear-outs"><label for="jt2">House clear-outs</label>
+              <input type="checkbox" name="job_types" id="jt3" value="Deceased estates"><label for="jt3">Deceased estates</label>
+              <input type="checkbox" name="job_types" id="jt4" value="End of lease"><label for="jt4">End of lease</label>
+              <input type="checkbox" name="job_types" id="jt5" value="Garage &amp; shed"><label for="jt5">Garage &amp; shed</label>
+              <input type="checkbox" name="job_types" id="jt6" value="Green waste"><label for="jt6">Green waste</label>
+              <input type="checkbox" name="job_types" id="jt7" value="Renovation waste"><label for="jt7">Renovation waste</label>
+              <input type="checkbox" name="job_types" id="jt8" value="Office &amp; commercial"><label for="jt8">Office &amp; commercial</label>
+              <input type="checkbox" name="job_types" id="jt9" value="Single bulky items"><label for="jt9">Single bulky items</label>
+            </div></div>
+          <div><span class="flabel">Materials you can take</span>
+            <div class="mats" data-need="1" data-name="materials_ok">
+              <input type="checkbox" name="materials_ok" id="m1" value="General" checked><label for="m1">General</label>
+              <input type="checkbox" name="materials_ok" id="m2" value="Cardboard"><label for="m2">Cardboard</label>
+              <input type="checkbox" name="materials_ok" id="m3" value="Polystyrene"><label for="m3">Polystyrene</label>
+              <input type="checkbox" name="materials_ok" id="m4" value="Mattresses"><label for="m4">Mattresses</label>
+              <input type="checkbox" name="materials_ok" id="m5" value="Green waste"><label for="m5">Green waste</label>
+              <input type="checkbox" name="materials_ok" id="m6" value="E-waste"><label for="m6">E-waste</label>
+              <input type="checkbox" name="materials_ok" id="m7" value="Metal"><label for="m7">Metal</label>
+              <input type="checkbox" name="materials_ok" id="m8" value="Fridges &amp; whitegoods"><label for="m8">Fridges &amp; whitegoods</label>
+            </div></div>
+          <label class="toggle"><input type="checkbox" name="heavy" value="Yes"> I can handle heavy items, stairs and awkward access</label>
+          <label>Disposal and recycling facilities you use <span class="opt">— names and suburbs</span>
+            <textarea name="facilities" required placeholder="e.g. Coburg Transfer Station, Northcote cardboard recycler"></textarea></label>
+          <label class="confirm"><input type="checkbox" name="record_disposal" value="Yes" required><span>I'll record where each load goes (reused, recycled or landfill) so customers get their disposal documentation.</span></label>
+        </section>
+
+        <!-- 7 AGREE & SUBMIT -->
+        <section class="jstep" data-title="Review &amp; submit" hidden>
+          <h2>Review and submit</h2>
+          <p class="jsub">Check your details, then agree to the collector terms.</p>
+          <div id="join-review"></div>
+          <div class="jgroup"><h3>Payouts</h3>
+            <p class="jsub" style="margin:0">Customers pay digitally after pickup. You'll set up your payout bank details securely once you're approved — we never ask for them in this form.</p></div>
+          <div class="agree">
+            <label class="confirm"><input type="checkbox" required><span>Everything I've provided is true and current, and I'll update it if anything changes.</span></label>
+            <label class="confirm"><input type="checkbox" required><span>I'll only dispose of waste at licensed facilities, and I'll never dump illegally.</span></label>
+            <label class="confirm"><input type="checkbox" required><span>I won't collect hazardous items — asbestos, explosives or ammunition, poisons or chemicals, gas bottles, fuel, paint or medical waste.</span></label>
+            <label class="confirm"><input type="checkbox" required><span>I'll keep messaging and payments on the platform and won't ask customers to pay outside it.</span></label>
+            <label class="confirm"><input type="checkbox" required><span>I understand that if I dispose of waste illegally, I'll be removed from the platform and must repay any costs or fines covered for the customer.</span></label>
+            <label class="confirm"><input type="checkbox" required><span>I agree to the Collector Terms and Code of Conduct.</span></label>
+          </div>
+        </section>
+
+        <p class="join-error" id="join-error" hidden></p>
+        <div class="join-nav">
+          <button type="button" class="btn btn-ghost-dark" id="join-back">Back</button>
+          <button type="button" class="btn btn-dark" id="join-next">Continue</button>
+        </div>
+      </form>
+
+      <div class="join-card join-done" id="join-done" hidden>
+        <div class="tick">✓</div>
+        <h2>Application received</h2>
+        <p class="jsub">Thanks <b id="done-name"></b>. Here's what happens next:</p>
+        <ol class="next-steps">
+          <li><b>We verify you</b> — ABN, driver licence, waste carrier licence and insurance. Usually 1–2 business days.</li>
+          <li><b>Set up payouts</b> — we'll text you a secure link to add your bank details.</li>
+          <li><b>Your profile goes live</b> — then you'll see local jobs and can start quoting.</li>
+        </ol>
+        <a class="btn btn-dark" href="#jobs" data-go="jobs">See jobs near you</a>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="proto">Prototype — all jobs, prices and ratings shown are sample data.</div>
 <footer>
   <div class="wrap">
@@ -674,59 +949,6 @@
 </div>
 
 <!-- Become a collector -->
-<div class="modal" id="m-join" role="dialog" aria-modal="true" aria-labelledby="join-title">
-  <div class="sheet">
-    <div class="form-view">
-      <div class="sheet-head">
-        <div><h2 id="join-title">Become a collector</h2><p class="sub">Register, get verified, start quoting.</p></div>
-        <button class="x" data-close aria-label="Close">✕</button>
-      </div>
-      <form name="register-collector" id="f-join">
-        <input type="hidden" name="type" value="collector">
-        <p hidden><input name="bot"></p>
-        <div class="row">
-          <label>Your name<input name="name" required></label>
-          <label>Business name<input name="business"></label>
-        </div>
-        <div class="row">
-          <label>ABN<input name="abn" inputmode="numeric" required placeholder="11 digits"></label>
-          <label>Waste carrier licence no.<input name="licence" required></label>
-        </div>
-        <div class="row">
-          <label>Mobile<input name="phone" type="tel" required></label>
-          <label>Email<input name="email" type="email" required></label>
-        </div>
-        <div class="row">
-          <label>Area you cover<input name="area" required placeholder="e.g. Inner north Melbourne"></label>
-          <label>Vehicle
-            <select name="vehicle">
-              <option>Ute + trailer</option><option>Tipper truck</option><option>Van</option><option>Box truck</option><option>Other</option>
-            </select>
-          </label>
-        </div>
-        <div class="row">
-          <label>Vehicle registration (rego)<input name="rego" required placeholder="e.g. ABC123" style="text-transform:uppercase"></label>
-          <label>State
-            <select name="rego_state" required><option value="">Select</option><option>VIC</option><option>QLD</option><option>NSW</option><option>ACT</option><option>SA</option><option>WA</option><option>TAS</option><option>NT</option></select>
-          </label>
-        </div>
-        <label style="flex-direction:row;display:flex;gap:10px;align-items:flex-start;font-weight:500">
-          <input type="checkbox" required style="width:auto;margin-top:4px">
-          I hold a waste carrier licence and public liability insurance, and dispose of rubbish at licensed facilities.
-        </label>
-        <button class="btn btn-dark" type="submit">Register as a collector</button>
-        <p class="note">We verify your identity, waste carrier licence and insurance before you can quote.</p>
-      </form>
-    </div>
-    <div class="success" hidden>
-      <div class="tick">✓</div>
-      <h2>Thanks — you're registered</h2>
-      <p class="sub">We'll verify your details and text you when you can start quoting.</p>
-      <br><button class="btn btn-dark" data-close>Done</button>
-    </div>
-  </div>
-</div>
-
 <script>
 const openJobs = [
   {t:"Cardboard & packaging pickup",img:"https://images.unsplash.com/photo-1766040923580-16ad32fae8b4?w=700&q=65&auto=format&fit=crop",d:"Flattened boxes and polystyrene from a house move. About 30 boxes, all in the carport.",sub:"Reservoir VIC",size:"Quarter load",day:"Thu 2 Oct",win:"8am – 12pm",when:"Thu 2 Oct · 8am – 12pm",ago:"12 min ago",q:2,m:["Cardboard", "Polystyrene"],km:3.2,order:1},
@@ -935,11 +1157,127 @@ F('fl-reset').addEventListener('click', () => {
   F('fl-sort').value='new'; F('fl-need').checked=false; flMats.querySelectorAll('input').forEach(i=>i.checked=false); renderJobs();
 });
 F('filters-btn').addEventListener('click', () => F('filters').classList.toggle('open'));
+
+// ---------- Become a collector (multi-step) ----------
+const joinView = document.getElementById('join-view');
+const jForm = document.getElementById('f-collector');
+const jSteps = [...jForm.querySelectorAll('.jstep')];
+let jAt = 0, jMax = 0;
+function abnValid(v){
+  const d = v.replace(/\s/g,''); if (!/^\d{11}$/.test(d)) return false;
+  const w = [10,1,3,5,7,9,11,13,15,17,19]; const n = d.split('').map(Number); n[0] -= 1;
+  return n.reduce((s,x,i)=>s+x*w[i],0) % 89 === 0;
+}
+let vCount = 0;
+function addVehicle(){
+  vCount++; const i = vCount;
+  const el = document.createElement('div'); el.className = 'vehicle';
+  el.innerHTML = `
+    <div class="vehicle-head"><b>Vehicle ${document.querySelectorAll('.vehicle').length+1}</b>${document.querySelectorAll('.vehicle').length?'<button type="button" data-rm>Remove</button>':''}</div>
+    <div class="row">
+      <label>Type<select name="v${i}_type" required><option value="">Select</option><option>Ute</option><option>Ute + trailer</option><option>Van</option><option>Tipper truck</option><option>Box truck</option><option>Tilt tray / hook lift</option><option>Other</option></select></label>
+      <label>Make and model<input name="v${i}_model" required placeholder="e.g. Isuzu NPR"></label>
+    </div>
+    <div class="row3">
+      <label>Registration<input name="v${i}_rego" required placeholder="ABC123" style="text-transform:uppercase"></label>
+      <label>State<select name="v${i}_state" required><option value="">Select</option><option>VIC</option><option>QLD</option><option>NSW</option><option>ACT</option><option>SA</option><option>WA</option><option>TAS</option><option>NT</option></select></label>
+      <label>Load capacity<select name="v${i}_cap" required><option value="">Select</option><option>Under 2 m³</option><option>2–4 m³</option><option>4–8 m³</option><option>8–15 m³</option><option>15 m³+</option></select></label>
+    </div>
+    <div class="mats">
+      <input type="checkbox" name="v${i}_feat" id="v${i}f1" value="Tipper"><label for="v${i}f1">Tipper</label>
+      <input type="checkbox" name="v${i}_feat" id="v${i}f2" value="Tail lift"><label for="v${i}f2">Tail lift</label>
+      <input type="checkbox" name="v${i}_feat" id="v${i}f3" value="Cage / high sides"><label for="v${i}f3">Cage / high sides</label>
+      <input type="checkbox" name="v${i}_feat" id="v${i}f4" value="Tarp / covered load"><label for="v${i}f4">Tarp / covered load</label>
+    </div>`;
+  document.getElementById('vehicles').appendChild(el);
+}
+addVehicle();
+document.getElementById('add-vehicle').addEventListener('click', addVehicle);
+document.getElementById('vehicles').addEventListener('click', e => {
+  if (e.target.closest('[data-rm]')) { e.target.closest('.vehicle').remove();
+    document.querySelectorAll('.vehicle-head b').forEach((b,i)=>b.textContent=`Vehicle ${i+1}`); }
+});
+jForm.addEventListener('input', e => {
+  if (e.target.name==='bio') jForm.querySelector('[data-count=bio]').textContent = `${e.target.value.length} / 300`;
+  if (e.target.id==='radius') document.getElementById('radius-out').textContent = `${e.target.value} km`;
+  if (e.target.name==='base_suburb') document.getElementById('base-label').textContent = e.target.value || 'your base';
+  if (e.target.dataset.abn!==undefined) {
+    const h = document.getElementById('abn-hint'), v = e.target.value;
+    if (v.replace(/\s/g,'').length < 11) { h.textContent=''; h.className='field-hint'; }
+    else if (abnValid(v)) { h.textContent='✓ Valid ABN format — we’ll confirm it’s active on the ABN Lookup'; h.className='field-hint ok'; }
+    else { h.textContent='That ABN doesn’t look right — check the 11 digits'; h.className='field-hint bad'; }
+  }
+});
+jForm.addEventListener('change', e => {
+  if (e.target.name==='employees') {
+    const yes = e.target.value==='Yes'; const l = jForm.querySelector('.if-emp');
+    l.hidden = !yes; l.querySelector('input').required = yes;
+  }
+});
+function stepErrors(sec){
+  const errs = [];
+  sec.querySelectorAll('input,select,textarea').forEach(el => {
+    const hid = el.closest('[hidden]'); if (hid && hid!==sec) return;
+    if (el.type==='checkbox' && !el.required) return;
+    el.classList.add('touched');
+    if (el.dataset.future!==undefined) el.setCustomValidity(el.value && new Date(el.value) <= new Date() ? 'expired' : '');
+    if (!el.checkValidity()) errs.push(el);
+    if (el.dataset.abn!==undefined && el.value && !abnValid(el.value)) errs.push(el);
+  });
+  sec.querySelectorAll('.mats[data-need]').forEach(g => {
+    const ok = g.querySelectorAll('input:checked').length >= +g.dataset.need;
+    g.classList.toggle('bad', !ok); if (!ok) errs.push(g);
+  });
+  return errs;
+}
+function fd(){ const f = new FormData(jForm); return k => f.getAll(k).filter(Boolean).join(', '); }
+function buildReview(){
+  const g = fd(); const vs = [...document.querySelectorAll('.vehicle')].map(v => {
+    const sel = n => v.querySelector(`[name$="_${n}"]`)?.value || '';
+    return `${sel('type')} — ${sel('model')} (${sel('rego').toUpperCase()} ${sel('state')}, ${sel('cap')})`; });
+  const sections = [
+    [0,'About you',`${g('first')} ${g('last')} · ${g('mobile')} · ${g('email')}<br>Based in ${g('base_suburb')} ${g('base_state')} ${g('base_postcode')} · Crew: ${g('crew')}`],
+    [1,'Business',`${g('trading')} · ${g('structure')} · ABN ${g('abn')} · GST: ${g('gst')} · ${g('years')} years`],
+    [2,'Licences & insurance',`Driver licence ${g('dl_state')} (expires ${g('dl_expiry')})<br>Waste licence ${g('wl_number')} — ${g('wl_issuer')} (expires ${g('wl_expiry')})<br>Public liability ${g('pl_cover')} with ${g('pl_insurer')} (expires ${g('pl_expiry')})${g('employees')==='Yes'?'<br>Workers comp: '+g('wc_policy'):''}`],
+    [3,'Vehicles', vs.join('<br>')],
+    [4,'Area & availability',`${g('radius')} km from ${g('base_suburb')}${g('extra_areas')?' · '+g('extra_areas'):''}<br>${g('days')} · ${g('windows')}${g('same_day')?' · Same-day jobs':''}${g('out_of_hours')?' · Out of hours':''}`],
+    [5,'Jobs & disposal',`${g('job_types')}<br>Materials: ${g('materials_ok')}<br>Facilities: ${g('facilities')}`],
+  ];
+  document.getElementById('join-review').innerHTML = `<div class="jreview">${sections.map(([i,t,b])=>`
+    <div class="rv"><div class="rv-head"><b>${t}</b><button type="button" data-jump="${i}">Edit</button></div><p>${b.split('<br>').map(esc).join('<br>')}</p></div>`).join('')}</div>`;
+}
+function renderJoin(){
+  jSteps.forEach((s,i) => s.hidden = i!==jAt);
+  document.getElementById('join-bar').style.width = `${(jAt+1)/jSteps.length*100}%`;
+  document.getElementById('join-count').textContent = `Step ${jAt+1} of ${jSteps.length} · ${jSteps[jAt].dataset.title.replace('&amp;','&')}`;
+  document.getElementById('join-steps').innerHTML = jSteps.map((s,i)=>`<button type="button" data-jump="${i}" class="${i===jAt?'on':''} ${i<jAt||i<jMax?'done':''}" ${i>jMax?'disabled':''}><i>${i<jMax&&i!==jAt?'✓':i+1}</i>${s.dataset.title}</button>`).join('');
+  document.getElementById('join-back').style.visibility = jAt ? 'visible' : 'hidden';
+  document.getElementById('join-next').textContent = jAt===jSteps.length-1 ? 'Submit application' : 'Continue';
+  document.getElementById('join-error').hidden = true;
+  if (jAt===jSteps.length-1) buildReview();
+}
+function goJoin(i){ jAt = i; jMax = Math.max(jMax, i); renderJoin(); joinView.scrollIntoView({block:'start'}); window.scrollTo(0,0); }
+document.getElementById('join-next').addEventListener('click', () => {
+  const errs = stepErrors(jSteps[jAt]); const box = document.getElementById('join-error');
+  if (errs.length) {
+    box.hidden = false; box.textContent = errs.some(e=>e.dataset&&e.dataset.future!==undefined&&e.validity.customError) ? 'One of your documents has expired — check the expiry dates highlighted in red.' : 'A few details are missing or need fixing — they’re highlighted in red.';
+    (errs[0].focus ? errs[0] : errs[0].querySelector('input'))?.focus?.(); errs[0].scrollIntoView?.({block:'center',behavior:'smooth'}); return;
+  }
+  if (jAt < jSteps.length-1) return goJoin(jAt+1);
+  jForm.hidden = true; document.querySelector('.join-progress').hidden = true; document.getElementById('join-count').hidden = true;
+  document.getElementById('join-steps').style.visibility='hidden';
+  document.getElementById('done-name').textContent = new FormData(jForm).get('first');
+  document.getElementById('join-done').hidden = false; window.scrollTo(0,0);
+});
+document.getElementById('join-back').addEventListener('click', () => goJoin(Math.max(0,jAt-1)));
+joinView.addEventListener('click', e => { const j = e.target.closest('[data-jump]'); if (j && !j.disabled) goJoin(+j.dataset.jump); });
+renderJoin();
+
 const howView = document.getElementById('how-view');
 function route(){
   const h = location.hash.replace('#','');
-  const view = h==='jobs' ? 'jobs' : h==='how' ? 'how' : 'home';
-  homeView.hidden = view!=='home'; jobsView.hidden = view!=='jobs'; howView.hidden = view!=='how';
+  const view = h==='jobs' ? 'jobs' : h==='how' ? 'how' : h==='join' ? 'join' : 'home';
+  homeView.hidden = view!=='home'; jobsView.hidden = view!=='jobs'; howView.hidden = view!=='how'; document.getElementById('join-view').hidden = view!=='join';
   if (view==='jobs') renderJobs();
   document.querySelectorAll('.menu a').forEach(a => a.classList.toggle('on', a.dataset.go===view));
   document.getElementById('menu').classList.remove('open');
@@ -1018,7 +1356,7 @@ document.addEventListener('click', e => {
 }, true);
 
 // Modals
-const modals = {post: document.getElementById('m-post'), join: document.getElementById('m-join')};
+const modals = {post: document.getElementById('m-post')};
 function openModal(k){
   const m = modals[k];
   m.querySelector('.form-view').hidden = false;
@@ -1039,7 +1377,7 @@ document.addEventListener('click', e => {
   const bk = e.target.closest('[data-book]');
   if (bk) { const [a,b] = bk.dataset.book.split(':').map(Number); bookJob(a,b); return; }
   const o = e.target.closest('[data-open]');
-  if (o) { closeAll(); openModal(o.dataset.open); return; }
+  if (o) { closeAll(); if (o.dataset.open==='join') { location.hash = 'join'; return; } openModal(o.dataset.open); return; }
   if (e.target.closest('[data-close]') || e.target.classList.contains('modal')) closeAll();
 });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAll(); });
@@ -1064,12 +1402,7 @@ document.getElementById('f-post').addEventListener('submit', async e => {
   f.reset();
   const m = modals.post; m.querySelector('.form-view').hidden = true; m.querySelector('.success').hidden = false;
 });
-document.getElementById('f-join').addEventListener('submit', async e => {
-  e.preventDefault();
-  await submitForm(e.target);
-  e.target.reset();
-  const m = modals.join; m.querySelector('.form-view').hidden = true; m.querySelector('.success').hidden = false;
-});
+
 </script>
 </body>
 </html>
