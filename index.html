@@ -267,7 +267,21 @@
   .skip-list li::before{content:"✓ ";font-weight:700}
   .skip-total{display:flex;justify-content:space-between;align-items:center;background:var(--soft);border-radius:12px;padding:12px 14px;font-weight:600}
   .skip-total b{font-family:"Inter Tight";font-size:24px}
-  .choices{grid-template-columns:1fr 1fr}
+  .choices{grid-template-columns:1fr 1fr;grid-template-rows:auto auto}
+  .choice-post{grid-column:1}
+  .choice-join{grid-column:2;grid-row:1 / span 2;background:var(--white) !important;color:var(--black) !important;border:0 !important;display:flex !important;flex-direction:column;justify-content:center}
+  .choice-join small{color:var(--muted);opacity:1}
+  .choice-join span{opacity:1;color:#333}
+  .join-perks{list-style:none;margin-top:16px;display:grid;gap:8px}
+  .join-perks li{font-size:15px;font-weight:600}
+  .join-perks li::before{content:"✓";display:inline-flex;width:22px;height:22px;border-radius:50%;background:var(--green);color:var(--black);align-items:center;justify-content:center;font-size:12px;margin-right:10px}
+  .choice-post{min-height:150px}
+  .choice > span{display:block;padding-right:40px}
+  @media(max-width:720px){
+    .choices{grid-template-columns:1fr;grid-template-rows:none}
+    .choice-post,.choice-join{grid-column:1;grid-row:auto}
+    .choice-post{min-height:0}
+  }
   .choice-skip{grid-column:1/-1;display:flex;align-items:center;gap:16px;text-align:left;background:transparent;color:var(--white);border:1.5px solid var(--green);border-radius:20px;padding:16px 22px;transition:background .15s}
   .choice-skip:hover{background:#141400}
   .cs-ico{color:var(--green);display:flex}
@@ -475,15 +489,17 @@
         <span>Free to post. Quotes in minutes.</span>
         <i class="arrow">→</i>
       </button>
+      <button class="choice choice-post choice-skipreq" data-open="skipreq">
+        <small>I need a skip bin</small>
+        <strong>Request a skip</strong>
+        <span>Pick a size. Local suppliers quote.</span>
+        <i class="arrow">→</i>
+      </button>
       <button class="choice choice-join" data-open="join">
         <small>I collect rubbish</small>
         <strong>Become a collector</strong>
-        <span>Register and start quoting on local jobs.</span>
-        <i class="arrow">→</i>
-      </button>
-      <button class="choice-skip" data-open="skipreq">
-        <span class="cs-ico"><svg width="34" height="22" viewBox="0 0 34 22" aria-hidden="true"><rect x="1" y="1" width="32" height="4" rx="1.5" fill="currentColor"/><path d="M3 6 H31 L27 19 H7 Z" fill="currentColor"/></svg></span>
-        <span class="cs-txt"><small>Need a skip bin?</small><strong>Request a skip</strong></span>
+        <span>Register, get verified and start quoting on local jobs and skip requests.</span>
+        <ul class="join-perks"><li>Free to join</li><li>Jobs near you</li><li>Paid after every job</li></ul>
         <i class="arrow">→</i>
       </button>
     </div>
