@@ -267,15 +267,17 @@
   .skip-list li::before{content:"✓ ";font-weight:700}
   .skip-total{display:flex;justify-content:space-between;align-items:center;background:var(--soft);border-radius:12px;padding:12px 14px;font-weight:600}
   .skip-total b{font-family:"Inter Tight";font-size:24px}
-  .choices{grid-template-columns:1fr 1fr;grid-template-rows:auto auto}
+  .choices{grid-template-columns:1fr 1fr;grid-template-rows:auto auto auto}
   .choice-post{grid-column:1}
-  .choice-join{grid-column:2;grid-row:1 / span 2;background:var(--white) !important;color:var(--black) !important;border:0 !important;display:flex !important;flex-direction:column;justify-content:center}
+  .choice-join{grid-column:2;grid-row:1 / span 3;background:var(--white) !important;color:var(--black) !important;border:0 !important;display:flex !important;flex-direction:column;justify-content:center}
   .choice-join small{color:var(--muted);opacity:1}
   .choice-join span{opacity:1;color:#333}
   .join-perks{list-style:none;margin-top:16px;display:grid;gap:8px}
   .join-perks li{font-size:15px;font-weight:600}
   .join-perks li::before{content:"✓";display:inline-flex;width:22px;height:22px;border-radius:50%;background:var(--green);color:var(--black);align-items:center;justify-content:center;font-size:12px;margin-right:10px}
-  .choice-post{min-height:150px}
+  .choice-post{min-height:0;padding-top:20px;padding-bottom:20px}
+  .choice-post strong{font-size:24px;margin-bottom:6px}
+  .choice-post small{margin-bottom:6px}
   .choice > span{display:block;padding-right:40px}
   @media(max-width:720px){
     .choices{grid-template-columns:1fr;grid-template-rows:none}
@@ -493,19 +495,25 @@
       <button class="choice choice-post" data-open="post">
         <small>I have rubbish I'd like collected</small>
         <strong>Post a job</strong>
-        <span>Free to post. Quotes in minutes.</span>
+        <span>We do the lifting. For clear-outs, furniture and one-off pickups.</span>
         <i class="arrow">→</i>
       </button>
       <button class="choice choice-post choice-skipreq" data-open="skipreq">
         <small>I have rubbish I will load to be collected</small>
         <strong>Request a bin</strong>
-        <span>Pick a size. Local suppliers quote.</span>
+        <span>Skip or hook bin you fill at your pace. For renos, big clean-ups and sites.</span>
+        <i class="arrow">→</i>
+      </button>
+      <button class="choice choice-post choice-wheelie" data-open="wheelie">
+        <small>I need regular bin collections</small>
+        <strong>Wheelie bins</strong>
+        <span>Ongoing bins and pickups for apartment complexes, strata and businesses.</span>
         <i class="arrow">→</i>
       </button>
       <button class="choice choice-join" data-open="join">
         <small>I collect rubbish</small>
         <strong>Become a collector</strong>
-        <span>Register, get verified and start quoting on local jobs and skip requests.</span>
+        <span>Register, get verified and start quoting on local jobs, bin hire and wheelie bin services.</span>
         <ul class="join-perks"><li>Free to join</li><li>Jobs near you</li><li>Paid after every job</li></ul>
         <i class="arrow">→</i>
       </button>
@@ -726,7 +734,7 @@
   <div class="wrap jobs-layout">
     <aside class="filters open" id="sr-filters">
       <label>Search<input id="sr-q" placeholder="Suburb or waste type"></label>
-      <label>Bin type<select id="sr-kind"><option value="any">Skip and hook bins</option><option value="skip">Skip bins</option><option value="hook">Hook bins</option></select></label>
+      <label>Bin type<select id="sr-kind"><option value="any">All bin types</option><option value="skip">Skip bins</option><option value="hook">Hook bins</option><option value="wheelie">Wheelie bins</option></select></label>
       <label>Size<select id="sr-size"><option value="any">Any size</option><option value="2">2m³</option><option value="3">3m³</option><option value="4">4m³</option><option value="6">6m³</option><option value="8">8m³</option><option value="10">10m³</option><option value="12">12m³</option><option value="15">15m³</option><option value="20">20m³</option><option value="23">23m³</option><option value="30">30m³</option></select></label>
       <label>Waste type<select id="sr-type"><option value="any">Any type</option><option>General household</option><option>Green waste</option><option>Mixed building</option><option>Soil &amp; clean fill</option></select></label>
       <label>Sort by<select id="sr-sort"><option value="new">Newest first</option><option value="near">Nearest first</option><option value="size">Size: small to large</option></select></label>
@@ -1088,6 +1096,65 @@
   </div>
 </div>
 
+<!-- Wheelie bin service -->
+<div class="modal" id="m-wheelie" role="dialog" aria-modal="true" aria-labelledby="wb-title">
+  <div class="sheet">
+    <div class="form-view">
+      <div class="sheet-head">
+        <div><h2 id="wb-title">Wheelie bin service</h2><p class="sub">Regular bins and collections for apartments, strata and businesses. Local providers quote.</p></div>
+        <button class="x" data-close aria-label="Close">✕</button>
+      </div>
+      <form id="f-wheelie">
+        <div class="row">
+          <label>Property type<select name="prop" required><option>Apartment complex</option><option>Strata / body corporate</option><option>Office</option><option>Retail shop</option><option>Café or restaurant</option><option>Other business</option></select></label>
+          <label>Number of units or tenancies<input name="units" type="number" min="1" placeholder="e.g. 24"></label>
+        </div>
+        <div>
+          <span class="flabel">Bin size</span>
+          <div class="sizes" style="grid-template-columns:repeat(5,1fr)">
+            <input type="radio" name="litres" id="wl1" value="120L"><label for="wl1">120L</label>
+            <input type="radio" name="litres" id="wl2" value="240L" checked><label for="wl2">240L</label>
+            <input type="radio" name="litres" id="wl3" value="360L"><label for="wl3">360L</label>
+            <input type="radio" name="litres" id="wl4" value="660L"><label for="wl4">660L</label>
+            <input type="radio" name="litres" id="wl5" value="1100L"><label for="wl5">1100L</label>
+          </div>
+        </div>
+        <div class="row">
+          <label>How many bins?<input name="count" type="number" min="1" value="4" required></label>
+          <label>Collection frequency<select name="freq"><option>Weekly</option><option>Twice weekly</option><option>Fortnightly</option><option>Monthly</option><option>One-off</option></select></label>
+        </div>
+        <div>
+          <span class="flabel">What goes in them?</span>
+          <div class="mats" id="wb-streams">
+            <input type="checkbox" name="streams" id="ws1" value="General waste" checked><label for="ws1">General waste</label>
+            <input type="checkbox" name="streams" id="ws2" value="Recycling"><label for="ws2">Recycling</label>
+            <input type="checkbox" name="streams" id="ws3" value="Cardboard"><label for="ws3">Cardboard</label>
+            <input type="checkbox" name="streams" id="ws4" value="Organics / FOGO"><label for="ws4">Organics / FOGO</label>
+            <input type="checkbox" name="streams" id="ws5" value="Glass"><label for="ws5">Glass</label>
+          </div>
+        </div>
+        <div class="row">
+          <label>Suburb<input name="suburb" required placeholder="e.g. Southbank"></label>
+          <label>Start date<input name="date" type="date" required id="wb-date"></label>
+        </div>
+        <p class="privacy-note">🔒 Your suburb is shown so that providers can locate you. No address is shared until you accept a quote.</p>
+        <div class="row">
+          <label>Your name<input name="name" required></label>
+          <label>Mobile<input name="phone" type="tel" required></label>
+        </div>
+        <label class="confirm"><input type="checkbox" required><span>No asbestos, chemicals, paint, gas bottles, batteries or medical waste in the bins.</span></label>
+        <button class="btn btn-dark" type="submit">Request wheelie bins &amp; get quotes</button>
+      </form>
+    </div>
+    <div class="success" hidden>
+      <div class="tick">✓</div>
+      <h2>Wheelie bin request posted</h2>
+      <p class="sub" id="wb-done"></p>
+      <br><a class="btn btn-dark" href="#skips" data-go="skips">See bin requests</a>
+    </div>
+  </div>
+</div>
+
 <!-- Collector profile -->
 <div class="modal" id="m-col" role="dialog" aria-modal="true" aria-labelledby="col-title">
   <div class="sheet" id="col-body"></div>
@@ -1233,6 +1300,7 @@ document.querySelectorAll('[data-bintab]').forEach(b => b.addEventListener('clic
 renderBins();
 
 const skipReqs = [
+  {kind:"wheelie", count:12, litres:"240L", freq:"Weekly", streams:"General waste, Recycling", type:"Apartment complex", sub:"Southbank VIC", date:"Mon 13 Oct", ago:"30 min ago", q:2, km:3.6},
   {kind:"hook", m3:15, type:"Mixed building", sub:"Northcote VIC", date:"Mon 6 Oct", period:"7 days", place:"Building site", ago:"10 min ago", q:1, km:4.9},
   {m3:6, type:"General household", sub:"Brunswick VIC", date:"Fri 3 Oct", period:"7 days", place:"Driveway", ago:"20 min ago", q:2, km:2.1},
   {m3:4, type:"Green waste", sub:"Chermside QLD", date:"Sat 4 Oct", period:"3 days", place:"Driveway", ago:"45 min ago", q:1, km:11.5},
@@ -1241,11 +1309,22 @@ const skipReqs = [
   {kind:"hook", m3:23, type:"Mixed building", sub:"Eagle Farm QLD", date:"Thu 9 Oct", period:"14 days", place:"Building site", ago:"3 hrs ago", q:2, km:9.6},
   {m3:10, type:"General household", sub:"Carina QLD", date:"Tue 7 Oct", period:"7 days", place:"Front yard", ago:"3 hrs ago", q:2, km:6.8},
   {m3:6, type:"Soil & clean fill", sub:"Wynnum QLD", date:"Fri 3 Oct", period:"3 days", place:"Driveway", ago:"4 hrs ago", q:1, km:19.2},
+  {kind:"wheelie", count:4, litres:"660L", freq:"Twice weekly", streams:"General waste, Cardboard", type:"Café or restaurant", sub:"Fortitude Valley QLD", date:"Mon 6 Oct", ago:"5 hrs ago", q:3, km:5.2},
   {m3:2, type:"General household", sub:"Richmond VIC", date:"Thu 2 Oct", period:"3 days", place:"Rear lane", ago:"5 hrs ago", q:4, km:4.4},
   {m3:12, type:"Mixed building", sub:"Dandenong VIC", date:"Wed 8 Oct", period:"14 days", place:"Building site", ago:"Yesterday", q:2, km:32.4},
   {m3:4, type:"General household", sub:"Preston VIC", date:"Sat 4 Oct", period:"7 days", place:"Driveway", ago:"Yesterday", q:3, km:3.0},
 ];
-const reqCard = (r,isNew) => `
+const reqCard = (r,isNew) => r.kind==='wheelie' ? `
+  <article class="card req${isNew?' new':''}">
+    <div class="req-top"><span class="skip-size">${r.count}<small>× ${esc(r.litres)}</small></span><span class="req-kind">Wheelie bins</span><span class="req-ago">${esc(r.ago)}</span></div>
+    <h3>Wheelie bin service · ${esc(r.type)}</h3>
+    <div class="meta"><span>📍 <b>${esc(r.sub)}</b>${r.km!=null?` · ${r.km} km`:''}</span></div>
+    <div class="req-facts"><span>🔁 ${esc(r.freq)}</span><span>♻ ${esc(r.streams)}</span><span>🗓 Start ${esc(r.date)}</span></div>
+    <div class="card-foot">
+      <div><span class="quotes">${r.q>=3?`${r.q} quotes ✓`:`${r.q} of 3 quotes`}</span>${qbar(r.q)}</div>
+      <button class="btn btn-dark btn-sm" data-open="join">Quote</button>
+    </div>
+  </article>` : `
   <article class="card req${isNew?' new':''}">
     <div class="req-top"><span class="skip-size">${r.m3}<small>m³</small></span><span class="req-kind">${(r.kind||'skip')==='hook'?'Hook bin':'Skip bin'}</span><span class="req-ago">${esc(r.ago)}</span></div>
     <h3>${r.m3}m³ ${binName[r.kind||'skip']} · ${esc(r.type)}</h3>
@@ -1274,6 +1353,23 @@ function renderReqSizes(kind){
   document.getElementById('req-sizes').innerHTML = binSizes[kind].map(k=>`<input type="radio" name="m3" id="rq${kind}${k.m3}" value="${k.m3}" required ${k.m3===pop?'checked':''}><label for="rq${kind}${k.m3}">${k.m3}m³<small>${k.m3===pop?'Most popular':'~'+Math.round(k.m3/0.24)+' bins'}</small></label>`).join('') + `<a class="size-help" href="#" data-go="home" data-anchor="skips">Size guide</a>`;
 }
 document.getElementById('f-skip').addEventListener('change', e => { if (e.target.name==='kind') renderReqSizes(e.target.value); });
+const wbModal = document.getElementById('m-wheelie');
+function openWheelie(){
+  const f = document.getElementById('f-wheelie'); f.reset();
+  const d = document.getElementById('wb-date'); const t = new Date(); t.setMinutes(t.getMinutes()-t.getTimezoneOffset()); d.min = t.toISOString().slice(0,10);
+  wbModal.querySelector('.form-view').hidden = false; wbModal.querySelector('.success').hidden = true;
+  closeAll(); wbModal.classList.add('open'); document.body.style.overflow = 'hidden';
+}
+document.getElementById('f-wheelie').addEventListener('submit', e => {
+  e.preventDefault(); const f = new FormData(e.target);
+  const streams = f.getAll('streams'); const box = document.getElementById('wb-streams');
+  if (!streams.length) { box.classList.add('bad'); box.scrollIntoView({block:'center'}); return; } box.classList.remove('bad');
+  const dt = new Date(f.get('date')+'T00:00');
+  skipReqs.unshift({kind:'wheelie', count:+f.get('count'), litres:f.get('litres'), freq:f.get('freq'), streams:streams.join(', '), type:f.get('prop'), sub:f.get('suburb'), date:dt.toLocaleDateString('en-AU',{weekday:'short',day:'numeric',month:'short'}), ago:'Just now', q:0, km:0.5, mine:true});
+  renderReqs();
+  document.getElementById('wb-done').textContent = `Your request for ${f.get('count')} × ${f.get('litres')} wheelie bins (${f.get('freq').toLowerCase()}) in ${f.get('suburb')} is live. We'll aim to get you 3 quotes from local providers.`;
+  wbModal.querySelector('.form-view').hidden = true; wbModal.querySelector('.success').hidden = false;
+});
 function openSkipReq(kind){
   const f = document.getElementById('f-skip'); f.reset();
   kind = kind || 'skip'; f.querySelector(`[name=kind][value="${kind}"]`).checked = true; renderReqSizes(kind);
@@ -1633,6 +1729,7 @@ function closeAll(){
   jobModal.classList.remove('open');
   colModal.classList.remove('open');
   document.getElementById('m-skip').classList.remove('open');
+  document.getElementById('m-wheelie').classList.remove('open');
   document.body.style.overflow = '';
 }
 document.addEventListener('click', e => {
@@ -1641,7 +1738,7 @@ document.addEventListener('click', e => {
   const bk = e.target.closest('[data-book]');
   if (bk) { const [a,b] = bk.dataset.book.split(':').map(Number); bookJob(a,b); return; }
   const o = e.target.closest('[data-open]');
-  if (o) { closeAll(); if (o.dataset.open==='join') { location.hash = 'join'; return; } if (o.dataset.open==='skipreq') { openSkipReq(); return; } openModal(o.dataset.open); return; }
+  if (o) { closeAll(); if (o.dataset.open==='join') { location.hash = 'join'; return; } if (o.dataset.open==='skipreq') { openSkipReq(); return; } if (o.dataset.open==='wheelie') { openWheelie(); return; } openModal(o.dataset.open); return; }
   if (e.target.closest('[data-close]') || e.target.classList.contains('modal')) closeAll();
 });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAll(); });
