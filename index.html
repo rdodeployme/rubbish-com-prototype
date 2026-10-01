@@ -257,6 +257,16 @@
     .row3 > label:first-child{grid-column:1/-1}
     .join-card{padding:18px;border-radius:16px}
   }
+  .skip .skip-art{margin:-20px -20px 4px;height:150px;background:var(--black);display:flex;align-items:flex-end;justify-content:center;padding-bottom:18px;position:relative}
+  .skip .skip-art svg{display:block}
+  .skip .skip-size{position:absolute;top:14px;left:16px;background:var(--green);color:var(--black);font-family:"Inter Tight";font-weight:800;font-size:22px;border-radius:12px;padding:4px 12px}
+  .skip .skip-size small{font-size:13px}
+  .skip-price{font-family:"Inter Tight";font-weight:800;font-size:30px;line-height:1}
+  .skip-price small{font-family:Inter;font-weight:500;font-size:13px;color:var(--muted);margin-left:6px}
+  .skip-list{list-style:none;display:grid;gap:4px;font-size:14px;color:#333}
+  .skip-list li::before{content:"✓ ";font-weight:700}
+  .skip-total{display:flex;justify-content:space-between;align-items:center;background:var(--soft);border-radius:12px;padding:12px 14px;font-weight:600}
+  .skip-total b{font-family:"Inter Tight";font-size:24px}
   .cname{background:none;border:0;padding:0;font:inherit;font-weight:700;font-size:16px;text-align:left;color:var(--black);text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:3px;cursor:pointer;display:block}
   .cname.sm{display:inline;font-size:13px;font-weight:600;color:var(--black)}
   .stars-inline{color:var(--black);letter-spacing:1px;font-size:14px}
@@ -492,6 +502,20 @@
       </div>
     </div>
     <div class="track" id="done"></div>
+  </section>
+
+  <section class="block">
+    <div class="block-head">
+      <div>
+        <h2>Skip bins available</h2>
+        <p>Rather load it yourself? Book a skip from a local supplier.</p>
+      </div>
+      <div class="arrows">
+        <button aria-label="Previous" data-scroll="skips" data-dir="-1">←</button>
+        <button aria-label="Next" data-scroll="skips" data-dir="1">→</button>
+      </div>
+    </div>
+    <div class="track" id="skips"></div>
   </section>
 
   <div class="how">
@@ -943,6 +967,41 @@
   </div>
 </div>
 
+<!-- Skip bin booking -->
+<div class="modal" id="m-skip" role="dialog" aria-modal="true" aria-labelledby="skip-title">
+  <div class="sheet">
+    <div class="form-view">
+      <div class="sheet-head">
+        <div><h2 id="skip-title"></h2><p class="sub" id="skip-sub"></p></div>
+        <button class="x" data-close aria-label="Close">✕</button>
+      </div>
+      <form id="f-skip">
+        <div class="row">
+          <label>Delivery suburb<input name="suburb" required placeholder="e.g. Brunswick"></label>
+          <label>Delivery date<input name="date" type="date" required id="skip-date"></label>
+        </div>
+        <div>
+          <span class="flabel">Where will it go?</span>
+          <div class="sizes" style="grid-template-columns:1fr 1fr">
+            <input type="radio" name="place" id="sp1" value="Private property" checked><label for="sp1">My property<small>Driveway or yard</small></label>
+            <input type="radio" name="place" id="sp2" value="Street"><label for="sp2">On the street<small>Council permit may apply</small></label>
+          </div>
+        </div>
+        <label>Hire period<select name="period"><option>3 days</option><option selected>7 days</option><option>14 days</option></select></label>
+        <div class="skip-total"><span>Total</span><b id="skip-total"></b></div>
+        <label class="confirm"><input type="checkbox" required><span>No asbestos, chemicals, paint, gas bottles, tyres or batteries in the skip.</span></label>
+        <button class="btn btn-dark" type="submit">Book skip bin</button>
+      </form>
+    </div>
+    <div class="success" hidden>
+      <div class="tick">✓</div>
+      <h2>Skip bin booked</h2>
+      <p class="sub" id="skip-done"></p>
+      <br><button class="btn btn-dark" data-close>Done</button>
+    </div>
+  </div>
+</div>
+
 <!-- Collector profile -->
 <div class="modal" id="m-col" role="dialog" aria-modal="true" aria-labelledby="col-title">
   <div class="sheet" id="col-body"></div>
@@ -1029,6 +1088,56 @@ const openEl = document.getElementById('open');
 const doneEl = document.getElementById('done');
 renderOpen();
 doneEl.innerHTML = doneJobs.map(doneCard).join('');
+
+// ---------- Skip bins ----------
+const skips = [
+  {m3:2, price:235, type:"General household", sup:"Northside Skips", area:"Melbourne north", when:"Tomorrow", best:["Small clean-ups","Bathroom reno"]},
+  {m3:3, price:285, type:"General household", sup:"Bin It Brisbane", area:"Brisbane south", when:"Tomorrow", best:["Garage or shed","Single room clear-out"]},
+  {m3:4, price:340, type:"Green waste", sup:"GreenGo Bins", area:"Melbourne east", when:"Fri 3 Oct", best:["Garden clean-ups","Tree trimmings"]},
+  {m3:6, price:430, type:"General household", sup:"Northside Skips", area:"Melbourne north", when:"Tomorrow", best:["Moving house","Kitchen reno"]},
+  {m3:6, price:395, type:"Soil & clean fill", sup:"Bayside Bins", area:"Brisbane bayside", when:"Thu 2 Oct", best:["Landscaping","Soil, sand, rubble"]},
+  {m3:8, price:535, type:"Mixed building", sup:"Bin It Brisbane", area:"Brisbane south", when:"Fri 3 Oct", best:["Renovations","Builders' waste"]},
+  {m3:10, price:640, type:"General household", sup:"WestBin Hire", area:"Melbourne west", when:"Mon 6 Oct", best:["Full house clear-out","Deceased estates"]},
+  {m3:12, price:745, type:"Mixed building", sup:"WestBin Hire", area:"Melbourne west", when:"Mon 6 Oct", best:["Large renovations","Commercial clean-outs"]},
+];
+const skipSVG = m3 => { const w = 70 + m3*9, h = 34 + m3*3.2, lip = 10;
+  return `<svg width="${w+20}" height="${h+8}" viewBox="0 0 ${w+20} ${h+8}" aria-hidden="true">
+    <path d="M4 4 H${w+16} L${w+4} ${h} H16 Z" fill="var(--green)" stroke="#000" stroke-width="2"/>
+    <rect x="0" y="0" width="${w+20}" height="${lip}" rx="3" fill="var(--green)" stroke="#000" stroke-width="2"/>
+    ${[0.3,0.5,0.7].map(f=>`<line x1="${(w+20)*f}" y1="${lip+4}" x2="${(w+20)*f - (f-0.5)*12}" y2="${h-4}" stroke="#000" stroke-width="2" opacity=".35"/>`).join('')}
+    <circle cx="26" cy="${h+3}" r="4" fill="#000"/><circle cx="${w-6}" cy="${h+3}" r="4" fill="#000"/>
+  </svg>`; };
+const skipCard = (k,i) => `
+  <article class="card skip">
+    <div class="skip-art"><span class="skip-size">${k.m3}<small>m³</small></span>${skipSVG(k.m3)}</div>
+    <div class="card-top"><span class="tag">${esc(k.type)}</span><span>Available ${esc(k.when)}</span></div>
+    <div class="skip-price">$${k.price}<small>7-day hire</small></div>
+    <p>Holds about <b>${Math.round(k.m3/0.24)} wheelie bins</b> of waste.</p>
+    <ul class="skip-list">${k.best.map(b=>`<li>${esc(b)}</li>`).join('')}</ul>
+    <div class="card-foot"><span class="by">${esc(k.sup)} · ${esc(k.area)}</span><button class="btn btn-dark btn-sm" data-skip="${i}">Book</button></div>
+  </article>`;
+document.getElementById('skips').innerHTML = skips.map(skipCard).join('');
+const skipModal = document.getElementById('m-skip'); let skipAt = null;
+const periodAdj = {"3 days":-40,"7 days":0,"14 days":70};
+function skipTotal(){ const k = skips[skipAt]; const f = new FormData(document.getElementById('f-skip'));
+  document.getElementById('skip-total').textContent = '$' + (k.price + periodAdj[f.get('period')]).toLocaleString('en-AU'); }
+function openSkip(i){
+  skipAt = i; const k = skips[i];
+  document.getElementById('skip-title').textContent = `${k.m3}m³ skip bin`;
+  document.getElementById('skip-sub').textContent = `${k.type} · ${k.sup} · ${k.area}`;
+  const d = document.getElementById('skip-date'); const t = new Date(); t.setMinutes(t.getMinutes()-t.getTimezoneOffset()); d.min = t.toISOString().slice(0,10);
+  skipModal.querySelector('.form-view').hidden = false; skipModal.querySelector('.success').hidden = true;
+  document.getElementById('f-skip').reset(); skipTotal();
+  closeAll(); skipModal.classList.add('open'); document.body.style.overflow = 'hidden';
+}
+document.getElementById('f-skip').addEventListener('change', skipTotal);
+document.getElementById('f-skip').addEventListener('submit', e => {
+  e.preventDefault(); const f = new FormData(e.target); const k = skips[skipAt];
+  document.getElementById('skip-done').textContent = `Your ${k.m3}m³ skip from ${k.sup} will be delivered to ${f.get('suburb')} on ${new Date(f.get('date')+'T00:00').toLocaleDateString('en-AU',{weekday:'short',day:'numeric',month:'short'})}. Total ${document.getElementById('skip-total').textContent}, paid after delivery.`;
+  skipModal.querySelector('.form-view').hidden = true; skipModal.querySelector('.success').hidden = false;
+});
+document.addEventListener('click', e => { const b = e.target.closest('[data-skip]'); if (b) openSkip(+b.dataset.skip); });
+
 
 // Carousel arrows
 document.querySelectorAll('[data-scroll]').forEach(b => b.addEventListener('click', () => {
@@ -1369,6 +1478,7 @@ function closeAll(){
   Object.values(modals).forEach(m => m.classList.remove('open'));
   jobModal.classList.remove('open');
   colModal.classList.remove('open');
+  document.getElementById('m-skip').classList.remove('open');
   document.body.style.overflow = '';
 }
 document.addEventListener('click', e => {
