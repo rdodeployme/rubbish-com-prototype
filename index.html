@@ -213,6 +213,45 @@
   .hist-top{display:flex;justify-content:space-between;gap:10px;font-weight:700}
   .hist-row .muted{font-size:13px;color:var(--muted)}
   .hist-row p{font-size:14px;font-style:italic;margin-top:4px}
+  #m-col .sheet{padding:0;overflow-x:hidden}
+  .pro-top{background:var(--black);color:var(--white);text-align:center;padding:30px 20px 26px;position:relative}
+  .pro-x{position:absolute;top:14px;right:14px;background:#222;color:var(--white)}
+  .pro-photo{width:104px;height:104px;border-radius:50%;background:var(--green);color:var(--black);font-family:"Inter Tight";font-weight:800;font-size:38px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;position:relative;border:4px solid #1c1c1c}
+  .pro-verified{position:absolute;right:2px;bottom:2px;width:28px;height:28px;border-radius:50%;background:var(--white);color:var(--black);font-size:15px;display:flex;align-items:center;justify-content:center;border:3px solid var(--black)}
+  .pro-name{font-size:28px;font-weight:800;color:var(--white)}
+  .pro-biz{color:#aaa;font-size:14px;margin-top:2px}
+  .pro-rating{display:inline-flex;align-items:center;gap:6px;margin-top:12px;background:#1c1c1c;border-radius:999px;padding:6px 14px;font-weight:800;font-family:"Inter Tight";font-size:18px}
+  .pro-star{color:var(--green)}
+  .pro-stats{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--line)}
+  .pro-stats div{text-align:center;padding:16px 4px}
+  .pro-stats div + div{border-left:1px solid var(--line)}
+  .pro-stats b{display:block;font-family:"Inter Tight";font-size:22px;font-weight:800}
+  .pro-stats span{font-size:12.5px;color:var(--muted)}
+  .pro-sec{padding:20px 22px;border-bottom:1px solid var(--line)}
+  .pro-sec:last-child{border-bottom:0}
+  .pro-sec h3{font-size:17px;font-weight:800;margin-bottom:10px}
+  .pro-bio{font-size:15px;color:#222;line-height:1.55}
+  .pro-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .pro-meta span{background:var(--soft);border-radius:999px;padding:6px 11px;font-size:12.5px;font-weight:600}
+  .pro-comps{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+  .pro-comps::-webkit-scrollbar{display:none}
+  .pro-comp{flex:0 0 108px;background:var(--soft);border-radius:16px;padding:14px 10px;text-align:center}
+  .pro-comp b{display:flex;width:44px;height:44px;margin:0 auto 8px;border-radius:50%;background:var(--black);color:var(--green);align-items:center;justify-content:center;font-family:"Inter Tight";font-size:16px}
+  .pro-comp span{font-size:12.5px;font-weight:600;line-height:1.3;display:block}
+  .pro-review{background:var(--soft);border-radius:16px;padding:14px 16px;margin-bottom:10px}
+  .pro-rev-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .pro-rev-head > div{flex:1}
+  .pro-rev-head b{display:block;font-size:14.5px}
+  .pro-rev-head > div span{font-size:12px;color:var(--muted)}
+  .pro-rev-av{width:34px;height:34px;border-radius:50%;background:var(--black);color:var(--white);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px}
+  .pro-rev-stars{color:var(--black);letter-spacing:1px;font-size:14px}
+  .pro-rev-stars i{font-style:normal;color:#ccc}
+  .pro-review p{font-size:14.5px;color:#222}
+  .pro-job{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+  .pro-job:first-of-type{border-top:0}
+  .pro-job b{display:block;font-size:15px}
+  .pro-job span{font-size:13px;color:var(--muted)}
+  .pro-job strong{font-family:"Inter Tight";font-size:18px}
   .head-actions{display:flex;align-items:center;gap:18px}
   .see-all{color:var(--black);text-decoration:underline;text-underline-offset:4px}
   .see-all-big{display:none;width:100%;margin-top:-6px}
@@ -706,13 +745,13 @@ const openJobs = [
 
 // Sample collectors who quote
 const collectors = [
-  {n:"Clear Out Co.",r:4.9,jobs:212,area:"Melbourne — north & west",veh:"Tipper truck",since:"2024",
+  {n:"Clear Out Co.",first:"Marco",bio:"Family-run crew of three working Melbourne's north and west. We do the heavy lifting, sort as we load, and sweep up before we leave. Deceased estates and full house clears are our bread and butter.",years:2,ontime:98,comps:[["On time", 64], ["Careful with property", 51], ["Great communication", 38], ["Left it spotless", 29]],reviews:[["Sarah M.", "Sep 2026", 5, "Quick, careful and swept out the garage after. Couldn't fault them."], ["James T.", "Aug 2026", 5, "Respectful with Mum's things and had the whole house done in a day."]],r:4.9,jobs:212,area:"Melbourne — north & west",veh:"Tipper truck",since:"2024",
    hist:[["Garage clean-out","Pascoe Vale VIC",380,5,"Quick, careful and swept up after."],["Deceased estate clear","Essendon VIC",1650,5,"Respectful and got the whole house done in a day."],["Office chairs & desks","Docklands VIC",890,5,"Worked around our office hours."],["Backyard junk","Coburg VIC",340,4,"Good job, arrived a bit later than the window."]]},
-  {n:"Dave's Ute Runs",r:4.8,jobs:87,area:"Melbourne — inner north",veh:"Ute + trailer",since:"2025",
+  {n:"Dave's Ute Runs",first:"Dave",bio:"One bloke, one ute and a trailer. I keep it simple: fair price, turn up when I say, and anything still usable goes to op shops before the tip. Best for small loads, move-outs and same-day jobs.",years:1,ontime:96,comps:[["Fast response", 33], ["Friendly", 28], ["Fair price", 21], ["On time", 19]],reviews:[["Priya S.", "Sep 2026", 5, "Quoted within ten minutes and came the same afternoon. Legend."], ["Tom W.", "Aug 2026", 4, "Did the job well, left a few scraps of cardboard behind."]],r:4.8,jobs:87,area:"Melbourne — inner north",veh:"Ute + trailer",since:"2025",
    hist:[["Move-out rubbish","Brunswick VIC",260,5,"Quoted within ten minutes and came the same afternoon."],["Couch and mattress","Northcote VIC",180,5,"Friendly and fast."],["Cardboard pickup","Thornbury VIC",120,4,"Did the job, a few scraps left behind."]]},
-  {n:"Northside Removals",r:4.7,jobs:143,area:"Brisbane — north side",veh:"Box truck",since:"2024",
+  {n:"Northside Removals",first:"Leanne",bio:"Brisbane north-side team with a 6-metre box truck, so big loads go in one trip. We specialise in full house clears for sale and end-of-lease cleanouts, and we document where everything goes.",years:2,ontime:95,comps:[["Big loads, one trip", 41], ["On time", 37], ["Careful with property", 30], ["Great communication", 22]],reviews:[["David K.", "Sep 2026", 5, "Took everything in one day. Made a hard week much easier."], ["Mark H.", "Jul 2026", 5, "Fast and friendly. Would use again."]],r:4.7,jobs:143,area:"Brisbane — north side",veh:"Box truck",since:"2024",
    hist:[["Full house clear for sale","Ashgrove QLD",1850,5,"Took everything in one day. Made a hard week much easier."],["Garden waste","Wynnum QLD",210,5,"Fast and friendly. Would use again."],["Shed clean-out","Stafford QLD",460,4,"Solid job, good price."]]},
-  {n:"Tidy Trailer",r:4.9,jobs:61,area:"Brisbane — inner south",veh:"Ute + trailer",since:"2025",
+  {n:"Tidy Trailer",first:"Josh",bio:"Ex-builder running a tidy ute and cage trailer around Brisbane's inner south. Reno waste, garden clean-ups and anything awkward to get out \u2014 stairs and tight access don't scare me.",years:1,ontime:99,comps:[["Tight access, no problem", 18], ["Great communication", 16], ["Left it spotless", 14], ["On time", 12]],reviews:[["Tom R.", "Sep 2026", 5, "Cheaper than a skip and no council permit needed."], ["Alicia P.", "Aug 2026", 5, "Great communication the whole way, and very tidy."]],r:4.9,jobs:61,area:"Brisbane — inner south",veh:"Ute + trailer",since:"2025",
    hist:[["Renovation waste","Paddington QLD",690,5,"Cheaper than a skip and no council permit needed."],["End-of-lease clear","West End QLD",310,5,"Great communication the whole way."]]},
 ];
 const starsHTML = r => `<span class="stars-inline" aria-label="${r} out of 5 stars">${'★'.repeat(Math.round(r))}${'☆'.repeat(5-Math.round(r))}</span>`;
@@ -930,22 +969,44 @@ function showCollector(ci){
   const c = collectors[ci];
   const initials = c.n.replace(/[^A-Za-z ]/g,'').split(' ').filter(Boolean).slice(0,2).map(w=>w[0]).join('');
   document.getElementById('col-body').innerHTML = `
-    <div class="sheet-head" style="margin-bottom:10px"><span class="step-lbl" style="margin:0">Collector</span><button class="x" data-close aria-label="Close">✕</button></div>
-    <div class="col-head">
-      <div class="avatar">${esc(initials)}</div>
-      <div><h2>${esc(c.n)}</h2><div class="col-rating">${starsHTML(c.r)} ${c.r} <span class="note" style="font-weight:500">(${c.jobs} jobs)</span></div></div>
+    <div class="pro-top">
+      <button class="x pro-x" data-close aria-label="Close">✕</button>
+      <div class="pro-photo">${esc(c.first[0])}<span class="pro-verified" title="Verified">✓</span></div>
+      <h2 class="pro-name">${esc(c.first)}</h2>
+      <p class="pro-biz">${esc(c.n)} · ${esc(c.veh)}</p>
+      <div class="pro-rating"><span class="pro-star">★</span>${c.r.toFixed(2)}</div>
     </div>
-    <div class="col-facts">
-      <div><b>${c.jobs}</b>jobs done</div><div><b>${esc(c.veh)}</b>vehicle</div><div><b>${esc(c.since)}</b>member since</div>
+    <div class="pro-stats">
+      <div><b>${c.jobs}</b><span>Jobs</span></div>
+      <div><b>${c.r.toFixed(1)}</b><span>Rating</span></div>
+      <div><b>${c.years}</b><span>Year${c.years>1?'s':''}</span></div>
+      <div><b>${c.ontime}%</b><span>On time</span></div>
     </div>
-    <p class="note" style="margin:-8px 0 16px">📍 ${esc(c.area)} · ✓ ID, waste carrier licence and insurance verified</p>
-    <div class="step-lbl">Recently completed</div>
-    <div class="hist">${c.hist.map(h=>`
-      <div class="hist-row">
-        <div class="hist-top"><span>${esc(h[0])}</span><span>$${h[2].toLocaleString('en-AU')}</span></div>
-        <div class="muted">${esc(h[1])} · ${starsHTML(h[3])}</div>
-        <p>“${esc(h[4])}”</p>
-      </div>`).join('')}</div>`;
+    <div class="pro-sec">
+      <h3>About ${esc(c.first)}</h3>
+      <p class="pro-bio">${esc(c.bio)}</p>
+      <div class="pro-meta"><span>📍 ${esc(c.area)}</span><span>🗓 Joined ${esc(c.since)}</span><span>✓ ID, licence &amp; insurance verified</span></div>
+    </div>
+    <div class="pro-sec">
+      <h3>Top compliments</h3>
+      <div class="pro-comps">${c.comps.map(([t,n])=>`<div class="pro-comp"><b>${n}</b><span>${esc(t)}</span></div>`).join('')}</div>
+    </div>
+    <div class="pro-sec">
+      <h3>Reviews</h3>
+      ${c.reviews.map(([who,when,st,txt])=>`
+        <div class="pro-review">
+          <div class="pro-rev-head"><span class="pro-rev-av">${esc(who[0])}</span><div><b>${esc(who)}</b><span>${esc(when)}</span></div><span class="pro-rev-stars">${'★'.repeat(st)}<i>${'★'.repeat(5-st)}</i></span></div>
+          <p>${esc(txt)}</p>
+        </div>`).join('')}
+    </div>
+    <div class="pro-sec">
+      <h3>Recent jobs</h3>
+      ${c.hist.map(h=>`
+        <div class="pro-job">
+          <div><b>${esc(h[0])}</b><span>${esc(h[1])} · ★ ${h[3]}</span></div>
+          <strong>$${h[2].toLocaleString('en-AU')}</strong>
+        </div>`).join('')}
+    </div>`;
   jobModal.classList.remove('open');
   Object.values(modals).forEach(m => m.classList.remove('open'));
   colModal.classList.add('open');
