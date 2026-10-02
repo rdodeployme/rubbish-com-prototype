@@ -36,7 +36,7 @@
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:999px;padding:12px 20px;font-weight:600;font-size:15px;text-decoration:none;transition:transform .12s, background .15s}
   .btn:active{transform:scale(.97)}
   .btn-green{background:var(--green);color:var(--black)}
-  .btn-green:hover{background:#ffd43b}
+  .btn-green:hover{filter:brightness(.92)}
   .btn-ghost{background:transparent;color:var(--white);border:1.5px solid #333}
   .btn-ghost:hover{border-color:var(--white)}
   .btn-dark{background:var(--black);color:var(--white)}
@@ -66,7 +66,7 @@
   .arrows{display:flex;gap:8px;flex-shrink:0}
   .arrows button{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--line);background:var(--white);font-size:18px}
   .arrows button:hover{border-color:var(--black)}
-  .live-dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px rgba(251,195,3,.25);margin-right:8px;vertical-align:middle}
+  .live-dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px color-mix(in srgb, var(--green) 25%, transparent);margin-right:8px;vertical-align:middle}
 
   .track{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 20px 24px;margin:0 -20px;scrollbar-width:none}
   .track::-webkit-scrollbar{display:none}
@@ -144,7 +144,7 @@
   .sizes label small{display:block;font-weight:400;color:var(--muted);font-size:11.5px}
   .sizes input:checked + label{border-color:var(--black);background:var(--green)}
   .note{font-size:12.5px;color:var(--muted)}
-  .privacy-note{font-size:13px;color:var(--black);background:#fff6cc;border-radius:10px;padding:10px 12px;margin-top:-4px;line-height:1.45}
+  .privacy-note{font-size:13px;color:var(--black);background:color-mix(in srgb, var(--green) 22%, transparent);border-radius:10px;padding:10px 12px;margin-top:-4px;line-height:1.45}
   .confirm{display:flex !important;gap:12px;align-items:flex-start;font-weight:500 !important;background:var(--soft);border-radius:12px;padding:14px;font-size:14px;line-height:1.45}
   .confirm input{width:22px;height:22px;flex-shrink:0;margin-top:1px;accent-color:var(--black)}
   .sample{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
@@ -220,7 +220,7 @@
   .row3{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:12px}
   .count{font-weight:400;font-size:12px;color:var(--muted);justify-self:end}
   .field-hint{font-size:13px;margin-top:-6px}
-  .field-hint.ok{color:#1a7f37}.field-hint.bad{color:#b42318}
+  .field-hint.ok{color:var(--black);font-weight:600}.field-hint.bad{color:#b42318}
   .seg{display:inline-flex;background:var(--soft);border-radius:12px;padding:4px;gap:4px}
   .seg input{display:none}
   .seg label{padding:9px 18px;border-radius:9px;cursor:pointer;font-weight:600;min-height:40px;display:flex;align-items:center}
@@ -285,7 +285,7 @@
     .choice-post{min-height:0}
   }
   .choice-skip{grid-column:1/-1;display:flex;align-items:center;gap:16px;text-align:left;background:transparent;color:var(--white);border:1.5px solid var(--green);border-radius:20px;padding:16px 22px;transition:background .15s}
-  .choice-skip:hover{background:#141400}
+  .choice-skip:hover{background:#1a1400}
   .cs-ico{color:var(--green);display:flex}
   .cs-txt{flex:1}
   .cs-txt small{display:block;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;opacity:.7}
@@ -507,6 +507,30 @@
     .choice strong{margin-bottom:8px !important}
     .choice > span.c-desc{margin-top:0}
   }
+
+  /* Who does the work tags */
+  .choice-post{grid-template-areas:"eb eb ar" "ti de ar" "tg de ar" !important}
+  .choice .tag{grid-area:tg;justify-self:start;font-style:normal;font-size:11.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;border:1.5px solid var(--black);color:var(--black);border-radius:999px;padding:4px 10px;margin-top:4px;white-space:nowrap;background:transparent}
+  .choice .tag-we{background:var(--black);color:var(--green)}
+  @media(max-width:720px){
+    .choice-post{grid-template-areas:"eb ar" "ti ar" "tg ar" "de ar" !important}
+    .choice .tag{margin:0 0 10px}
+  }
+
+  /* Colour preview switcher */
+  .theme-btn{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--white);border:1.5px solid #333;border-radius:999px;padding:8px 14px 8px 9px;font-weight:600;font-size:14px;cursor:pointer}
+  .theme-btn:hover{border-color:var(--white)}
+  .theme-dot{width:20px;height:20px;border-radius:50%;background:var(--green);box-shadow:inset 0 0 0 2px rgba(0,0,0,.25)}
+  .theme-pop{position:fixed;top:76px;right:max(16px, calc((100vw - 1180px)/2));z-index:60;background:var(--white);color:var(--black);border-radius:18px;padding:16px;width:290px;box-shadow:0 18px 50px rgba(0,0,0,.35)}
+  .theme-pop[hidden]{display:none}
+  .theme-pop-head b{display:block;font-family:"Inter Tight";font-size:17px}
+  .theme-pop-head span{font-size:13px;color:#5C5C5C}
+  .theme-list{display:grid;gap:6px;margin-top:12px}
+  .theme-opt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:#F4F4F2;border:2px solid transparent;border-radius:12px;padding:9px 12px;font-weight:600;font-size:14px;cursor:pointer}
+  .theme-opt i{width:26px;height:26px;border-radius:50%;flex:none;box-shadow:inset 0 0 0 2px rgba(0,0,0,.15)}
+  .theme-opt small{display:block;font-weight:500;font-size:12px;color:#5C5C5C}
+  .theme-opt[aria-checked="true"]{border-color:var(--black);background:var(--white)}
+  @media(max-width:720px){ .theme-lbl{display:none} .theme-btn{padding:9px;min-height:44px;min-width:44px;justify-content:center} .theme-pop{top:70px;right:16px;left:16px;width:auto} }
 </style>
 </head>
 <body>
@@ -521,12 +545,17 @@
       <button class="menu-join" data-open="join">Become a collector</button>
     </nav>
     <div class="nav-actions">
+      <button class="theme-btn" id="theme-btn" aria-label="Try brand colours" aria-expanded="false" title="Try brand colours"><span class="theme-dot"></span><span class="theme-lbl">Colours</span></button>
       <button class="burger" id="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
       <button class="btn btn-ghost btn-sm" data-open="join">Become a collector</button>
       <button class="btn btn-green btn-sm" data-open="post">Post a job</button>
     </div>
   </div>
 </header>
+<div class="theme-pop" id="theme-pop" hidden>
+  <div class="theme-pop-head"><b>Brand colour preview</b><span>See the site in a different accent</span></div>
+  <div class="theme-list" id="theme-list"></div>
+</div>
 
 <div id="home-view">
 <section class="hero">
@@ -538,26 +567,29 @@
       <button class="choice choice-post" data-open="post">
         <small>I have rubbish I'd like collected</small>
         <strong>Post a job</strong>
+        <em class="tag tag-we">We load it</em>
         <span class="c-desc">We do the lifting. For clear-outs, furniture and one-off pickups.</span>
         <i class="arrow">→</i>
       </button>
       <button class="choice choice-post choice-skipreq" data-open="skipreq">
         <small>I have rubbish I will load to be collected</small>
         <strong>Request a bin</strong>
+        <em class="tag">DIY · you load it</em>
         <span class="c-desc">Skip or hook bin you fill at your pace. For renos and big clean-ups.</span>
         <i class="arrow">→</i>
       </button>
       <button class="choice choice-post choice-wheelie" data-open="wheelie">
-        <small>I need regular bin collections</small>
+        <small>I need wheelie bins collected</small>
         <strong>Wheelie bins</strong>
-        <span class="c-desc">Ongoing pickups for apartments, strata and businesses.</span>
+        <em class="tag">You fill · we empty</em>
+        <span class="c-desc">One-off or ongoing pickups for apartments, strata and businesses.</span>
         <i class="arrow">→</i>
       </button>
     </div>
     </div>
     <div class="hero-side">
     <div class="hero-photo">
-      <img src="hero.jpg?v=2" alt="Collector loading an old armchair onto a Rubbish.com.au tipper truck" loading="eager" style="object-position:50% 45%">
+      <img src="hero.jpg?v=3" alt="Collector loading an old armchair onto a Rubbish.com.au tipper truck" loading="eager" style="object-position:50% 45%">
       <div class="badge" style="right:auto"><b>Get your quote today</b></div>
     </div>
     <button class="choice choice-join" data-open="join">
@@ -1145,7 +1177,7 @@
   <div class="sheet">
     <div class="form-view">
       <div class="sheet-head">
-        <div><h2 id="wb-title">Wheelie bin service</h2><p class="sub">Regular bins and collections for apartments, strata and businesses. Local providers quote.</p></div>
+        <div><h2 id="wb-title">Wheelie bin service</h2><p class="sub">One-off or ongoing bins and collections for apartments, strata and businesses. Local providers quote.</p></div>
         <button class="x" data-close aria-label="Close">✕</button>
       </div>
       <form id="f-wheelie">
@@ -1165,7 +1197,7 @@
         </div>
         <div class="row">
           <label>How many bins?<input name="count" type="number" min="1" value="4" required></label>
-          <label>Collection frequency<select name="freq"><option>Weekly</option><option>Twice weekly</option><option>Fortnightly</option><option>Monthly</option><option>One-off</option></select></label>
+          <label>One-off or ongoing?<select name="freq"><option>One-off collection</option><option selected>Ongoing – weekly</option><option>Ongoing – twice weekly</option><option>Ongoing – fortnightly</option><option>Ongoing – monthly</option></select></label>
         </div>
         <div>
           <span class="flabel">What goes in them?</span>
@@ -1344,7 +1376,7 @@ document.querySelectorAll('[data-bintab]').forEach(b => b.addEventListener('clic
 renderBins();
 
 const skipReqs = [
-  {kind:"wheelie", count:12, litres:"240L", freq:"Weekly", streams:"General waste, Recycling", type:"Apartment complex", sub:"Southbank VIC", date:"Mon 13 Oct", ago:"30 min ago", q:2, km:3.6},
+  {kind:"wheelie", count:12, litres:"240L", freq:"Ongoing – weekly", streams:"General waste, Recycling", type:"Apartment complex", sub:"Southbank VIC", date:"Mon 13 Oct", ago:"30 min ago", q:2, km:3.6},
   {kind:"hook", m3:15, type:"Mixed building", sub:"Northcote VIC", date:"Mon 6 Oct", period:"7 days", place:"Building site", ago:"10 min ago", q:1, km:4.9},
   {m3:6, type:"General household", sub:"Brunswick VIC", date:"Fri 3 Oct", period:"7 days", place:"Driveway", ago:"20 min ago", q:2, km:2.1},
   {m3:4, type:"Green waste", sub:"Chermside QLD", date:"Sat 4 Oct", period:"3 days", place:"Driveway", ago:"45 min ago", q:1, km:11.5},
@@ -1353,7 +1385,7 @@ const skipReqs = [
   {kind:"hook", m3:23, type:"Mixed building", sub:"Eagle Farm QLD", date:"Thu 9 Oct", period:"14 days", place:"Building site", ago:"3 hrs ago", q:2, km:9.6},
   {m3:10, type:"General household", sub:"Carina QLD", date:"Tue 7 Oct", period:"7 days", place:"Front yard", ago:"3 hrs ago", q:2, km:6.8},
   {m3:6, type:"Soil & clean fill", sub:"Wynnum QLD", date:"Fri 3 Oct", period:"3 days", place:"Driveway", ago:"4 hrs ago", q:1, km:19.2},
-  {kind:"wheelie", count:4, litres:"660L", freq:"Twice weekly", streams:"General waste, Cardboard", type:"Café or restaurant", sub:"Fortitude Valley QLD", date:"Mon 6 Oct", ago:"5 hrs ago", q:3, km:5.2},
+  {kind:"wheelie", count:4, litres:"660L", freq:"One-off collection", streams:"General waste, Cardboard", type:"Café or restaurant", sub:"Fortitude Valley QLD", date:"Mon 6 Oct", ago:"5 hrs ago", q:3, km:5.2},
   {m3:2, type:"General household", sub:"Richmond VIC", date:"Thu 2 Oct", period:"3 days", place:"Rear lane", ago:"5 hrs ago", q:4, km:4.4},
   {m3:12, type:"Mixed building", sub:"Dandenong VIC", date:"Wed 8 Oct", period:"14 days", place:"Building site", ago:"Yesterday", q:2, km:32.4},
   {m3:4, type:"General household", sub:"Preston VIC", date:"Sat 4 Oct", period:"7 days", place:"Driveway", ago:"Yesterday", q:3, km:3.0},
@@ -1363,7 +1395,7 @@ const reqCard = (r,isNew) => r.kind==='wheelie' ? `
     <div class="req-top"><span class="skip-size">${r.count}<small>× ${esc(r.litres)}</small></span><span class="req-kind">Wheelie bins</span><span class="req-ago">${esc(r.ago)}</span></div>
     <h3>Wheelie bin service · ${esc(r.type)}</h3>
     <div class="meta"><span>📍 <b>${esc(r.sub)}</b>${r.km!=null?` · ${r.km} km`:''}</span></div>
-    <div class="req-facts"><span>🔁 ${esc(r.freq)}</span><span>♻ ${esc(r.streams)}</span><span>🗓 Start ${esc(r.date)}</span></div>
+    <div class="req-facts"><span>${/^One/.test(r.freq)?"1×":"🔁"} ${esc(r.freq)}</span><span>♻ ${esc(r.streams)}</span><span>🗓 Start ${esc(r.date)}</span></div>
     <div class="card-foot">
       <div><span class="quotes">${r.q>=3?`${r.q} quotes ✓`:`${r.q} of 3 quotes`}</span>${qbar(r.q)}</div>
       <button class="btn btn-dark btn-sm" data-open="join">Quote</button>
@@ -1808,6 +1840,33 @@ document.getElementById('f-post').addEventListener('submit', async e => {
   const m = modals.post; m.querySelector('.form-view').hidden = true; m.querySelector('.success').hidden = false;
 });
 
+
+// Colour preview switcher
+(function(){
+  const themes=[
+    {id:'gold',name:'Logo gold',note:'Current brand yellow',c:'#FBC303',rot:0},
+    {id:'bright',name:'Bright yellow',note:'Punchier, high-vis',c:'#FFE600',rot:8},
+    {id:'orange',name:'Safety orange',note:'Hi-vis workwear feel',c:'#FF8A00',rot:-16},
+    {id:'lime',name:'Hi-vis lime',note:'Fresh, recycling-forward',c:'#B6F000',rot:30},
+    {id:'aqua',name:'Electric aqua',note:'Clean and techy',c:'#22E3D2',rot:128},
+    {id:'pink',name:'Hot pink',note:'Bold disruptor',c:'#FF5FA8',rot:-80}
+  ];
+  const root=document.documentElement, btn=document.getElementById('theme-btn'), pop=document.getElementById('theme-pop'), list=document.getElementById('theme-list');
+  if(!btn) return;
+  function apply(t){
+    root.style.setProperty('--green',t.c);
+    document.querySelectorAll('.logo img,.foot-brand img').forEach(img=>{img.style.filter=t.rot?`hue-rotate(${t.rot}deg) saturate(1.15)`:''});
+    list.querySelectorAll('.theme-opt').forEach(b=>b.setAttribute('aria-checked',b.dataset.id===t.id));
+    try{localStorage.setItem('rb-theme',t.id)}catch(e){}
+  }
+  list.innerHTML=themes.map(t=>`<button class="theme-opt" role="radio" data-id="${t.id}" aria-checked="false"><i style="background:${t.c}"></i><span>${t.name}<small>${t.note}</small></span></button>`).join('');
+  list.addEventListener('click',e=>{const b=e.target.closest('.theme-opt'); if(b) apply(themes.find(t=>t.id===b.dataset.id));});
+  btn.addEventListener('click',e=>{e.stopPropagation(); pop.hidden=!pop.hidden; btn.setAttribute('aria-expanded',!pop.hidden);});
+  document.addEventListener('click',e=>{if(!pop.hidden && !pop.contains(e.target) && e.target!==btn){pop.hidden=true;btn.setAttribute('aria-expanded','false');}});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'){pop.hidden=true;btn.setAttribute('aria-expanded','false');}});
+  let saved='gold'; try{saved=localStorage.getItem('rb-theme')||'gold'}catch(e){}
+  apply(themes.find(t=>t.id===saved)||themes[0]);
+})();
 </script>
 </body>
 </html>
