@@ -482,6 +482,19 @@
     .choice strong{font-size:22px !important}
     .choice > span.c-desc{margin-top:4px;font-size:14px}
   }
+
+  /* Hero v3: bigger photo, collector under photo */
+  @media(min-width:901px){
+    .hero-grid{grid-template-columns:1fr 1fr;align-items:stretch;gap:36px}
+    .hero-side .hero-photo{flex:1;aspect-ratio:auto !important;min-height:380px}
+    .hero-side .hero-photo img{position:absolute;inset:0}
+  }
+  .hero-side{display:flex;flex-direction:column;gap:12px}
+  .choice-post{grid-template-columns:170px 1fr 46px}
+  .choice-join{grid-template-columns:225px 1fr 46px}
+  .hero-side .choice-join{margin-top:0}
+  @media(max-width:900px){.hero-side .hero-photo{flex:none;aspect-ratio:4/3 !important;min-height:0}}
+  @media(max-width:720px){ .choice-post,.choice-join{grid-template-columns:1fr 42px} }
 </style>
 </head>
 <body>
@@ -519,7 +532,7 @@
       <button class="choice choice-post choice-skipreq" data-open="skipreq">
         <small>I have rubbish I will load to be collected</small>
         <strong>Request a bin</strong>
-        <span class="c-desc">Skip or hook bin you fill at your pace. For renos, big clean-ups and sites.</span>
+        <span class="c-desc">Skip or hook bin you fill at your pace. For renos and big clean-ups.</span>
         <i class="arrow">→</i>
       </button>
       <button class="choice choice-post choice-wheelie" data-open="wheelie">
@@ -528,17 +541,19 @@
         <span class="c-desc">Ongoing pickups for apartments, strata and businesses.</span>
         <i class="arrow">→</i>
       </button>
-      <button class="choice choice-join" data-open="join">
-        <small>I collect rubbish</small>
-        <strong>Become a collector</strong>
-        <span class="c-desc">Free to join. Quote on local jobs and bins. Paid after every job.</span>
-        <i class="arrow">→</i>
-      </button>
     </div>
     </div>
+    <div class="hero-side">
     <div class="hero-photo">
       <img src="hero.jpg?v=2" alt="Collector loading an old armchair onto a Rubbish.com.au tipper truck" loading="eager" style="object-position:50% 45%">
       <div class="badge" style="right:auto"><b>3 quotes</b>is what we aim for on every job</div>
+    </div>
+    <button class="choice choice-join" data-open="join">
+        <small>I collect rubbish</small>
+        <strong>Become a collector</strong>
+        <span class="c-desc">Free to join. Quote on local jobs. Paid after every job.</span>
+        <i class="arrow">→</i>
+      </button>
     </div>
   </div>
 </section>
