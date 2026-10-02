@@ -485,7 +485,7 @@
 
   /* Hero v3: bigger photo, collector under photo */
   @media(min-width:901px){
-    .hero-grid{grid-template-columns:1fr 1fr;align-items:stretch;gap:36px}
+    .hero-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:stretch;gap:36px}
     .hero-side .hero-photo{flex:1;aspect-ratio:auto !important;min-height:380px}
     .hero-side .hero-photo img{position:absolute;inset:0}
   }
@@ -549,7 +549,28 @@
     .choice-post strong{margin-bottom:6px !important;font-size:22px !important;white-space:nowrap}
   }
 
-  @media(max-width:1180px){ .choice-join{grid-template-columns:1fr 46px !important;grid-template-areas:"eb ar" "ti ar" "de ar" !important;row-gap:4px !important} }
+  .choice-join{grid-template-columns:1fr 46px !important;grid-template-areas:"eb ar" "ti ar" "de ar" !important;row-gap:4px !important}
+
+  .c-lines > span{display:block;white-space:nowrap}
+  .c-lines > span::before{content:"✓";display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:var(--green);color:#000;font-size:10px;font-weight:800;margin-right:8px;vertical-align:-2px}
+  @media(max-width:420px){ .c-lines > span{white-space:normal} }
+
+  /* "We load it" tag: nudged right + flashing */
+  @media(min-width:721px){ .choice-post .tag-we{margin-left:14px !important} }
+  .choice .tag-we{animation:tagflash 1.1s ease-in-out infinite}
+  @keyframes tagflash{0%,100%{background:var(--black);color:var(--green);box-shadow:0 0 0 0 rgba(0,0,0,.35)}50%{background:#fff;color:var(--black);box-shadow:0 0 0 5px rgba(0,0,0,.18)}}
+  @media(prefers-reduced-motion:reduce){ .choice .tag-we{animation:none} }
+
+  /* Coming 2027 box */
+  .hero-copy{position:relative}
+  .coming{display:inline-flex;align-items:baseline;gap:8px;background:var(--green);color:#000;border-radius:999px;padding:6px 14px;margin-bottom:16px;font-family:"Inter Tight";font-weight:800}
+  .coming small{font-size:13px;text-transform:uppercase;letter-spacing:.1em}
+  .coming b{font-size:18px}
+  @media(min-width:1101px){
+    .coming{position:absolute;top:4px;right:0;width:150px;height:150px;border-radius:24px;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:0;margin:0;transform:rotate(4deg);box-shadow:0 12px 30px rgba(0,0,0,.4)}
+    .coming small{font-size:15px}
+    .coming b{font-size:46px;line-height:1}
+  }
 </style>
 </head>
 <body>
@@ -576,13 +597,14 @@
 <div id="home-view">
 <section class="hero">
   <div class="wrap hero-grid">
-    <div>
+    <div class="hero-copy">
+    <div class="coming"><small>Coming</small><b>2027</b></div>
     <h1>Find Your <em>Cheapest</em> Waste Collector</h1>
     <p>Post job for free. Choose best quote. Pay after pickup.</p>
     <div class="choices">
       <button class="choice choice-post" data-open="post">
         <small>I have rubbish I'd like collected</small>
-        <strong>Post a rubbish job</strong>
+        <strong>Post a Rubbish pick up</strong>
         <em class="tag tag-we">We load it</em>
         <span class="c-desc">We do the lifting. For clear-outs, furniture and one-off pickups.</span>
         <i class="arrow">→</i>
@@ -591,11 +613,11 @@
         <small>I have rubbish I will load to be collected</small>
         <strong>Request a skip bin quote</strong>
         <em class="tag">DIY · you load it</em>
-        <span class="c-desc">Skip or hook bin you fill at your pace. Small clean-ups through to big renos.</span>
+        <span class="c-desc">Sizes to suit small jobs to large renos. Delivered to your place, you fill it at your pace.</span>
         <i class="arrow">→</i>
       </button>
       <button class="choice choice-post choice-wheelie" data-open="wheelie">
-        <small>I need wheelie bins collected</small>
+        <small>I need wheelie bin(s) supplied and collected</small>
         <strong>Request a wheelie bin quote</strong>
         <em class="tag">You fill · we empty</em>
         <span class="c-desc">One-off or ongoing pickups, from a single home to apartments and businesses.</span>
@@ -611,7 +633,7 @@
     <button class="choice choice-join" data-open="join">
         <small>I collect rubbish</small>
         <strong>Become a collector</strong>
-        <span class="c-desc">Free to join. Quote on local jobs. Paid after every job.</span>
+        <span class="c-desc c-lines"><span>Free to register, no joining fees</span><span>Quote on jobs in your area</span><span>Paid after every completed job</span></span>
         <i class="arrow">→</i>
       </button>
     </div>
