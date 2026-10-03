@@ -571,6 +571,11 @@
     .coming small{font-size:15px}
     .coming b{font-size:46px;line-height:1}
   }
+
+  /* Full-screen overlay hosting the new-look flows */
+  .flow-ov{position:fixed;inset:0;z-index:200;background:#000}
+  .flow-ov[hidden]{display:none}
+  .flow-ov iframe{width:100%;height:100%;border:0;display:block;background:#000}
 </style>
 </head>
 <body>
@@ -1275,6 +1280,9 @@
 </div>
 
 <!-- Become a collector -->
+
+<!-- New-look flows (v2) opened from the original buttons -->
+<div class="flow-ov" id="flow-ov" hidden><iframe id="flow-frame" title="Rubbish.com.au" src="about:blank"></iframe></div>
 <script>
 const openJobs = [
   {t:"Cardboard & packaging pickup",img:"https://images.unsplash.com/photo-1766040923580-16ad32fae8b4?w=700&q=65&auto=format&fit=crop",d:"Flattened boxes and polystyrene from a house move. About 30 boxes, all in the carport.",sub:"Reservoir VIC",size:"Quarter load",day:"Thu 2 Oct",win:"8am – 12pm",when:"Thu 2 Oct · 8am – 12pm",ago:"12 min ago",q:2,m:["Cardboard", "Polystyrene"],km:3.2,order:1},
@@ -1852,6 +1860,7 @@ document.addEventListener('click', e => {
   const bk = e.target.closest('[data-book]');
   if (bk) { const [a,b] = bk.dataset.book.split(':').map(Number); bookJob(a,b); return; }
   const o = e.target.closest('[data-open]');
+  if (o && FLOW_MAP[o.dataset.open]) { closeAll(); openFlow(FLOW_MAP[o.dataset.open]); return; }
   if (o) { closeAll(); if (o.dataset.open==='join') { location.hash = 'join'; return; } if (o.dataset.open==='skipreq') { openSkipReq(); return; } if (o.dataset.open==='wheelie') { openWheelie(); return; } openModal(o.dataset.open); return; }
   if (e.target.closest('[data-close]') || e.target.classList.contains('modal')) closeAll();
 });
@@ -1909,6 +1918,23 @@ document.getElementById('f-post').addEventListener('submit', async e => {
   let saved='gold'; try{saved=localStorage.getItem('rb-theme')||'gold'}catch(e){}
   apply(themes.find(t=>t.id===saved)||themes[0]);
 })();
+
+// ---- New-look flows: each original button opens the matching v2 section ----
+const FLOW_MAP = {post:'flow/pickup', skipreq:'flow/skip', wheelie:'flow/wheelie', join:'join'};
+const flowOv = document.getElementById('flow-ov'), flowFrame = document.getElementById('flow-frame');
+function currentTheme(){ try{ return localStorage.getItem('rb-theme')||'gold'; }catch(e){ return 'gold'; } }
+function openFlow(path){
+  flowFrame.src = 'v2.html?embed=1&theme=' + encodeURIComponent(currentTheme()) + '#/' + path;
+  flowOv.hidden = false; document.body.style.overflow = 'hidden';
+  setTimeout(() => flowFrame.focus(), 50);
+}
+function closeFlow(){ flowOv.hidden = true; document.body.style.overflow = ''; flowFrame.src = 'about:blank'; }
+window.addEventListener('message', e => {
+  const d = e.data; if (!d || !d.rb) return;
+  if (d.type === 'close') closeFlow();
+  if (d.type === 'nav') { closeFlow(); location.hash = d.to || ''; if (!d.to) window.scrollTo(0,0); }
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !flowOv.hidden) closeFlow(); });
 </script>
 </body>
 </html>

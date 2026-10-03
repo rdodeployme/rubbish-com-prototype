@@ -510,6 +510,16 @@
   .mode i b:not(:first-child){margin-left:2px}
   .mode[aria-selected="true"].we i b{background:var(--accent);color:#000}
   @media(max-width:980px){ .mode i{font-size:13.5px} .mode i b{font-size:13px;padding:2px 7px} }
+
+  /* Embedded mode (inside the original site's overlay) */
+  .embed-x{display:none}
+  .embed .embed-x{display:inline-flex;position:fixed;top:14px;right:14px;z-index:90;background:#fff;color:#000;border:0;border-radius:999px;padding:10px 16px 10px 14px;font-weight:800;font-size:15px;box-shadow:0 6px 20px rgba(0,0,0,.35);gap:8px;align-items:center}
+  .embed .embed-x::before{content:"✕";font-size:14px}
+  .embed header,.embed footer,.embed .hero-top,.embed .modes,.embed main > section:not(.hero),.embed .back{display:none !important}
+  .embed .hero{padding:72px 0 40px;min-height:100vh}
+  .embed .builder{grid-template-columns:1fr;max-width:1000px;margin-inline:auto}
+  .embed .page-head{padding-top:64px}
+  .embed .filters,.embed .post-sum,.embed .stepper{top:16px}
   @media(prefers-reduced-motion:reduce){ *{animation:none !important;transition:none !important} html{scroll-behavior:auto} }
 </style>
 </head>
@@ -1001,7 +1011,12 @@
   </div>
 </footer>
 
+<button class="embed-x" id="embed-x" type="button" hidden>Close</button>
 <script>
+/* Embedded mode: opened from the original site's buttons in a full-screen overlay */
+const EMBED=new URLSearchParams(location.search).has('embed');
+if(EMBED)document.documentElement.classList.add('embed');
+const toParent=msg=>{try{parent.postMessage(Object.assign({rb:1},msg),'*')}catch(e){}};
 const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
@@ -1029,7 +1044,7 @@ $('#dots').innerHTML=themes.map(t=>`<button class="dot" role="radio" aria-checke
 $('#dots').addEventListener('click',e=>{const d=e.target.closest('.dot');if(!d)return;
   const narrow=matchMedia('(max-width:560px)').matches;
   applyTheme(narrow?themes[(themeIdx+1)%themes.length]:themes.find(t=>t.id===d.dataset.id));});
-let saved='gold';try{saved=localStorage.getItem('rb2-theme')||'gold'}catch(e){}
+let saved=new URLSearchParams(location.search).get('theme')||'';if(!saved){try{saved=localStorage.getItem('rb2-theme')||'gold'}catch(e){saved='gold'}}
 applyTheme(themes.find(t=>t.id===saved)||themes[0]);
 
 /* ---------- Mode tabs ---------- */
@@ -1320,6 +1335,11 @@ function show(v){views.forEach(s=>s.hidden=s.dataset.view!==v);}
 function route(){
   const h=location.hash||'#/';
   closeOv();
+  if(EMBED){
+    const p=h.slice(2).split('/'), v=p[0]||'home';
+    if(v==='flow'){show('home');setMode(p[1]||'pickup');window.scrollTo(0,0);return;}
+    if(!['post','join'].includes(v)){toParent({type:'nav',to:{jobs:'jobs',job:'jobs',bins:'skips',how:'how'}[v]||''});return;}
+  }
   let m;
   if(h.startsWith('#/')){
     const p=h.slice(2).split('/');
@@ -1606,6 +1626,13 @@ function resetJoin(){if(!$('#j-done').hidden){jForm.reset();$('#veh-list').inner
 /* ---------- Mobile menu ---------- */
 $('#burger').addEventListener('click',()=>{const m=$('#mnav'),o=m.hidden;m.hidden=!o;$('#burger').setAttribute('aria-expanded',o);});
 window.addEventListener('hashchange',()=>{$('#mnav').hidden=true;$('#burger').setAttribute('aria-expanded','false');});
+
+/* ---------- Embedded mode controls ---------- */
+if(EMBED){
+  $('#embed-x').hidden=false;
+  $('#embed-x').addEventListener('click',()=>toParent({type:'close'}));
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$$('.overlay').every(o=>o.hidden)&&!sheet.classList.contains('on'))toParent({type:'close'});});
+}
 /* ---------- Start ---------- */
 route();
 </script>
