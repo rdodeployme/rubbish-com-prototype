@@ -521,16 +521,16 @@
   .embed .page-head{padding-top:64px}
   .embed .filters,.embed .post-sum,.embed .stepper{top:16px}
 
-  /* Real truck stage */
-  .rtruck{position:relative;width:100%;max-width:900px;margin:0 auto;aspect-ratio:1259/959}
-  .rtruck .rt-truck{position:absolute;left:0;bottom:0;width:100%;height:auto;z-index:1;filter:drop-shadow(0 10px 10px rgba(0,0,0,.25))}
-  .rt-load{position:absolute;inset:0;z-index:2}
-  .rt-item{position:absolute;height:auto;filter:drop-shadow(0 4px 4px rgba(0,0,0,.35));transform-origin:50% 100%}
+  /* Real truck stage (box truck, cutaway side) */
+  .rtruck{position:relative;width:100%;max-width:900px;margin:0 auto;aspect-ratio:1288/610}
+  .rtruck .rt-truck{position:absolute;left:0;top:0;width:100%;height:auto;z-index:1;filter:drop-shadow(0 10px 12px rgba(0,0,0,.25))}
+  .rt-load{position:absolute;z-index:2;overflow:hidden;left:calc(42 / 1288 * 100%);top:calc(36 / 610 * 100%);width:calc(851 / 1288 * 100%);height:calc(363 / 610 * 100%)}
+  .rt-item{position:absolute;height:auto;filter:drop-shadow(0 5px 5px rgba(0,0,0,.35));transform-origin:50% 100%}
   .rt-item.drop{animation:rtdrop .45s cubic-bezier(.3,1.35,.6,1)}
-  @keyframes rtdrop{from{translate:0 -120px;opacity:0}to{translate:0 0;opacity:1}}
-  .rtruck .rt-panel{position:absolute;z-index:3;left:0;width:71.088%;top:calc((232 + 380) / 959 * 100%);height:auto}
-  .rt-empty{position:absolute;z-index:4;left:4%;top:22%;font-weight:800;font-size:15px;background:rgba(255,255,255,.75);border-radius:999px;padding:7px 14px}
-  .rt-over{position:absolute;z-index:4;right:2%;top:4%;background:#000;color:var(--accent);border-radius:999px;padding:8px 14px;font-weight:800;font-size:14px}
+  @keyframes rtdrop{from{translate:0 -140px;opacity:0}to{translate:0 0;opacity:1}}
+  .rtruck .rt-panel{position:absolute;z-index:3;left:0;top:0;width:calc(930 / 1288 * 100%);height:auto}
+  .rt-empty{position:absolute;z-index:4;left:calc(42 / 1288 * 100% + 18px);top:40%;font-weight:800;font-size:15px;background:rgba(255,255,255,.85);border-radius:999px;padding:8px 15px}
+  .rt-over{position:absolute;z-index:4;right:2%;top:2%;background:#000;color:var(--accent);border-radius:999px;padding:8px 14px;font-weight:800;font-size:14px}
   .canvas:has(.rtruck){min-height:0}
   @media(max-width:560px){ .rt-over{font-size:11.5px;padding:5px 10px;top:2%} .rt-empty{font-size:12.5px} }
   @media(prefers-reduced-motion:reduce){ *{animation:none !important;transition:none !important} html{scroll-behavior:auto} }
@@ -599,11 +599,11 @@
             <div class="readout"><div class="big" id="pu-vol">0 m³</div><div class="small" id="pu-fill">Tap items below to start</div></div>
           </div>
           <div class="canvas"><div class="rtruck" id="truck" role="img" aria-label="Your Rubbish.com.au truck, loaded with the items you add">
-            <img class="rt-truck" src="t-truck.webp" alt="" width="1259" height="579">
+            <img class="rt-truck" src="t-boxtruck.webp" alt="" width="1288" height="610">
             <div class="rt-load" id="rt-load"></div>
-            <img class="rt-panel" src="t-panel.webp" alt="" width="895" height="130">
+            <img class="rt-panel" src="t-boxframe.webp" alt="" width="930" height="440">
             <span class="rt-empty" id="rt-empty">Tap items below to load the truck</span>
-            <span class="rt-over" id="rt-over" hidden>Over a full load</span>
+            <span class="rt-over" id="rt-over" hidden>Over a full truckload</span>
           </div></div>
           <div class="controls">
             <div class="items" id="items"></div>
@@ -1133,25 +1133,25 @@ const fmt=n=>(Math.round(n*10)/10).toString();
 
 /* Real truck: item photos stacked into the tray, drawn to scale.
    Truck image is 1259 x 579 px; ~257 px per metre. Stage adds headroom above the truck. */
-const RT={W:1259,H:579,HR:380,PXM:257,X0:24,X1:852,FLOOR:266,S:.82,DEPTH:.62};
+const RT={W:1288,H:610,L:42,T:36,R:893,B:399,PXM:173,S:.88,DEPTH:.55,CAP:20};
 const RT_ITEM={couch:{h:.85,ar:1.649},chair:{h:.95,ar:1.041},mattress:{h:.28,ar:5.614},bed:{h:.45,ar:4.051},fridge:{h:1.7,ar:.442},washer:{h:.85,ar:.736},wardrobe:{h:1.8,ar:.619},table:{h:.78,ar:2.55},tv:{h:.75,ar:1.407},boxes:{h:.9,ar:.716},bags:{h:.7,ar:1.212},green:{h:.8,ar:1.441}};
 function drawTruck(added){
-  const v=vol(), over=v>CAP, pct=Math.round(v/CAP*100);
+  const v=vol(), over=v>RT.CAP, pct=Math.max(1,Math.round(v/RT.CAP*100));
   $('#pu-vol').textContent=fmt(v)+' m³';
-  $('#pu-fill').textContent= v===0?'Tap items below to start': over?'More than one 6 m³ tipper. Collectors may quote for two loads.':`About ${pct}% of a 6 m³ tipper`;
-  // skyline packing: each item drops into the lowest spot along the tray where it fits, resting on what's below
-  const STEP=4, N=Math.floor((RT.X1-RT.X0)/STEP), sky=new Array(N).fill(RT.FLOOR); const placed=[];
+  $('#pu-fill').textContent= v===0?'Tap items below to start': over?'More than a full truckload. Collectors may quote for two loads.':`About ${pct}% of a full truckload`;
+  // skyline packing inside the box: each item drops into the lowest spot where it fits, resting on what's below
+  const IW=RT.R-RT.L, IH=RT.B-RT.T, FLOOR=IH+6, STEP=4, N=Math.floor(IW/STEP), sky=new Array(N).fill(FLOOR); const placed=[];
   order.forEach((id,i)=>{
     const d=RT_ITEM[id]; let h=d.h*RT.PXM*RT.S, w=h*d.ar;
-    if(w>RT.X1-RT.X0){w=RT.X1-RT.X0;h=w/d.ar;}
+    if(w>IW-8){w=IW-8;h=w/d.ar;}
     const span=Math.max(1,Math.round(w/STEP)); let best=0,bestBase=-1e9;
-    for(let c=0;c+span<=N;c++){let base=RT.FLOOR;for(let k=c;k<c+span;k++)base=Math.min(base,sky[k]);if(base>bestBase+0.5){bestBase=base;best=c;}}
-    const x=RT.X0+best*STEP, y=bestBase-h;
+    for(let c=0;c+span<=N;c++){let base=FLOOR;for(let k=c;k<c+span;k++)base=Math.min(base,sky[k]);if(base>bestBase+0.5){bestBase=base;best=c;}}
+    const x=best*STEP, y=bestBase-h;
     for(let k=best;k<best+span;k++)sky[k]=bestBase-h*RT.DEPTH;
     placed.push({id,x,y,w,h,i,last:added===id&&i===order.lastIndexOf(id)});
   });
-  const TOT=RT.H+RT.HR, pctX=n=>n/RT.W*100, pctY=n=>(n+RT.HR)/TOT*100;
-  $('#rt-load').innerHTML=placed.map(p=>`<img class="rt-item${p.last?' drop':''}" src="t-${p.id}.webp" alt="" style="left:${pctX(p.x)}%;top:${pctY(p.y)}%;width:${pctX(p.w)}%;z-index:${p.i+1};transform:rotate(${((p.i*37)%5)-2}deg)">`).join('');
+  const pctX=n=>n/IW*100, pctY=n=>n/IH*100;
+  $('#rt-load').innerHTML=placed.map(p=>`<img class="rt-item${p.last?' drop':''}" src="t-${p.id}.webp" alt="" style="left:${pctX(p.x)}%;top:${pctY(p.y)}%;width:${pctX(p.w)}%;z-index:${p.i+1};transform:rotate(${((p.i*37)%3)-1}deg)">`).join('');
   $('#rt-empty').hidden=order.length>0; $('#rt-over').hidden=!over;
 }
 drawTruck();
