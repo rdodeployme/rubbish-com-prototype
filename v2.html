@@ -520,6 +520,19 @@
   .embed .builder{grid-template-columns:1fr;max-width:1000px;margin-inline:auto}
   .embed .page-head{padding-top:64px}
   .embed .filters,.embed .post-sum,.embed .stepper{top:16px}
+
+  /* Real truck stage */
+  .rtruck{position:relative;width:100%;max-width:900px;margin:0 auto;aspect-ratio:1259/959}
+  .rtruck .rt-truck{position:absolute;left:0;bottom:0;width:100%;height:auto;z-index:1;filter:drop-shadow(0 10px 10px rgba(0,0,0,.25))}
+  .rt-load{position:absolute;inset:0;z-index:2}
+  .rt-item{position:absolute;height:auto;filter:drop-shadow(0 4px 4px rgba(0,0,0,.35));transform-origin:50% 100%}
+  .rt-item.drop{animation:rtdrop .45s cubic-bezier(.3,1.35,.6,1)}
+  @keyframes rtdrop{from{translate:0 -120px;opacity:0}to{translate:0 0;opacity:1}}
+  .rtruck .rt-panel{position:absolute;z-index:3;left:0;width:71.088%;top:calc((232 + 380) / 959 * 100%);height:auto}
+  .rt-empty{position:absolute;z-index:4;left:4%;top:22%;font-weight:800;font-size:15px;background:rgba(255,255,255,.75);border-radius:999px;padding:7px 14px}
+  .rt-over{position:absolute;z-index:4;right:2%;top:4%;background:#000;color:var(--accent);border-radius:999px;padding:8px 14px;font-weight:800;font-size:14px}
+  .canvas:has(.rtruck){min-height:0}
+  @media(max-width:560px){ .rt-over{font-size:11.5px;padding:5px 10px;top:2%} .rt-empty{font-size:12.5px} }
   @media(prefers-reduced-motion:reduce){ *{animation:none !important;transition:none !important} html{scroll-behavior:auto} }
 </style>
 </head>
@@ -585,7 +598,13 @@
             <div><h2>Load the truck</h2><p>Add what's going. Collectors use this to quote, so the closer it is, the better the price.</p></div>
             <div class="readout"><div class="big" id="pu-vol">0 m³</div><div class="small" id="pu-fill">Tap items below to start</div></div>
           </div>
-          <div class="canvas"><svg id="truck" viewBox="0 0 760 300" role="img" aria-label="Tipper truck filling with your items"></svg></div>
+          <div class="canvas"><div class="rtruck" id="truck" role="img" aria-label="Your Rubbish.com.au truck, loaded with the items you add">
+            <img class="rt-truck" src="t-truck.webp" alt="" width="1259" height="579">
+            <div class="rt-load" id="rt-load"></div>
+            <img class="rt-panel" src="t-panel.webp" alt="" width="895" height="130">
+            <span class="rt-empty" id="rt-empty">Tap items below to load the truck</span>
+            <span class="rt-over" id="rt-over" hidden>Over a full load</span>
+          </div></div>
           <div class="controls">
             <div class="items" id="items"></div>
             <div class="actions">
@@ -1097,61 +1116,43 @@ const qty=Object.fromEntries(ITEMS.map(i=>[i.id,0]));
 const CAP=6;
 const icon=(id,col='currentColor')=>`<svg viewBox="0 0 24 24" fill="none" stroke="${col}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[id]}</svg>`;
 $('#items').innerHTML=ITEMS.map(i=>`<div class="item" data-id="${i.id}">${icon(i.id)}<span class="nm">${i.n}${i.s?`<small>${i.s}</small>`:''}</span><span class="step"><button type="button" data-d="-1" aria-label="Remove ${i.n}">−</button><output>0</output><button type="button" data-d="1" aria-label="Add ${i.n}">+</button></span></div>`).join('');
+let order=[]; // item ids in the order they were added
 $('#items').addEventListener('click',e=>{
   const b=e.target.closest('button[data-d]'); if(!b)return;
-  const row=b.closest('.item'), id=row.dataset.id;
-  qty[id]=Math.max(0,Math.min(20,qty[id]+(+b.dataset.d)));
+  const row=b.closest('.item'), id=row.dataset.id, d=+b.dataset.d;
+  const before=qty[id];
+  qty[id]=Math.max(0,Math.min(20,qty[id]+d));
+  if(qty[id]>before)order.push(id);
+  else if(qty[id]<before){const k=order.lastIndexOf(id);if(k>-1)order.splice(k,1);}
   row.querySelector('output').textContent=qty[id]; row.classList.toggle('has',qty[id]>0);
-  drawTruck(+b.dataset.d>0?id:null);
+  drawTruck(qty[id]>before?id:null);
 });
-$('#pu-clear').addEventListener('click',()=>{ITEMS.forEach(i=>qty[i.id]=0);$$('.item').forEach(r=>{r.classList.remove('has');r.querySelector('output').textContent=0});drawTruck();});
+$('#pu-clear').addEventListener('click',()=>{ITEMS.forEach(i=>qty[i.id]=0);order=[];$$('.item').forEach(r=>{r.classList.remove('has');r.querySelector('output').textContent=0});drawTruck();});
 const vol=()=>ITEMS.reduce((a,i)=>a+i.v*qty[i.id],0);
 const fmt=n=>(Math.round(n*10)/10).toString();
 
-// tray inside the cage: x 40..440, floor y 214, cage top y 64
-const TX=44, TW=392, FLOOR=214, TH=150;
+/* Real truck: item photos stacked into the tray, drawn to scale.
+   Truck image is 1259 x 579 px; ~257 px per metre. Stage adds headroom above the truck. */
+const RT={W:1259,H:579,HR:380,PXM:257,X0:24,X1:852,FLOOR:266,S:.82,DEPTH:.62};
+const RT_ITEM={couch:{h:.85,ar:1.649},chair:{h:.95,ar:1.041},mattress:{h:.28,ar:5.614},bed:{h:.45,ar:4.051},fridge:{h:1.7,ar:.442},washer:{h:.85,ar:.736},wardrobe:{h:1.8,ar:.619},table:{h:.78,ar:2.55},tv:{h:.75,ar:1.407},boxes:{h:.9,ar:.716},bags:{h:.7,ar:1.212},green:{h:.8,ar:1.441}};
 function drawTruck(added){
-  const v=vol();
-  // shelf-pack blocks; area of tray = CAP m³
-  const unitW=TW/ (CAP/ (TH/36)) ; // width per m³ for 36px-high rows
-  const blocks=[]; let x=0,y=0; const rowH=36; let k=0;
-  ITEMS.forEach(i=>{for(let n=0;n<qty[i.id];n++){
-    let w=Math.max(30,i.v*unitW);
-    if(x+w>TW){x=0;y+=rowH;}
-    blocks.push({id:i.id,name:i.n,x:TX+x,y:FLOOR-rowH-y,w:w-3,h:rowH-3,last:added===i.id && n===qty[i.id]-1, k:k++}); x+=w;
-  }});
-  const over=v>CAP;
-  const pct=Math.round(v/CAP*100);
+  const v=vol(), over=v>CAP, pct=Math.round(v/CAP*100);
   $('#pu-vol').textContent=fmt(v)+' m³';
-  $('#pu-fill').textContent= v===0?'Tap items below to start': over?`More than one 6 m³ tipper. Collectors may quote for two loads.`:`About ${pct}% of a 6 m³ tipper`;
-  const blockSVG=blocks.map(b=>`<g class="blk${b.last?' drop':''}"><rect x="${b.x}" y="${b.y}" width="${b.w}" height="${b.h}" rx="6" fill="${b.k%2?'#000':'#fff'}" stroke="#000" stroke-width="2"/>${b.w>70?`<text x="${b.x+b.w/2}" y="${b.y+b.h/2+5}" text-anchor="middle" font-size="13" font-weight="800" fill="${b.k%2?'#fff':'#000'}" font-family="Archivo,sans-serif">${esc(b.name)}</text>`:''}</g>`).join('');
-  const fillTop=Math.max(20,FLOOR-Math.min(v/CAP,1.25)*TH);
-  $('#truck').innerHTML=`
-    <style>.drop{animation:drop .35s cubic-bezier(.3,1.4,.6,1)}@keyframes drop{from{transform:translateY(-60px);opacity:0}to{transform:none;opacity:1}}</style>
-    <!-- ground -->
-    <line x1="0" y1="282" x2="760" y2="282" stroke="#000" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round"/>
-    <!-- chassis -->
-    <rect x="30" y="214" width="610" height="20" rx="4" fill="#000"/>
-    <!-- tray floor + sides -->
-    <rect x="34" y="200" width="412" height="16" fill="#000"/>
-    ${blockSVG}
-    <!-- cage -->
-    <g stroke="#000" stroke-width="4" fill="none">
-      <rect x="38" y="60" width="404" height="154" rx="3"/>
-      ${[1,2,3,4,5,6,7].map(i=>`<line x1="${38+i*50.5}" y1="60" x2="${38+i*50.5}" y2="214" stroke-width="2" opacity=".55"/>`).join('')}
-      <line x1="38" y1="111" x2="442" y2="111" stroke-width="2" opacity=".55"/>
-      <line x1="38" y1="162" x2="442" y2="162" stroke-width="2" opacity=".55"/>
-    </g>
-    <!-- cab -->
-    <path d="M470 100 h110 q34 0 48 34 l20 50 v50 h-178 z" fill="#fff" stroke="#000" stroke-width="4" stroke-linejoin="round"/>
-    <path d="M552 112 h28 q22 0 32 24 l12 30 h-72 z" fill="#000" opacity=".85"/>
-    <circle cx="512" cy="168" r="17" fill="none" stroke="#000" stroke-width="3"/><path d="M506 160 h8 a5 5 0 0 1 0 10 h-8 v8 M512 170 l6 8" stroke="#000" stroke-width="3" fill="none" stroke-linecap="round"/>
-    <rect x="446" y="120" width="24" height="94" fill="#000"/>
-    <!-- wheels -->
-    ${[120,230,560].map(cx=>`<circle cx="${cx}" cy="250" r="32" fill="#000"/><circle cx="${cx}" cy="250" r="13" fill="#fff"/>`).join('')}
-    ${v===0?`<text x="240" y="150" text-anchor="middle" font-size="18" font-weight="700" fill="#000" opacity=".55" font-family="Archivo,sans-serif">Empty tray</text>`:''}
-    ${over?`<g><rect x="520" y="22" width="190" height="40" rx="20" fill="#000"/><text x="615" y="48" text-anchor="middle" font-size="16" font-weight="800" fill="var(--accent)" font-family="Archivo,sans-serif">Over a full load</text></g>`:''}
-  `;
+  $('#pu-fill').textContent= v===0?'Tap items below to start': over?'More than one 6 m³ tipper. Collectors may quote for two loads.':`About ${pct}% of a 6 m³ tipper`;
+  // skyline packing: each item drops into the lowest spot along the tray where it fits, resting on what's below
+  const STEP=4, N=Math.floor((RT.X1-RT.X0)/STEP), sky=new Array(N).fill(RT.FLOOR); const placed=[];
+  order.forEach((id,i)=>{
+    const d=RT_ITEM[id]; let h=d.h*RT.PXM*RT.S, w=h*d.ar;
+    if(w>RT.X1-RT.X0){w=RT.X1-RT.X0;h=w/d.ar;}
+    const span=Math.max(1,Math.round(w/STEP)); let best=0,bestBase=-1e9;
+    for(let c=0;c+span<=N;c++){let base=RT.FLOOR;for(let k=c;k<c+span;k++)base=Math.min(base,sky[k]);if(base>bestBase+0.5){bestBase=base;best=c;}}
+    const x=RT.X0+best*STEP, y=bestBase-h;
+    for(let k=best;k<best+span;k++)sky[k]=bestBase-h*RT.DEPTH;
+    placed.push({id,x,y,w,h,i,last:added===id&&i===order.lastIndexOf(id)});
+  });
+  const TOT=RT.H+RT.HR, pctX=n=>n/RT.W*100, pctY=n=>(n+RT.HR)/TOT*100;
+  $('#rt-load').innerHTML=placed.map(p=>`<img class="rt-item${p.last?' drop':''}" src="t-${p.id}.webp" alt="" style="left:${pctX(p.x)}%;top:${pctY(p.y)}%;width:${pctX(p.w)}%;z-index:${p.i+1};transform:rotate(${((p.i*37)%5)-2}deg)">`).join('');
+  $('#rt-empty').hidden=order.length>0; $('#rt-over').hidden=!over;
 }
 drawTruck();
 
