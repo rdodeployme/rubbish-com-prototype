@@ -1920,11 +1920,12 @@ document.getElementById('f-post').addEventListener('submit', async e => {
 })();
 
 // ---- New-look flows: each original button opens the matching v2 section ----
+const FLOW_BUILD = '20261003b';
 const FLOW_MAP = {post:'flow/pickup', skipreq:'flow/skip', wheelie:'flow/wheelie', join:'join'};
 const flowOv = document.getElementById('flow-ov'), flowFrame = document.getElementById('flow-frame');
 function currentTheme(){ try{ return localStorage.getItem('rb-theme')||'gold'; }catch(e){ return 'gold'; } }
 function openFlow(path){
-  flowFrame.src = 'v2.html?embed=1&theme=' + encodeURIComponent(currentTheme()) + '#/' + path;
+  flowFrame.src = 'v2.html?embed=1&v=' + FLOW_BUILD + '&theme=' + encodeURIComponent(currentTheme()) + '#/' + path;
   flowOv.hidden = false; document.body.style.overflow = 'hidden';
   setTimeout(() => flowFrame.focus(), 50);
 }
