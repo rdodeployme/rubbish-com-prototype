@@ -158,16 +158,27 @@
   .sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:22px;flex-wrap:wrap}
   .sec-head h2{font-size:clamp(30px,3.6vw,48px)}
   .sec-head p{color:#444;max-width:46ch}
-  .row-scroll{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(280px,1fr);gap:14px;overflow-x:auto;padding-bottom:10px;scroll-snap-type:x mandatory}
-  .job{background:#fff;border-radius:var(--r-md);overflow:hidden;scroll-snap-align:start;display:grid;grid-template-rows:150px auto}
+  .row-scroll{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(280px,1fr);gap:14px;overflow-x:auto;padding-bottom:10px;scroll-snap-type:x mandatory;scroll-behavior:smooth}
+  .live-seg{margin-top:14px}
+  .live-seg button[aria-pressed="true"]{background:#000;color:var(--accent)}
+  .jobs-row{grid-auto-columns:minmax(280px,calc((100% - 42px)/4))}
+  .job{background:#fff;border-radius:var(--r-md);overflow:hidden;scroll-snap-align:start;display:grid;grid-template-rows:160px 1fr}
+  .job .ph{position:relative}
   .job img{width:100%;height:100%;object-fit:cover}
-  .job-b{padding:14px 16px 16px;display:grid;gap:6px}
+  .job .size{position:absolute;left:12px;top:12px;background:#000;color:#fff;border-radius:999px;padding:5px 11px;font-size:12.5px;font-weight:700}
+  .job .ago{position:absolute;right:12px;top:12px;background:#fff;color:#000;border-radius:999px;padding:5px 11px;font-size:12.5px;font-weight:700}
+  .job-b{padding:14px 16px 16px;display:grid;grid-template-rows:auto auto 1fr auto;gap:6px}
   .job h3{font-size:17px;font-weight:800;line-height:1.2}
   .job .meta{font-size:13.5px;color:#555}
-  .qmeter{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700}
+  .job .when{font-size:13.5px;font-weight:600}
+  .job-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:8px;padding-top:12px;border-top:1px solid #eee}
+  .qmeter{display:grid;gap:5px;font-size:12.5px;font-weight:700}
   .qmeter i{display:flex;gap:3px}
-  .qmeter i b{width:22px;height:6px;border-radius:3px;background:#ddd}
+  .qmeter i b{width:24px;height:6px;border-radius:3px;background:#e2e2e2}
   .qmeter i b.on{background:#000}
+  .quote-btn{border:2px solid #000;background:transparent;border-radius:999px;padding:8px 14px;font-weight:700;font-size:13.5px;white-space:nowrap;text-decoration:none}
+  .quote-btn:hover{background:#000;color:var(--accent)}
+  .quote-btn[aria-disabled="true"]{border-color:#ddd;color:#999;pointer-events:none}
 
   /* Steps */
   .how{padding:80px 0;display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
@@ -369,10 +380,16 @@
 <section class="live" id="live">
   <div class="wrap">
     <div class="sec-head">
-      <h2 class="display">Being quoted now</h2>
-      <p>Real jobs look like this. Each one aims for 3 quotes from local collectors. (Sample jobs for the prototype.)</p>
+      <div>
+        <h2 class="display">Being quoted now</h2>
+        <div class="seg live-seg" role="group" aria-label="Show jobs in">
+          <button type="button" aria-pressed="true" data-city="all">All</button><button type="button" aria-pressed="false" data-city="VIC">Melbourne</button><button type="button" aria-pressed="false" data-city="QLD">Brisbane</button>
+        </div>
+      </div>
+      <div class="done-nav"><p>Jobs posted in the last few hours. Each one gets up to 3 quotes from local collectors. (Sample jobs for the prototype.)</p>
+        <span class="arrows" data-target="jobs"><button type="button" data-dir="-1" aria-label="Previous jobs">‹</button><button type="button" data-dir="1" aria-label="Next jobs">›</button></span></div>
     </div>
-    <div class="row-scroll" id="jobs"></div>
+    <div class="row-scroll jobs-row" id="jobs"></div>
   </div>
 </section>
 
@@ -397,7 +414,7 @@
     <div class="sec-head">
       <h2 class="display">Recently completed</h2>
       <div class="done-nav"><p>What customers paid and what they said. (Sample jobs for the prototype.)</p>
-        <span class="arrows"><button type="button" data-dir="-1" aria-label="Previous jobs">‹</button><button type="button" data-dir="1" aria-label="Next jobs">›</button></span></div>
+        <span class="arrows" data-target="done-row"><button type="button" data-dir="-1" aria-label="Previous jobs">‹</button><button type="button" data-dir="1" aria-label="Next jobs">›</button></span></div>
     </div>
     <div class="row-scroll done-row" id="done-row"></div>
   </div>
@@ -692,14 +709,28 @@ $('#sheet-form').addEventListener('submit',e=>{
 
 /* ---------- Sample data ---------- */
 const JOBS=[
-  {t:"Deceased estate, 3 bedroom house",img:"https://images.unsplash.com/photo-1784064857689-5f17c9e1539c?w=700&q=65&auto=format&fit=crop",sub:"Carina QLD",size:"Full load",q:2},
-  {t:"End-of-lease clear out",img:"https://images.unsplash.com/photo-1779643302127-0d0bbfa19524?w=700&q=65&auto=format&fit=crop",sub:"Footscray VIC",size:"Quarter load",q:1},
-  {t:"Backyard green waste",img:"https://images.unsplash.com/photo-1779631572359-c2be9512b317?w=700&q=65&auto=format&fit=crop",sub:"Chermside QLD",size:"Half load",q:3},
-  {t:"Office furniture removal",img:"https://images.unsplash.com/photo-1718220216044-006f43e3a9b1?w=700&q=65&auto=format&fit=crop",sub:"Richmond VIC",size:"Full load",q:1},
-  {t:"Garage clean-out",img:"https://images.unsplash.com/photo-1635108198854-26645ffe6714?w=700&q=65&auto=format&fit=crop",sub:"Coorparoo QLD",size:"Half load",q:2},
-  {t:"Kitchen reno waste",img:"https://images.unsplash.com/photo-1773649967611-5f00e2838bbf?w=700&q=65&auto=format&fit=crop",sub:"Ascot QLD",size:"Half load",q:0}
+  {t:"Deceased estate, 3 bedroom house",img:"https://images.unsplash.com/photo-1784064857689-5f17c9e1539c?w=700&q=65&auto=format&fit=crop",sub:"Carina QLD",size:"Full load",day:"Mon 6 Oct",win:"8am – 12pm",ago:"12 min ago",q:2},
+  {t:"End-of-lease clear out",img:"https://images.unsplash.com/photo-1779643302127-0d0bbfa19524?w=700&q=65&auto=format&fit=crop",sub:"Footscray VIC",size:"Quarter load",day:"Sat 4 Oct",win:"1pm – 3pm",ago:"25 min ago",q:1},
+  {t:"Office furniture removal",img:"https://images.unsplash.com/photo-1718220216044-006f43e3a9b1?w=700&q=65&auto=format&fit=crop",sub:"Richmond VIC",size:"Full load",day:"Tue 7 Oct",win:"5am – 8am",ago:"40 min ago",q:1},
+  {t:"Kitchen reno waste",img:"https://images.unsplash.com/photo-1773649967611-5f00e2838bbf?w=700&q=65&auto=format&fit=crop",sub:"Ascot QLD",size:"Half load",day:"Mon 6 Oct",win:"1pm – 3pm",ago:"1 hr ago",q:0},
+  {t:"Garage clean-out",img:"https://images.unsplash.com/photo-1635108198854-26645ffe6714?w=700&q=65&auto=format&fit=crop",sub:"Coorparoo QLD",size:"Half load",day:"Sun 5 Oct",win:"8am – 12pm",ago:"1 hr ago",q:2},
+  {t:"Shed full of junk",img:"https://images.unsplash.com/photo-1726929219819-b90904f9d329?w=700&q=65&auto=format&fit=crop",sub:"Glenroy VIC",size:"Half load",day:"Sat 4 Oct",win:"3pm – 5pm",ago:"2 hrs ago",q:2},
+  {t:"Moving house, rubbish only",img:"https://images.unsplash.com/photo-1653508310311-127794be33b6?w=700&q=65&auto=format&fit=crop",sub:"Brunswick VIC",size:"Quarter load",day:"Wed 8 Oct",win:"8am – 12pm",ago:"3 hrs ago",q:1},
+  {t:"Backyard green waste",img:"https://images.unsplash.com/photo-1779631572359-c2be9512b317?w=700&q=65&auto=format&fit=crop",sub:"Chermside QLD",size:"Half load",day:"Sat 4 Oct",win:"8am – 12pm",ago:"4 hrs ago",q:3}
 ];
-$('#jobs').innerHTML=JOBS.map(j=>`<article class="job"><img src="${j.img}" alt="" loading="lazy"><div class="job-b"><h3>${esc(j.t)}</h3><div class="meta">${esc(j.sub)}, ${esc(j.size).toLowerCase()}</div><div class="qmeter"><i>${[0,1,2].map(n=>`<b class="${n<j.q?'on':''}"></b>`).join('')}</i>${j.q} of 3 quotes</div></div></article>`).join('');
+let city='all';
+function renderJobs(){
+  const list=JOBS.filter(j=>city==='all'||j.sub.endsWith(city));
+  $('#jobs').innerHTML=list.map(j=>{
+    const left=3-j.q, full=left<=0;
+    return `<article class="job"><div class="ph"><img src="${j.img}" alt="" loading="lazy"><span class="size">${esc(j.size)}</span><span class="ago">${esc(j.ago)}</span></div>
+    <div class="job-b"><h3>${esc(j.t)}</h3><div class="meta">${esc(j.sub)}</div><div class="when">${esc(j.day)}, ${esc(j.win)}</div>
+    <div class="job-foot"><div class="qmeter"><i aria-hidden="true">${[0,1,2].map(n=>`<b class="${n<j.q?'on':''}"></b>`).join('')}</i>${full?'Fully quoted':j.q===0?'No quotes yet':`${j.q} of 3 quotes`}</div>
+    <a class="quote-btn" href="#collectors" ${full?'aria-disabled="true" tabindex="-1"':''}>${full?'Closed':'Quote this job'}</a></div></div></article>`;}).join('');
+  $('#jobs').scrollLeft=0;
+}
+$$('.live-seg button').forEach(b=>b.addEventListener('click',()=>{city=b.dataset.city;$$('.live-seg button').forEach(x=>x.setAttribute('aria-pressed',x===b));renderJobs();}));
+renderJobs();
 const DONE=[
   {t:"Shed clean-out",c:"Clear Out Co.",img:"https://images.unsplash.com/photo-1726929219819-b90904f9d329?w=700&q=65&auto=format&fit=crop",sub:"Preston VIC",price:420,r:"On time, did all the lifting and swept out the shed after.",by:"Sarah M."},
   {t:"Full house clear for sale",c:"Northside Removals",img:"https://images.unsplash.com/photo-1765000884289-baee6a441acd?w=700&q=65&auto=format&fit=crop",sub:"Ashgrove QLD",price:1850,r:"Took everything in one day. Made a hard week much easier.",by:"David K."},
@@ -709,7 +740,7 @@ const DONE=[
   {t:"Garden waste",c:"Northside Removals",img:"https://images.unsplash.com/photo-1772981145873-d2a51a3f8e4c?w=700&q=65&auto=format&fit=crop",sub:"Wynnum QLD",price:210,r:"Fast and friendly. Would use again.",by:"Mark H."}
 ];
 $('#done-row').innerHTML=DONE.map(j=>`<article class="dj"><div class="ph"><img src="${j.img}" alt="" loading="lazy"><div class="paid"><small>Paid</small>$${j.price.toLocaleString('en-AU')}</div></div><div class="dj-b"><h3>${esc(j.t)}</h3><div class="meta">${esc(j.sub)}, by ${esc(j.c)}</div><div class="stars" aria-label="5 out of 5 stars">★★★★★</div><blockquote>“${esc(j.r)}”</blockquote><div class="by"><b>${esc(j.by)}</b></div></div></article>`).join('');
-$$('.arrows button').forEach(b=>b.addEventListener('click',()=>{const r=$('#done-row');r.scrollBy({left:(+b.dataset.dir)*r.clientWidth*.8,behavior:'smooth'});}));
+$$('.arrows button').forEach(b=>b.addEventListener('click',()=>{const r=document.getElementById(b.parentElement.dataset.target);r.scrollBy({left:(+b.dataset.dir)*r.clientWidth*.8,behavior:'smooth'});}));
 const CREW=[
   {n:"Clear Out Co.",i:"CO",a:"Melbourne north and west",r:4.9,j:212,b:"Family-run crew of three. Deceased estates and full house clears."},
   {n:"Dave's Ute Runs",i:"DU",a:"Melbourne inner north",r:4.8,j:96,b:"One ute and a trailer. Small loads, move-outs and same-day jobs."},
