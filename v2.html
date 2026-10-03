@@ -249,6 +249,21 @@
   .dj .by{font-size:13px;color:#555}
   .dj .by b{color:#000}
   @media(max-width:760px){ .done-nav{flex-direction:column;align-items:flex-start} .arrows{display:none} .done-sec{padding:48px 0} }
+
+  /* Got a truck panel fills the column down to the stage bottom */
+  @media(min-width:981px){
+    .modes{grid-template-rows:auto auto auto 1fr;align-content:stretch}
+  }
+  .collector-link{margin-top:0;flex-direction:column;align-items:stretch;justify-content:space-between;gap:16px;padding:22px 20px;border:2px dashed #444}
+  .cl-top{display:grid;gap:4px}
+  .cl-top b{font-size:21px;font-variation-settings:"wdth" 112;font-weight:800}
+  .cl-top span{color:#BDBDBD;font-size:14.5px}
+  .cl-list{list-style:none;display:grid;gap:6px;font-size:14.5px;color:#eee}
+  .cl-list li::before{content:"✓";display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;background:var(--accent);color:#000;font-size:10px;font-weight:900;margin-right:9px;vertical-align:1px}
+  .cl-btn{align-self:flex-start;background:var(--accent);color:#000;border-radius:999px;padding:11px 18px;font-weight:700;font-size:14.5px}
+  .collector-link:hover .cl-btn{filter:brightness(.93)}
+  @media(max-width:980px){ .cl-list{display:none} .collector-link{flex-direction:row;align-items:center} }
+  @media(max-width:560px){ .collector-link{flex-direction:column;align-items:stretch} .cl-top span{display:none} }
   @media(prefers-reduced-motion:reduce){ *{animation:none !important;transition:none !important} html{scroll-behavior:auto} }
 </style>
 </head>
@@ -295,7 +310,11 @@
           <span>Supplied and collected. One-off or ongoing, from a single home to apartments and businesses.</span>
           <i>You fill, we empty</i>
         </button>
-        <a class="collector-link" href="#collectors"><span><b>Got a truck?</b> Quote on jobs in your area.</span><span aria-hidden="true">Join</span></a>
+        <a class="collector-link" href="#collectors">
+          <span class="cl-top"><b>Got a truck?</b><span>Become a collector and quote on jobs in your area.</span></span>
+          <ul class="cl-list"><li>Free to register, no joining fees</li><li>Quote on jobs in your area</li><li>Paid after every completed job</li></ul>
+          <span class="cl-btn">Become a collector</span>
+        </a>
       </div>
 
       <div class="stage" aria-live="polite">
