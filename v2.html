@@ -216,6 +216,28 @@
   .foot .tag{color:#fff;font-weight:700;font-size:16px;margin-top:8px}
   .proto{font-size:12.5px;color:#888;margin-top:6px}
 
+
+  /* Completed jobs carousel */
+  .done-sec{background:var(--concrete);padding:64px 0}
+  .done-nav{display:flex;align-items:flex-end;gap:20px}
+  .done-nav p{color:#444;max-width:40ch}
+  .arrows{display:flex;gap:8px}
+  .arrows button{width:46px;height:46px;border-radius:50%;border:2px solid #000;background:transparent;font-size:24px;font-weight:700;line-height:1}
+  .arrows button:hover{background:#000;color:var(--accent)}
+  .done-row{grid-auto-columns:minmax(300px,calc((100% - 42px)/4));scroll-behavior:smooth}
+  .dj{background:#fff;border-radius:var(--r-md);overflow:hidden;scroll-snap-align:start;display:grid;grid-template-rows:170px auto}
+  .dj .ph{position:relative}
+  .dj img{width:100%;height:100%;object-fit:cover}
+  .dj .paid{position:absolute;left:12px;bottom:12px;background:var(--accent);color:#000;border-radius:12px;padding:6px 12px;font-variation-settings:"wdth" 125;font-weight:900;font-size:24px;line-height:1}
+  .dj .paid small{display:block;font-variation-settings:"wdth" 100;font-size:11.5px;font-weight:700}
+  .dj-b{padding:14px 16px 18px;display:grid;gap:6px}
+  .dj h3{font-size:17px;font-weight:800;line-height:1.2}
+  .dj .meta{font-size:13.5px;color:#555}
+  .dj .stars{letter-spacing:2px;font-size:15px}
+  .dj blockquote{font-size:15px;line-height:1.45}
+  .dj .by{font-size:13px;color:#555}
+  .dj .by b{color:#000}
+  @media(max-width:760px){ .done-nav{flex-direction:column;align-items:flex-start} .arrows{display:none} .done-sec{padding:48px 0} }
   @media(prefers-reduced-motion:reduce){ *{animation:none !important;transition:none !important} html{scroll-behavior:auto} }
 </style>
 </head>
@@ -368,6 +390,17 @@
     <img src="hero.jpg?v=3" alt="Collector loading an armchair onto a Rubbish.com.au tipper truck" loading="lazy">
     <figcaption>Get your quote today</figcaption>
   </figure>
+</section>
+
+<section class="done-sec" id="done">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="display">Recently completed</h2>
+      <div class="done-nav"><p>What customers paid and what they said. (Sample jobs for the prototype.)</p>
+        <span class="arrows"><button type="button" data-dir="-1" aria-label="Previous jobs">‹</button><button type="button" data-dir="1" aria-label="Next jobs">›</button></span></div>
+    </div>
+    <div class="row-scroll done-row" id="done-row"></div>
+  </div>
 </section>
 
 <section class="promise">
@@ -667,6 +700,16 @@ const JOBS=[
   {t:"Kitchen reno waste",img:"https://images.unsplash.com/photo-1773649967611-5f00e2838bbf?w=700&q=65&auto=format&fit=crop",sub:"Ascot QLD",size:"Half load",q:0}
 ];
 $('#jobs').innerHTML=JOBS.map(j=>`<article class="job"><img src="${j.img}" alt="" loading="lazy"><div class="job-b"><h3>${esc(j.t)}</h3><div class="meta">${esc(j.sub)}, ${esc(j.size).toLowerCase()}</div><div class="qmeter"><i>${[0,1,2].map(n=>`<b class="${n<j.q?'on':''}"></b>`).join('')}</i>${j.q} of 3 quotes</div></div></article>`).join('');
+const DONE=[
+  {t:"Shed clean-out",c:"Clear Out Co.",img:"https://images.unsplash.com/photo-1726929219819-b90904f9d329?w=700&q=65&auto=format&fit=crop",sub:"Preston VIC",price:420,r:"On time, did all the lifting and swept out the shed after.",by:"Sarah M."},
+  {t:"Full house clear for sale",c:"Northside Removals",img:"https://images.unsplash.com/photo-1765000884289-baee6a441acd?w=700&q=65&auto=format&fit=crop",sub:"Ashgrove QLD",price:1850,r:"Took everything in one day. Made a hard week much easier.",by:"David K."},
+  {t:"Move-out rubbish",c:"Dave's Ute Runs",img:"https://images.unsplash.com/photo-1759373348074-2c144f0166d4?w=700&q=65&auto=format&fit=crop",sub:"Brunswick VIC",price:260,r:"Quoted within ten minutes and came the same afternoon.",by:"Priya S."},
+  {t:"Renovation waste",c:"Tidy Trailer",img:"https://images.unsplash.com/photo-1773649967611-5f00e2838bbf?w=700&q=65&auto=format&fit=crop",sub:"Paddington QLD",price:690,r:"Cheaper than a skip and no council permit needed.",by:"Tom R."},
+  {t:"Office clear-out",c:"Clear Out Co.",img:"https://images.unsplash.com/photo-1577412647305-991150c7d163?w=700&q=65&auto=format&fit=crop",sub:"Collingwood VIC",price:1340,r:"Worked around our hours and left the floor spotless.",by:"Emma L."},
+  {t:"Garden waste",c:"Northside Removals",img:"https://images.unsplash.com/photo-1772981145873-d2a51a3f8e4c?w=700&q=65&auto=format&fit=crop",sub:"Wynnum QLD",price:210,r:"Fast and friendly. Would use again.",by:"Mark H."}
+];
+$('#done-row').innerHTML=DONE.map(j=>`<article class="dj"><div class="ph"><img src="${j.img}" alt="" loading="lazy"><div class="paid"><small>Paid</small>$${j.price.toLocaleString('en-AU')}</div></div><div class="dj-b"><h3>${esc(j.t)}</h3><div class="meta">${esc(j.sub)}, by ${esc(j.c)}</div><div class="stars" aria-label="5 out of 5 stars">★★★★★</div><blockquote>“${esc(j.r)}”</blockquote><div class="by"><b>${esc(j.by)}</b></div></div></article>`).join('');
+$$('.arrows button').forEach(b=>b.addEventListener('click',()=>{const r=$('#done-row');r.scrollBy({left:(+b.dataset.dir)*r.clientWidth*.8,behavior:'smooth'});}));
 const CREW=[
   {n:"Clear Out Co.",i:"CO",a:"Melbourne north and west",r:4.9,j:212,b:"Family-run crew of three. Deceased estates and full house clears."},
   {n:"Dave's Ute Runs",i:"DU",a:"Melbourne inner north",r:4.8,j:96,b:"One ute and a trailer. Small loads, move-outs and same-day jobs."},
