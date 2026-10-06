@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rubbish.com.au – Developer Brief</title>
+<meta name="robots" content="noindex">
+<style>
+:root{--ink:#111;--muted:#555;--line:#e3e3e3;--bg:#fff;--soft:#f6f6f4;--acc:#FBC303;--red:#b42318;--amber:#9a6700;--green:#1a7f37}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif}
+.wrap{max-width:860px;margin:0 auto;padding:40px 16px 80px}
+header{border-bottom:4px solid var(--acc);padding-bottom:20px;margin-bottom:28px}
+.kicker{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+h1{font-size:clamp(28px,5vw,40px);line-height:1.15;margin:6px 0 10px}
+h2{font-size:22px;margin:44px 0 12px;padding-top:8px;border-top:1px solid var(--line)}
+h3{font-size:17px;margin:24px 0 6px}
+p{margin:0 0 12px}
+ul,ol{margin:0 0 14px;padding-left:20px}
+li{margin:4px 0}
+a{color:#0b57d0}
+code{background:var(--soft);padding:1px 5px;border-radius:4px;font-size:.9em}
+.links{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:18px 0}
+.card{border:1px solid var(--line);border-radius:10px;padding:14px 16px;background:var(--soft)}
+.card b{display:block;margin-bottom:2px}
+.card a{word-break:break-all;font-size:14px}
+.note{background:#fff8db;border-left:4px solid var(--acc);padding:12px 16px;border-radius:6px;margin:16px 0}
+table{width:100%;border-collapse:collapse;margin:8px 0 16px;font-size:15px}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--line)}
+th{background:var(--soft);font-size:13px;text-transform:uppercase;letter-spacing:.04em}
+.tbl{overflow-x:auto}
+.tag{display:inline-block;font-size:12px;font-weight:700;padding:1px 8px;border-radius:99px;white-space:nowrap}
+.t-red{background:#fde8e6;color:var(--red)}.t-amb{background:#fff1cc;color:var(--amber)}.t-grn{background:#e3f4e8;color:var(--green)}
+footer{margin-top:48px;color:var(--muted);font-size:14px;border-top:1px solid var(--line);padding-top:16px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="kicker">Developer brief · Prototype handover · October 2026</div>
+  <h1>Rubbish.com.au: marketplace prototype</h1>
+  <p>Rubbish.com.au is an Airtasker-style marketplace for rubbish removal. Customers post a pick-up or request a skip or wheelie bin. Local collectors quote on the job, and the customer picks a quote. The prototype is a clickable front end for showing the concept and the main user flows. It is <strong>not</strong> a working product: there is no backend, no data storage and no payments.</p>
+  <p>This brief covers what has been built, how it is put together, and where it falls short. Sections 5 to 9 set out the full scope for version 1, including payments, security and integrations. Section 10 lists what we need in your quote.</p>
+</header>
+
+<h2>1. Links</h2>
+<div class="links">
+  <div class="card"><b>Main prototype (v1)</b><a href="https://rdodeployme.github.io/rubbish-com-prototype/">rdodeployme.github.io/rubbish-com-prototype/</a><br><span style="font-size:14px;color:#555">The homepage we'd present. Its main buttons open the v2 flows.</span></div>
+  <div class="card"><b>Full concept (v2)</b><a href="https://rdodeployme.github.io/rubbish-com-prototype/v2.html">rdodeployme.github.io/rubbish-com-prototype/v2.html</a><br><span style="font-size:14px;color:#555">The more complete multi-page concept: jobs, bins, profiles and forms.</span></div>
+  <div class="card"><b>Source</b><a href="https://github.com/rdodeployme/rubbish-com-prototype">github.com/rdodeployme/rubbish-com-prototype</a><br><span style="font-size:14px;color:#555">Static files on GitHub Pages. We can give you access on request.</span></div>
+</div>
+<div class="note"><strong>How to look at it:</strong>
+<ul>
+  <li>Start on v1 and click <em>Post a Rubbish pick up</em>.</li>
+  <li>Add items and watch them load into the truck.</li>
+  <li>Try the bin buttons, then open v2 and go through the Jobs, Bins, How it works and Become a collector pages.</li>
+  <li>The coloured dots at the top switch the brand colour. They're only for our internal colour decision; they aren't a product feature.</li>
+</ul>
+</div>
+
+<h2>2. What the prototype shows</h2>
+
+<h3>Customer side</h3>
+<ul>
+  <li><strong>Post a rubbish pick-up</strong>
+    <ul>
+      <li>The customer chooses <em>We load it</em> (a collector does the lifting) or <em>You load it</em> (DIY, truck only).</li>
+      <li>They add items with steppers, such as a couch, fridge, mattress, boxes or green waste.</li>
+      <li>Each item visibly loads into a cutaway box truck, with a running "about X% of a full truckload" estimate.</li>
+      <li>They then add an address, access details, a timeframe and photos, and post the job.</li>
+    </ul>
+  </li>
+  <li><strong>Request a skip bin quote:</strong> choose a size, delivery and pick-up dates, and the placement (driveway or road).</li>
+  <li><strong>Request a wheelie bin quote:</strong> supplied and collected, as a one-off or ongoing service.</li>
+  <li><strong>How it works:</strong> the steps, the factors that change the price, a list of items we can't take (asbestos, hazardous waste and similar) and an FAQ.</li>
+</ul>
+
+<h3>Collector side</h3>
+<ul>
+  <li><strong>Jobs board:</strong> filter by city, job type and size. Each job has a detail page and a quote form with price, earliest date and a message.</li>
+  <li><strong>Bin requests:</strong> collectors can quote on open skip and wheelie bin requests.</li>
+  <li><strong>Collector profiles:</strong> rating, completed jobs, reviews, vehicle, service area and verification badges.</li>
+  <li><strong>Become a collector:</strong> a 7-step sign-up covering business details, ABN, vehicle, service area, licence and insurance. The pitch is: free to register, no joining fees, quote on jobs in your area, and get paid after every completed job.</li>
+</ul>
+
+<h3>Shared</h3>
+<ul>
+  <li>Homepage carousels: "Being quoted now" (filterable by city) and "Recently completed".</li>
+  <li>Mobile menu and a responsive layout down to phone width.</li>
+  <li>The v2 flows can be embedded (<code>?embed=1</code>), which is how v1 opens them.</li>
+</ul>
+
+<h2>3. How it's built</h2>
+<div class="tbl"><table>
+<tr><th>Item</th><th>Detail</th></tr>
+<tr><td><code>index.html</code> (v1)</td><td>A single static HTML file with inline CSS and JS and base64 logos. It uses hash views (<code>#jobs</code>, <code>#how</code>, <code>#join</code>, <code>#skips</code>). Its hero buttons open the v2 flows in a full-screen iframe overlay. A <code>FLOW_BUILD</code> constant busts the cache.</td></tr>
+<tr><td><code>v2.html</code> (v2)</td><td>A single static HTML file with a hash router: <code>#/</code>, <code>#/jobs</code>, <code>#/job/N</code>, <code>#/bins</code>, <code>#/how</code>, <code>#/collector/N</code>, <code>#/post</code>, <code>#/join</code>, <code>#/flow/&lt;mode&gt;</code>. In embed mode it talks to its parent with <code>postMessage</code> (close and nav events).</td></tr>
+<tr><td><code>v2.src.html</code> + <code>v2-views.*</code></td><td>The v2 source fragments. A small script merges them and inlines the logos to produce <code>v2.html</code>.</td></tr>
+<tr><td>Truck loader</td><td>The truck photo (<code>t-boxtruck.webp</code>) sits under a frame overlay (<code>t-boxframe.webp</code>). There are 12 transparent item cut-outs (<code>t-*.webp</code>). Items are placed with simple skyline packing inside a clipped cargo rectangle, and their sizes are scaled from rough m³ volumes.</td></tr>
+<tr><td>Data</td><td>All jobs, collectors, reviews, completed jobs and bin requests are hard-coded JavaScript arrays.</td></tr>
+<tr><td>Hosting</td><td>GitHub Pages with no build pipeline. The files were uploaded by hand.</td></tr>
+<tr><td>Libraries</td><td>None, apart from Google Fonts (v1 uses Inter and Inter Tight; v2 uses Archivo). The code is plain HTML, CSS and JS.</td></tr>
+</table></div>
+<p>Treat this code as a <strong>visual and UX reference, not a starting codebase</strong>. It was built fast to test the concept. We expect the real build to be a proper app with its own architecture.</p>
+
+<h2>4. Where it falls short</h2>
+<p>We'd rather be upfront about this. Everything below is missing, faked or unverified.</p>
+
+<h3>Not built at all</h3>
+<div class="tbl"><table>
+<tr><th style="width:28%">Area</th><th>Current state</th><th style="width:14%">Severity</th></tr>
+<tr><td>Backend and database</td><td>None. Posted jobs, quotes, bin requests and sign-ups are kept in browser memory only and are lost on refresh.</td><td><span class="tag t-red">Core</span></td></tr>
+<tr><td>Accounts and login</td><td>None. There are no customer or collector accounts, no roles and no sessions.</td><td><span class="tag t-red">Core</span></td></tr>
+<tr><td>Quote acceptance and booking</td><td>Collectors can "submit" a quote, but customers can't compare or accept quotes, and there's no booking confirmation.</td><td><span class="tag t-red">Core</span></td></tr>
+<tr><td>Payments and payouts</td><td>None. The "pay after every completed job" model needs payment holds, platform fees, collector payouts, refunds and disputes. None of these is designed yet.</td><td><span class="tag t-red">Core</span></td></tr>
+<tr><td>Notifications</td><td>No SMS, email or push messages: nothing for new quotes, job reminders or "collector on the way".</td><td><span class="tag t-red">Core</span></td></tr>
+<tr><td>Messaging</td><td>No customer-to-collector chat or Q&amp;A on jobs.</td><td><span class="tag t-amb">High</span></td></tr>
+<tr><td>Maps and location</td><td>No address autocomplete, geolocation, service-area matching or distance calculation. Suburbs and distances are hard-coded.</td><td><span class="tag t-amb">High</span></td></tr>
+<tr><td>Photo uploads</td><td>Photos only preview in the browser. Nothing is uploaded or stored.</td><td><span class="tag t-amb">High</span></td></tr>
+<tr><td>Collector verification</td><td>Badges such as "ID verified", "Insured" and "ABN" are just visuals. There's no ABN lookup, document upload, licence or insurance checks, or approval workflow.</td><td><span class="tag t-amb">High</span></td></tr>
+<tr><td>Admin and back office</td><td>No admin panel for moderation, collector approval, disputes, refunds or reporting.</td><td><span class="tag t-amb">High</span></td></tr>
+<tr><td>Collector dashboard</td><td>No "my quotes / my jobs / my earnings" area for collectors.</td><td><span class="tag t-amb">High</span></td></tr>
+<tr><td>Reviews</td><td>Reviews are sample text. There's no way to leave one after a job.</td><td><span class="tag t-grn">Medium</span></td></tr>
+<tr><td>Legal and policy pages</td><td>No terms, privacy policy or marketplace rules (who is liable for what), and no waste-handling responsibilities set out.</td><td><span class="tag t-amb">High</span></td></tr>
+</table></div>
+
+<h3>Built, but placeholder or unverified</h3>
+<ul>
+  <li><strong>All content is sample data.</strong> Jobs, collectors, names, ratings, reviews, prices, completed jobs and the homepage stats (97% and $1,500) are illustrative only.</li>
+  <li><strong>The volume estimate is a rough guess.</strong>
+    <ul>
+      <li>Item volumes are approximate.</li>
+      <li>A "full truckload" is assumed to be 20 m³ and a standard skip 6 m³.</li>
+      <li>The wheelie bin "good for" labels are placeholders.</li>
+      <li>These figures need sign-off from operations before they're shown to customers as estimates.</li>
+    </ul>
+  </li>
+  <li><strong>The truck graphic is an approximation.</strong> It's a 2D side-on view, so it shows roughly how full the truck is, not a real 3D packing calculation. If too many items are added, the extras are clipped rather than handled properly.</li>
+  <li><strong>No pricing logic.</strong> The prototype never calculates a price. Collectors set prices through quotes. Any guide pricing would need to be designed from scratch.</li>
+  <li><strong>Disposal and depots are generic.</strong> There's no depot directory, gate-fee data or check that waste goes somewhere legitimate.</li>
+</ul>
+
+<h3>Technical and design limitations</h3>
+<ul>
+  <li><strong>Two separate codebases.</strong> v1 and v2 use different fonts and styling and duplicate logic. v1 shows v2 inside an iframe, so a job posted in the overlay never appears in v1's lists.</li>
+  <li><strong>Images are AI-generated.</strong> The hero, the truck and the item cut-outs need replacing with real photography or commissioned illustration before launch. The logo on the truck door is part of the photo, so it doesn't change with the colour switcher.</li>
+  <li><strong>The logo isn't a vector.</strong> It was cropped from a JPEG logo pack, so we'll supply proper SVG files.</li>
+  <li><strong>Brand colour isn't final.</strong> Gold (<code>#FBC303</code>) is the default, and the switcher exists only to help us decide.</li>
+  <li><strong>Not production-quality code.</strong>
+    <ul>
+      <li>Each site is one large inline file.</li>
+      <li>There are no components and no automated tests.</li>
+      <li>There's no linting and no CI or deploy pipeline.</li>
+      <li>Logos are embedded as base64, so the file sizes are heavy (about 330 KB each).</li>
+    </ul>
+  </li>
+  <li><strong>Limited testing.</strong>
+    <ul>
+      <li>It has only been checked in desktop Chrome and headless Chromium at phone and desktop widths.</li>
+      <li>It hasn't been tested on real iOS or Android devices, in Safari or Firefox, with screen readers, or against WCAG.</li>
+    </ul>
+  </li>
+  <li><strong>No SEO or analytics.</strong> There's no metadata strategy, no tracking and no conversion events.</li>
+  <li><strong>Security and privacy haven't been considered.</strong> There's nothing to secure yet, but the real build will handle addresses, phone numbers, ABNs, licences and payments.</li>
+</ul>
+
+<h2>5. Scope to quote: version 1</h2>
+<p>This is what we need priced. Items marked <span class="tag t-amb">Proposed</span> are our current thinking but haven't been signed off. Please build those as <strong>admin-configurable settings</strong> rather than hard-coding them, so a change doesn't need a developer.</p>
+
+<h3>5.1 Platforms</h3>
+<ul>
+  <li><strong>Customer:</strong> a mobile-first responsive website. Customers mostly arrive from Google and Meta ads, so there is no app download for customers in version 1.</li>
+  <li><strong>Collector:</strong> an iOS and Android app, or a progressive web app (PWA) if you can convince us push notifications and camera uploads will be reliable enough. Please quote both options. Collectors need instant job alerts, photo upload from the truck, and navigation to the job.</li>
+  <li><strong>Admin:</strong> a web back office for our team.</li>
+  <li><strong>Launch:</strong> one city first. Architecture must support adding more cities and service areas without rework.</li>
+</ul>
+
+<h3>5.2 Customer features</h3>
+<div class="tbl"><table>
+<tr><th style="width:30%">Feature</th><th>Requirement</th></tr>
+<tr><td>Post a rubbish pick-up</td><td>The flow shown in the prototype:
+  <ul>
+    <li>Choose <em>We load it</em> or <em>You load it</em>.</li>
+    <li>Add items, with the live truck-volume visual and estimate.</li>
+    <li>Enter the address (with autocomplete) and access notes: stairs, distance from the truck, parking.</li>
+    <li>Choose a preferred date or window and upload photos (at least 3, up to 10).</li>
+  </ul>
+  Customers can post before creating an account; sign-up happens at the end of the flow.</td></tr>
+<tr><td>Request a skip bin</td><td>Choose a size, delivery and pick-up dates, placement (driveway or road) and waste type. Road placement may need a council permit, so the customer must be told this.</td></tr>
+<tr><td>Request wheelie bins</td><td>Choose a one-off or an ongoing service, the number of bins and the frequency.</td></tr>
+<tr><td>Receive and compare quotes</td><td>Each quote shows the price, earliest date, the collector's message, rating, completed jobs and verification badges. The customer is notified as each quote arrives. <span class="tag t-amb">Proposed</span> Quoting closes after 48 hours or 5 quotes, whichever comes first.</td></tr>
+<tr><td>Ask questions</td><td>Collectors can ask questions on a job before quoting, and the customer can answer them.</td></tr>
+<tr><td>Accept and pay</td><td>The customer accepts one quote and pays in full by card, Apple Pay or Google Pay (see section 6).</td></tr>
+<tr><td>Job tracking</td><td>Status steps: Booked → Collector on the way → In progress → Completed → Confirmed. The customer can see the collector's details once the job is booked.</td></tr>
+<tr><td>Price changes on the day</td><td>If the job is bigger or smaller than posted, the collector proposes a new price in the app with photos. The customer must approve it in the app <strong>before</strong> any extra work starts. The extra amount is charged to the saved card, or the difference refunded.</td></tr>
+<tr><td>Confirm completion</td><td>The customer confirms the job is done or raises a problem. <span class="tag t-amb">Proposed</span> The job auto-confirms after 48 hours if the customer doesn't respond.</td></tr>
+<tr><td>Review</td><td>A star rating and written review of the collector, which go on the collector's profile.</td></tr>
+<tr><td>Account</td><td>Job history, receipts or tax invoices, saved addresses, and payment methods (stored by Stripe, not by us).</td></tr>
+<tr><td>Cancel</td><td>The customer can cancel and is charged according to the cancellation rules (see 6.4).</td></tr>
+</table></div>
+
+<h3>5.3 Collector features</h3>
+<div class="tbl"><table>
+<tr><th style="width:30%">Feature</th><th>Requirement</th></tr>
+<tr><td>Sign-up and verification</td><td>The 7-step flow shown in the prototype, then onboarding to Stripe for ID and bank details. A collector can't quote until all mandatory checks pass (see 7.3). There are no joining or subscription fees.</td></tr>
+<tr><td>Profile</td><td>Business name, photo, vehicles (type and capacity), service area (suburbs or a radius), services offered, badges, rating and reviews.</td></tr>
+<tr><td>Job feed</td><td>Jobs inside their service area, filterable by type, size, date and distance. Push and SMS alerts for new jobs, with collector-controlled notification settings.</td></tr>
+<tr><td>Quote</td><td>Price (the collector sees what they'll receive after our fee), earliest date and a message. A quote can be edited or withdrawn until the customer accepts it.</td></tr>
+<tr><td>My jobs</td><td>Upcoming, in-progress and completed jobs. The full address and contact details unlock on booking, with one-tap navigation.</td></tr>
+<tr><td>Job completion</td><td>
+  <ul>
+    <li>Upload "before" and "after" photos.</li>
+    <li>Raise a price change if needed.</li>
+    <li>Upload <strong>proof of disposal</strong>: a tip receipt or weighbridge ticket (see 6.3).</li>
+    <li>Mark the job complete.</li>
+  </ul></td></tr>
+<tr><td>Earnings</td><td>Pending and paid amounts, payout history, and downloadable statements showing our fees.</td></tr>
+<tr><td>Compliance reminders</td><td>Automatic reminders before insurance or licence documents expire. The account is suspended from quoting if a document lapses.</td></tr>
+</table></div>
+
+<h3>5.4 Admin (back office)</h3>
+<ul>
+  <li><strong>Dashboard:</strong> jobs posted, quoted, booked and completed; revenue; fees earned; conversion rate from post to booking.</li>
+  <li><strong>Collector approvals:</strong> review documents and approve, reject or suspend collectors. The full audit history is kept.</li>
+  <li><strong>Jobs:</strong> view any job end to end and edit, cancel or refund it. All admin actions are logged.</li>
+  <li><strong>Disputes:</strong> a queue with both parties' photos, messages and payment status. Admin can freeze a payout, refund in full or in part, or release the payment.</li>
+  <li><strong>Settings:</strong> fee percentages, quote window, auto-confirm time, cancellation fees, service areas, the items list and volumes, and bin sizes.</li>
+  <li><strong>Content:</strong> edit the FAQ, the list of items we can't take, and the homepage stats without a developer.</li>
+  <li><strong>User support:</strong> search users, view message threads (with an audit trail of who viewed them), and lock or unlock accounts.</li>
+  <li><strong>Exports:</strong> CSV export of jobs, payouts and fees for accounting.</li>
+</ul>
+
+<h3>5.5 Messaging and notifications</h3>
+<ul>
+  <li><strong>In-app messaging</strong> between customer and collector, tied to each job.</li>
+  <li><span class="tag t-amb">Proposed</span> <strong>Detect contact details before booking.</strong> Phone numbers and emails in messages are hidden until a quote is accepted, so jobs aren't taken off the platform.</li>
+  <li><span class="tag t-amb">Proposed</span> <strong>Masked calling</strong> after booking: a proxy number such as Twilio, so neither side sees the other's real number. Please quote this as an option.</li>
+  <li><strong>Notifications by event:</strong>
+    <ul>
+      <li>New quote, quote accepted, collector on the way and job completed.</li>
+      <li>Price change requested, payment released and review requested.</li>
+      <li>Document expiring.</li>
+    </ul>
+    Each event needs SMS, email and push templates, editable in admin.</li>
+</ul>
+
+<h2>6. Payments</h2>
+<div class="note">Our assumption is <strong>Stripe Connect</strong>: Express accounts for collectors, with separate charges and transfers. Collectors' ID and bank checks are handled by Stripe, and card data never touches our servers. If you'd recommend a different provider, tell us why.</div>
+
+<h3>6.1 How the money moves</h3>
+<ol>
+  <li><strong>Accept:</strong> the customer accepts a quote and is charged the full amount, plus any customer fee, straight away. Funds sit in the platform's Stripe balance.<br><span style="color:#555;font-size:14px">We charge upfront rather than placing a hold on the card because card holds expire after about 7 days, and many jobs will be booked further ahead than that.</span></li>
+  <li><strong>Price change:</strong> an approved increase is charged to the saved card; a decrease is refunded.</li>
+  <li><strong>Complete:</strong> the collector marks the job done and uploads the required photos and proof of disposal.</li>
+  <li><strong>Release:</strong> when the customer confirms, or the job auto-confirms, the collector's share is transferred to their Stripe account and paid out on Stripe's standard schedule.</li>
+  <li><strong>Dispute:</strong> if the customer raises a problem before the job is confirmed, the transfer is frozen until admin resolves it.</li>
+</ol>
+
+<h3>6.2 Fees</h3>
+<ul>
+  <li><span class="tag t-amb">Proposed</span> The platform takes a percentage commission from the collector's quote and/or adds a service fee to the customer. <strong>The rates and the split aren't decided</strong>, so build it so both can be set in admin, including a fee of zero.</li>
+  <li>Card processing costs are absorbed in our fee, not shown as a separate surcharge.</li>
+  <li>Collectors always see what they'll actually receive before they submit a quote.</li>
+</ul>
+
+<h3>6.3 Proof of disposal</h3>
+<p><span class="tag t-amb">Proposed</span> Payment is not released until the collector uploads a tip receipt or weighbridge ticket, or confirms the items were taken for resale or donation (with a photo). This protects us against collectors dumping rubbish illegally, and lets us tell customers where their rubbish went. Admin can waive the requirement for a particular job. Please also quote optional AI or OCR checking that a receipt is real and that its date matches the job.</p>
+
+<h3>6.4 Cancellations and refunds</h3>
+<p><span class="tag t-amb">Proposed</span> These are starting rules; all the times and percentages must be configurable.</p>
+<div class="tbl"><table>
+<tr><th>Situation</th><th>Outcome</th></tr>
+<tr><td>Customer cancels more than 24 hours before the job</td><td>Full refund.</td></tr>
+<tr><td>Customer cancels less than 24 hours before the job</td><td>Cancellation fee kept and partly paid to the collector.</td></tr>
+<tr><td>Collector arrives and the customer isn't there or there's no access</td><td>Call-out fee charged, with photo evidence required.</td></tr>
+<tr><td>Collector cancels</td><td>Full refund, or the job goes back out for quotes. Repeated cancellations count against the collector's profile.</td></tr>
+<tr><td>Collector doesn't turn up</td><td>Full refund, and the collector is flagged for admin review.</td></tr>
+<tr><td>Dispute</td><td>Admin decides: release the payment, refund in part or refund in full.</td></tr>
+</table></div>
+
+<h3>6.5 Invoices, GST and tax reporting</h3>
+<ul>
+  <li><strong>Tax invoices:</strong> issued automatically.
+    <ul>
+      <li>The collector's invoice to the customer for the job, which must handle collectors who are and aren't registered for GST.</li>
+      <li>Our invoice for platform fees.</li>
+    </ul>
+  </li>
+  <li><strong>Collector statements:</strong> each one shows the gross amount, our fees and the net payout.</li>
+  <li><strong>ATO reporting:</strong> we expect to fall under the ATO's sharing economy reporting regime, which means reporting collector payouts. The data model must capture what's needed for this. <span class="tag t-red">Needs confirmation</span> with our accountant.</li>
+  <li><strong>Financial-services licensing:</strong> we need confirmation that holding funds before release is covered by the Stripe Connect structure and doesn't need a licence. <span class="tag t-red">Needs confirmation</span> with our legal and accounting advisers.</li>
+  <li><strong>Accounting:</strong> integration with Xero is preferred. Please quote it as an option.</li>
+</ul>
+
+<h2>7. Security, privacy and compliance</h2>
+
+<h3>7.1 Accounts and access</h3>
+<ul>
+  <li><strong>Customers:</strong> log in with a one-time code by SMS or email. Passwordless is preferred.</li>
+  <li><strong>Collectors:</strong> one-time code or password, with two-factor authentication available.</li>
+  <li><strong>Admin:</strong> two-factor authentication is mandatory, and there's a session timeout.</li>
+  <li><strong>Roles:</strong> customer, collector, admin and support. Each role sees only what it needs; for example, support can't change fees or payouts.</li>
+  <li><strong>Brute-force protection:</strong> rate limiting on logins and codes, and on the post and quote endpoints.</li>
+</ul>
+
+<h3>7.2 Protecting customer data</h3>
+<ul>
+  <li>Collectors see the <strong>suburb only</strong> before booking. The street address and phone number unlock only for the booked collector, and access is removed 7 days after completion.</li>
+  <li>Job photos are checked for people's faces and house numbers. <span class="tag t-amb">Proposed</span> This is optional and can be quoted separately.</li>
+  <li>All data is encrypted in transit and at rest, and hosted in Australia.</li>
+  <li>Card data goes only to Stripe, using hosted payment fields. No card numbers are stored or seen by us.</li>
+  <li>Licences, insurance documents and ID are stored in private storage with expiring links, and only admin can view them.</li>
+  <li>The design must meet the Australian Privacy Act and the Australian Privacy Principles: a privacy policy, data access and deletion requests, and data retention rules.</li>
+  <li>A data-breach response plan is needed, so we can meet the Notifiable Data Breaches scheme.</li>
+</ul>
+
+<h3>7.3 Collector verification</h3>
+<div class="tbl"><table>
+<tr><th>Check</th><th>How</th><th>Launch</th></tr>
+<tr><td>ABN</td><td>Automatic lookup against the Australian Business Register (ABN Lookup), including GST registration status.</td><td><span class="tag t-grn">Mandatory</span></td></tr>
+<tr><td>Identity and bank account</td><td>Stripe Connect onboarding.</td><td><span class="tag t-grn">Mandatory</span></td></tr>
+<tr><td>Driver's licence</td><td>Upload, with an admin check.</td><td><span class="tag t-grn">Mandatory</span></td></tr>
+<tr><td>Public liability insurance</td><td>Upload the certificate of currency. The expiry date is tracked and quoting is blocked when it lapses.</td><td><span class="tag t-grn">Mandatory</span></td></tr>
+<tr><td>Vehicle registration and photos</td><td>Upload, with an admin check.</td><td><span class="tag t-amb">Proposed</span></td></tr>
+<tr><td>Police check</td><td>Through an accredited provider integration, or an uploaded certificate.</td><td><span class="tag t-amb">Phase 2</span></td></tr>
+<tr><td>EPA or waste transport permits</td><td>Collectors declare they meet their state's requirements. Upload a permit where one applies.</td><td><span class="tag t-amb">Proposed</span></td></tr>
+</table></div>
+
+<h3>7.4 Fraud and platform abuse</h3>
+<ul>
+  <li>Fake or duplicate accounts are detected by phone, device and payment fingerprint.</li>
+  <li>Collectors with too many cancellations, no-shows or low ratings are flagged automatically.</li>
+  <li>Stripe Radar handles card fraud, and our chargeback process uses the job photos and messages as evidence.</li>
+  <li>Customers can report a collector, and collectors can report a customer.</li>
+</ul>
+
+<h3>7.5 Legal pages (we'll supply the wording, you build the pages)</h3>
+<ul>
+  <li>Customer terms, collector terms and the marketplace rules. Collectors are independent businesses.</li>
+  <li>Privacy policy and cookie notice.</li>
+  <li>Prohibited items: asbestos, hazardous waste, chemicals, gas bottles and similar. Collectors must be able to refuse these on site.</li>
+  <li>Acceptance of the terms is recorded with a timestamp and version number.</li>
+</ul>
+
+<h2>8. Integrations</h2>
+<div class="tbl"><table>
+<tr><th>Purpose</th><th>Assumed provider</th></tr>
+<tr><td>Payments, payouts and identity</td><td>Stripe Connect and Stripe Radar</td></tr>
+<tr><td>Address autocomplete and distances</td><td>Google Maps Platform (Places, Distance Matrix)</td></tr>
+<tr><td>SMS, one-time codes and masked calling</td><td>Twilio or a similar provider</td></tr>
+<tr><td>Email</td><td>Postmark, SendGrid or similar</td></tr>
+<tr><td>Push notifications</td><td>Firebase or APNs</td></tr>
+<tr><td>ABN verification</td><td>ABN Lookup web services (free)</td></tr>
+<tr><td>File storage</td><td>Private cloud storage hosted in Australia</td></tr>
+<tr><td>Analytics and ads</td><td>Google Analytics 4, the Meta Pixel and Conversions API, and Google Ads conversion tracking for posts, bookings and sign-ups</td></tr>
+<tr><td>Accounting (optional)</td><td>Xero</td></tr>
+</table></div>
+<p>Please list the running costs of each service at our expected scale. You can propose alternatives.</p>
+
+<h2>9. Non-functional requirements</h2>
+<ul>
+  <li><strong>Hosting:</strong> Australian region, with automated daily backups and a tested restore.</li>
+  <li><strong>Environments:</strong> separate staging and production, and we have access to staging for testing.</li>
+  <li><strong>Performance:</strong> customer pages load fast on mobile 4G, and the job-posting flow works on older phones.</li>
+  <li><strong>Accessibility:</strong> the customer website meets WCAG 2.1 AA.</li>
+  <li><strong>SEO:</strong> server-rendered marketing pages, with city and service landing pages we can add and edit.</li>
+  <li><strong>Reliability:</strong> error monitoring and uptime alerts.</li>
+  <li><strong>Testing:</strong> automated tests on the payment and payout logic as a minimum.</li>
+  <li><strong>Ownership:</strong> we own the code, designs and data. The code goes in our repository, with documentation and a full handover.</li>
+</ul>
+
+<h2>10. What we'd like back from you</h2>
+<ul>
+  <li><strong>Approach:</strong> your recommended approach and tech stack, and why. Native app, cross-platform or PWA for collectors.</li>
+  <li><strong>Itemised quote:</strong> broken down by section of this brief (5.2 to 9), so we can see what each part costs and cut or defer items.</li>
+  <li><strong>Optional extras:</strong> separate prices for each item marked Proposed or Phase 2 (masked calling, receipt checking, police checks, Xero, the photo privacy check).</li>
+  <li><strong>Timeline:</strong> milestones and when we'd be able to test.</li>
+  <li><strong>Running costs:</strong> monthly hosting and third-party costs, plus your support and maintenance retainer.</li>
+  <li><strong>Team:</strong> who would work on it, and examples of marketplace or payments work you've done before.</li>
+  <li><strong>Feedback:</strong> anything in this brief you think is wrong, missing or over-complicated.</li>
+</ul>
+
+<h3>Still to confirm on our side</h3>
+<ul>
+  <li>Launch city.</li>
+  <li>Fee rates and who pays them (the build should be configurable).</li>
+  <li>Whether skip and wheelie bins launch in version 1 or later. Please price them as a separate line.</li>
+  <li>Final brand colour and logo files (we'll supply SVGs).</li>
+  <li>Legal and accounting sign-off on fund holding, GST handling and ATO reporting.</li>
+</ul>
+
+<footer>
+  Prepared October 2026 · Questions to Ryan, <a href="mailto:ryan@junk.com.au">ryan@junk.com.au</a><br>
+  This prototype is confidential concept work. Please don't share it publicly.
+</footer>
+</div>
+</body>
+</html>
