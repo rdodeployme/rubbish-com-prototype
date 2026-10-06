@@ -259,6 +259,7 @@
   }
   .skip .skip-art{margin:-20px -20px 4px;height:150px;background:var(--black);display:flex;align-items:flex-end;justify-content:center;padding-bottom:18px;position:relative}
   .skip .skip-art svg{display:block;max-width:100%;height:auto}
+  .skip .muted-note{color:#555;font-size:14px}
   .skip .skip-size{position:absolute;top:14px;left:16px;background:var(--green);color:var(--black);font-family:"Inter Tight";font-weight:800;font-size:22px;border-radius:12px;padding:4px 12px}
   .skip .skip-size small{font-size:13px}
   .skip-price{font-family:"Inter Tight";font-weight:800;font-size:30px;line-height:1}
@@ -1406,12 +1407,82 @@ const hookSVG = m3 => { /* side view, front on the left: chamfered lower front e
     <circle cx="${x0+L-12}" cy="${yb+9}" r="5" fill="#000" stroke="var(--green)" stroke-width="2"/>
     <text x="${x0 + c/2 + (L-c/2)/2}" y="${yt + H/2 + 9}" text-anchor="middle" font-family="Inter Tight, Inter, sans-serif" font-weight="800" font-size="${Math.min(30, 18+m3*0.4)}" fill="#000">${m3}m³</text>
   </svg>`; };
+/* ---------- See-through bins: real-size side view, packed with an example load ---------- */
+const BL={
+  /* id: [m³, height m, width/height ratio of the cutout image, label] */
+  items:{couch:[1.5,.85,1.649,'couch'],chair:[.6,.95,1.041,'armchair'],mattress:[.6,.28,5.614,'mattress'],bed:[.6,.45,4.051,'bed base'],fridge:[.8,1.7,.442,'fridge'],washer:[.4,.85,.736,'washer'],wardrobe:[1.2,1.8,.619,'wardrobe'],table:[.6,.78,2.55,'table'],tv:[.15,.75,1.407,'TV'],boxes:[.3,.9,.716,'box'],bags:[.4,.7,1.212,'bag'],green:[1,.8,1.441,'green waste']},
+  /* approx. outside dimensions: [top length m, height m]. Typical Australian sizes; suppliers vary. */
+  dim:{skip:{2:[2.0,.9],3:[2.2,1.0],4:[2.6,1.05],6:[3.4,1.2],8:[3.7,1.4],10:[3.9,1.6],12:[4.1,1.7]},
+       hook:{10:[4.0,1.2],12:[4.5,1.2],15:[5.0,1.35],20:[5.8,1.55],23:[6.2,1.7],30:[6.8,1.9]}},
+  seq:['bags','boxes','fridge','green','chair','washer','couch','mattress','table','bags','boxes','wardrobe','green','tv','bed','bags','boxes','couch','chair','green','fridge','bags','boxes','table'],
+  dims(kind,m3){const t=this.dim[kind];if(t[m3])return t[m3];const ks=Object.keys(t).map(Number).sort((a,b)=>a-b);const k=ks.reduce((p,c)=>Math.abs(c-m3)<Math.abs(p-m3)?c:p);const f=Math.cbrt(m3/k);return [t[k][0]*f,t[k][1]*f];},
+  example(kind,m3){
+    const [L]=this.dims(kind,m3), maxLen=L*(kind==='skip'?.66:.95), out=[]; let v=0, stall=0, i=0;
+    while(stall<this.seq.length&&out.length<80){const id=this.seq[i++%this.seq.length], d=this.items[id];
+      if(d[1]*d[2]<=maxLen&&v+d[0]<=m3*.98+1e-6){out.push(id);v+=d[0];stall=0;}else stall++;}
+    return out;
+  },
+  caption(ids){
+    const c={}; ids.forEach(id=>c[id]=(c[id]||0)+1);
+    const order=['couch','wardrobe','fridge','washer','chair','table','mattress','bed','tv','green','bags','boxes'];
+    const pl={couch:'couches',mattress:'mattresses',tv:'TVs',bed:'bed bases'};
+    const parts=order.filter(id=>c[id]).map(id=>{const n=c[id];
+      if(id==='bags')return `${n*5}&nbsp;rubbish bags`; if(id==='boxes')return `${n*5}&nbsp;boxes`; if(id==='green')return `${n}&nbsp;m³ of green waste`;
+      const l=this.items[id][3]; return `${n}&nbsp;${n>1?(pl[id]||l+'s'):l}`;});
+    const head=parts.slice(0,5).join(', ');
+    return parts.length>5?head+' and more':head.replace(/, ([^,]*)$/,' and $1');
+  },
+  pack(ids,xL,xR,yF,ppm){
+    const STEP=2,N=Math.max(1,Math.floor((xR-xL)/STEP)),sky=new Array(N).fill(yF),out=[];
+    ids.forEach((id,i)=>{const d=this.items[id];let h=d[1]*ppm,w=h*d[2];if(w>xR-xL-2){w=xR-xL-2;h=w/d[2];}
+      const span=Math.max(1,Math.round(w/STEP));let best=0,bb=-1e9;
+      for(let c=0;c+span<=N;c++){let b=yF;for(let k=c;k<c+span;k++)b=Math.min(b,sky[k]);if(b>bb+.5){bb=b;best=c;}}
+      for(let k=best;k<best+span;k++)sky[k]=bb-h*.5;
+      out.push({id,x:xL+best*STEP,y:bb-h,w,h,i});});
+    return out;
+  },
+  n:0,
+  /* o: {ids, ppm, cx, base, theme:{stroke,glass,back,sw}} -> SVG markup (no <svg> wrapper) */
+  draw(kind,m3,o){
+    const id='bl'+(++this.n), T=o.theme, [Lm,Hm]=this.dims(kind,m3), L=Lm*o.ppm, H=Hm*o.ppm, sw=T.sw||3;
+    let shape, xL, xR, yF, extra='';
+    if(kind==='skip'){
+      const bot=L*.68, x0=o.cx-L/2, yT=o.base-6-H; yF=o.base-6; xL=x0+(L-bot)/2; xR=xL+bot; var pL=x0+(L-bot)/4, pR=x0+L-(L-bot)/4;
+      shape=`M${x0} ${yT} H${x0+L} L${xR} ${yF} H${xL} Z`;
+      extra=`<rect x="${x0-3}" y="${yT-5}" width="${L+6}" height="8" rx="3" fill="${T.stroke}"/>
+        <path d="M${xL+8} ${yF} v6 M${xR-8} ${yF} v6" stroke="${T.stroke}" stroke-width="${sw+1}"/>
+        <circle cx="${x0+L*.12}" cy="${yT+H*.32}" r="${Math.max(3,H*.05)}" fill="none" stroke="${T.stroke}" stroke-width="${sw}"/>
+        <circle cx="${x0+L*.88}" cy="${yT+H*.32}" r="${Math.max(3,H*.05)}" fill="none" stroke="${T.stroke}" stroke-width="${sw}"/>`;
+    }else{
+      const x0=o.cx-L/2+8, yb=o.base-10, yt=yb-H, c=Math.min(H*.3,L*.08); yF=yb-sw; xL=x0+sw+2; xR=x0+L-sw-2; var pL=xL, pR=xR;
+      shape=`M${x0} ${yt} H${x0+L} V${yb} H${x0+c} L${x0} ${yb-c} Z`;
+      const hp=Math.max(10,H*.28);
+      extra=`<path d="M${x0+sw} ${yt+H*.45} L${x0-hp*.6} ${yt-hp} M${x0+hp*.8} ${yt} L${x0-hp*.6} ${yt-hp}" stroke="${T.stroke}" stroke-width="${sw+2}" stroke-linecap="round"/>
+        <path d="M${x0-hp*.6} ${yt-hp} a${hp*.28} ${hp*.28} 0 1 1 ${-hp*.42} ${hp*.18}" fill="none" stroke="${T.stroke}" stroke-width="${sw+1}" stroke-linecap="round"/>
+        <rect x="${x0+c}" y="${yb}" width="${L-c}" height="${Math.max(4,H*.05)}" fill="${T.stroke}"/>
+        <circle cx="${x0+L-L*.06}" cy="${o.base-4}" r="${Math.max(3,H*.06)}" fill="${T.stroke}"/>
+        <line x1="${x0+L-L*.08}" y1="${yt+6}" x2="${x0+L-L*.08}" y2="${yb-6}" stroke="${T.stroke}" stroke-width="${Math.max(1,sw-1)}" opacity=".6"/>`;
+    }
+    /* two rows deep: the back row sits a little higher and shaded, like looking into the bin from the side */
+    const ids=o.ids||[], back=ids.filter((_,i)=>i%2===0), front=ids.filter((_,i)=>i%2===1);
+    const img=(p,dy)=>`<image href="t-${p.id}.webp" x="${p.x.toFixed(1)}" y="${(p.y+dy).toFixed(1)}" width="${p.w.toFixed(1)}" height="${p.h.toFixed(1)}" preserveAspectRatio="none"/>`;
+    const lift=Math.min(H*.08,10);
+    const imgs=this.pack(back,pL,pR,yF,o.ppm).map(p=>img(p,-lift)).join('')+`<rect x="0" y="0" width="9999" height="9999" fill="${T.shade||'rgba(255,255,255,.28)'}"/>`+this.pack(front,pL,pR,yF,o.ppm).map(p=>img(p,0)).join('');
+    return `<defs><clipPath id="${id}"><path d="${shape}"/></clipPath></defs>
+      <path d="${shape}" fill="${T.back}"/>
+      <g clip-path="url(#${id})">${imgs}</g>
+      <path d="${shape}" fill="${T.glass}" stroke="${T.stroke}" stroke-width="${sw}" stroke-linejoin="round"/>${extra}`;
+  }
+};
+
+const binArtV1 = (kind,m3) => `<svg viewBox="0 0 260 140" width="100%" height="132" aria-hidden="true">${BL.draw(kind,m3,{ids:BL.example(kind,m3),ppm:kind==='skip'?52:33,cx:130,base:134,theme:{stroke:'var(--green)',glass:'rgba(255,255,255,.08)',back:'rgba(255,255,255,.06)',sw:2.5}})}</svg>`;
 const binName = {skip:'skip', hook:'hook bin'};
 const sizeCard = (k, kind) => `
   <article class="card skip">
-    <div class="skip-art">${k.popular?'<span class="pop-sticker">Most<br>popular</span>':''}${kind==='hook'?hookSVG(k.m3):skipSVG(k.m3)}</div>
+    <div class="skip-art">${k.popular?'<span class="pop-sticker">Most<br>popular</span>':''}${binArtV1(kind,k.m3)}</div>
     <h3>${k.m3} cubic metre ${binName[kind]}</h3>
-    <p>Holds about <b>${Math.round(k.m3/0.24)} wheelie bins</b> of waste. ${esc(k.note)}</p>
+    <p><b>Fits about:</b> ${BL.caption(BL.example(kind,k.m3))}.</p>
+    <p class="muted-note">${esc(k.note)}</p>
     <ul class="skip-list">${k.best.map(b=>`<li>${esc(b)}</li>`).join('')}</ul>
   </article>`;
 let binKind = 'skip';
@@ -1923,7 +1994,7 @@ document.getElementById('f-post').addEventListener('submit', async e => {
 })();
 
 // ---- New-look flows: each original button opens the matching v2 section ----
-const FLOW_BUILD = '20261006g';
+const FLOW_BUILD = '20261006h';
 const FLOW_MAP = {post:'flow/pickup', skipreq:'flow/skip', wheelie:'flow/wheelie', join:'join'};
 const flowOv = document.getElementById('flow-ov'), flowFrame = document.getElementById('flow-frame');
 function currentTheme(){ try{ return localStorage.getItem('rb-theme')||'gold'; }catch(e){ return 'gold'; } }

@@ -533,6 +533,8 @@
   .fit-act{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
   @media(max-width:560px){ .fit-act .btn{flex:1 1 100%} .fit #fit-body{padding:26px 20px 20px} }
   .rtruck .rt-truck,.rtruck .rt-panel{transition:opacity .2s}
+  .sk-fits{text-align:center;font-size:15px;margin:2px auto 10px;max-width:60ch;text-wrap:pretty}
+  .sz .fits{font-size:14px;margin:0 0 4px;text-wrap:pretty}
   .rt-item{position:absolute;height:auto;filter:drop-shadow(0 5px 5px rgba(0,0,0,.35));transform-origin:50% 100%}
   .rt-item.drop{animation:rtdrop .45s cubic-bezier(.3,1.35,.6,1)}
   @keyframes rtnudge{0%,100%{translate:0 0}50%{translate:0 5px}}
@@ -635,7 +637,8 @@
             </div>
             <div class="readout"><div class="big" id="sk-size">6 m³</div><div class="small" id="sk-kind">Skip bin</div></div>
           </div>
-          <div class="canvas"><svg id="skipart" viewBox="0 0 760 300" role="img" aria-label="Bin drawn to scale"></svg></div>
+          <div class="canvas"><svg id="skipart" viewBox="0 0 760 300" role="img" aria-label="Bin drawn to scale, filled with what it holds"></svg></div>
+          <p class="sk-fits" id="sk-fits"></p>
           <div class="controls">
             <label class="sr" for="sk-range">Bin size</label>
             <input type="range" id="sk-range" min="0" max="6" step="1" value="3">
@@ -1224,6 +1227,74 @@ function drawTruck(added){
 }
 drawTruck();
 
+/* ---------- See-through bins: real-size side view, packed with an example load ---------- */
+const BL={
+  /* id: [m³, height m, width/height ratio of the cutout image, label] */
+  items:{couch:[1.5,.85,1.649,'couch'],chair:[.6,.95,1.041,'armchair'],mattress:[.6,.28,5.614,'mattress'],bed:[.6,.45,4.051,'bed base'],fridge:[.8,1.7,.442,'fridge'],washer:[.4,.85,.736,'washer'],wardrobe:[1.2,1.8,.619,'wardrobe'],table:[.6,.78,2.55,'table'],tv:[.15,.75,1.407,'TV'],boxes:[.3,.9,.716,'box'],bags:[.4,.7,1.212,'bag'],green:[1,.8,1.441,'green waste']},
+  /* approx. outside dimensions: [top length m, height m]. Typical Australian sizes; suppliers vary. */
+  dim:{skip:{2:[2.0,.9],3:[2.2,1.0],4:[2.6,1.05],6:[3.4,1.2],8:[3.7,1.4],10:[3.9,1.6],12:[4.1,1.7]},
+       hook:{10:[4.0,1.2],12:[4.5,1.2],15:[5.0,1.35],20:[5.8,1.55],23:[6.2,1.7],30:[6.8,1.9]}},
+  seq:['bags','boxes','fridge','green','chair','washer','couch','mattress','table','bags','boxes','wardrobe','green','tv','bed','bags','boxes','couch','chair','green','fridge','bags','boxes','table'],
+  dims(kind,m3){const t=this.dim[kind];if(t[m3])return t[m3];const ks=Object.keys(t).map(Number).sort((a,b)=>a-b);const k=ks.reduce((p,c)=>Math.abs(c-m3)<Math.abs(p-m3)?c:p);const f=Math.cbrt(m3/k);return [t[k][0]*f,t[k][1]*f];},
+  example(kind,m3){
+    const [L]=this.dims(kind,m3), maxLen=L*(kind==='skip'?.66:.95), out=[]; let v=0, stall=0, i=0;
+    while(stall<this.seq.length&&out.length<80){const id=this.seq[i++%this.seq.length], d=this.items[id];
+      if(d[1]*d[2]<=maxLen&&v+d[0]<=m3*.98+1e-6){out.push(id);v+=d[0];stall=0;}else stall++;}
+    return out;
+  },
+  caption(ids){
+    const c={}; ids.forEach(id=>c[id]=(c[id]||0)+1);
+    const order=['couch','wardrobe','fridge','washer','chair','table','mattress','bed','tv','green','bags','boxes'];
+    const pl={couch:'couches',mattress:'mattresses',tv:'TVs',bed:'bed bases'};
+    const parts=order.filter(id=>c[id]).map(id=>{const n=c[id];
+      if(id==='bags')return `${n*5}&nbsp;rubbish bags`; if(id==='boxes')return `${n*5}&nbsp;boxes`; if(id==='green')return `${n}&nbsp;m³ of green waste`;
+      const l=this.items[id][3]; return `${n}&nbsp;${n>1?(pl[id]||l+'s'):l}`;});
+    const head=parts.slice(0,5).join(', ');
+    return parts.length>5?head+' and more':head.replace(/, ([^,]*)$/,' and $1');
+  },
+  pack(ids,xL,xR,yF,ppm){
+    const STEP=2,N=Math.max(1,Math.floor((xR-xL)/STEP)),sky=new Array(N).fill(yF),out=[];
+    ids.forEach((id,i)=>{const d=this.items[id];let h=d[1]*ppm,w=h*d[2];if(w>xR-xL-2){w=xR-xL-2;h=w/d[2];}
+      const span=Math.max(1,Math.round(w/STEP));let best=0,bb=-1e9;
+      for(let c=0;c+span<=N;c++){let b=yF;for(let k=c;k<c+span;k++)b=Math.min(b,sky[k]);if(b>bb+.5){bb=b;best=c;}}
+      for(let k=best;k<best+span;k++)sky[k]=bb-h*.5;
+      out.push({id,x:xL+best*STEP,y:bb-h,w,h,i});});
+    return out;
+  },
+  n:0,
+  /* o: {ids, ppm, cx, base, theme:{stroke,glass,back,sw}} -> SVG markup (no <svg> wrapper) */
+  draw(kind,m3,o){
+    const id='bl'+(++this.n), T=o.theme, [Lm,Hm]=this.dims(kind,m3), L=Lm*o.ppm, H=Hm*o.ppm, sw=T.sw||3;
+    let shape, xL, xR, yF, extra='';
+    if(kind==='skip'){
+      const bot=L*.68, x0=o.cx-L/2, yT=o.base-6-H; yF=o.base-6; xL=x0+(L-bot)/2; xR=xL+bot; var pL=x0+(L-bot)/4, pR=x0+L-(L-bot)/4;
+      shape=`M${x0} ${yT} H${x0+L} L${xR} ${yF} H${xL} Z`;
+      extra=`<rect x="${x0-3}" y="${yT-5}" width="${L+6}" height="8" rx="3" fill="${T.stroke}"/>
+        <path d="M${xL+8} ${yF} v6 M${xR-8} ${yF} v6" stroke="${T.stroke}" stroke-width="${sw+1}"/>
+        <circle cx="${x0+L*.12}" cy="${yT+H*.32}" r="${Math.max(3,H*.05)}" fill="none" stroke="${T.stroke}" stroke-width="${sw}"/>
+        <circle cx="${x0+L*.88}" cy="${yT+H*.32}" r="${Math.max(3,H*.05)}" fill="none" stroke="${T.stroke}" stroke-width="${sw}"/>`;
+    }else{
+      const x0=o.cx-L/2+8, yb=o.base-10, yt=yb-H, c=Math.min(H*.3,L*.08); yF=yb-sw; xL=x0+sw+2; xR=x0+L-sw-2; var pL=xL, pR=xR;
+      shape=`M${x0} ${yt} H${x0+L} V${yb} H${x0+c} L${x0} ${yb-c} Z`;
+      const hp=Math.max(10,H*.28);
+      extra=`<path d="M${x0+sw} ${yt+H*.45} L${x0-hp*.6} ${yt-hp} M${x0+hp*.8} ${yt} L${x0-hp*.6} ${yt-hp}" stroke="${T.stroke}" stroke-width="${sw+2}" stroke-linecap="round"/>
+        <path d="M${x0-hp*.6} ${yt-hp} a${hp*.28} ${hp*.28} 0 1 1 ${-hp*.42} ${hp*.18}" fill="none" stroke="${T.stroke}" stroke-width="${sw+1}" stroke-linecap="round"/>
+        <rect x="${x0+c}" y="${yb}" width="${L-c}" height="${Math.max(4,H*.05)}" fill="${T.stroke}"/>
+        <circle cx="${x0+L-L*.06}" cy="${o.base-4}" r="${Math.max(3,H*.06)}" fill="${T.stroke}"/>
+        <line x1="${x0+L-L*.08}" y1="${yt+6}" x2="${x0+L-L*.08}" y2="${yb-6}" stroke="${T.stroke}" stroke-width="${Math.max(1,sw-1)}" opacity=".6"/>`;
+    }
+    /* two rows deep: the back row sits a little higher and shaded, like looking into the bin from the side */
+    const ids=o.ids||[], back=ids.filter((_,i)=>i%2===0), front=ids.filter((_,i)=>i%2===1);
+    const img=(p,dy)=>`<image href="t-${p.id}.webp" x="${p.x.toFixed(1)}" y="${(p.y+dy).toFixed(1)}" width="${p.w.toFixed(1)}" height="${p.h.toFixed(1)}" preserveAspectRatio="none"/>`;
+    const lift=Math.min(H*.08,10);
+    const imgs=this.pack(back,pL,pR,yF,o.ppm).map(p=>img(p,-lift)).join('')+`<rect x="0" y="0" width="9999" height="9999" fill="${T.shade||'rgba(255,255,255,.28)'}"/>`+this.pack(front,pL,pR,yF,o.ppm).map(p=>img(p,0)).join('');
+    return `<defs><clipPath id="${id}"><path d="${shape}"/></clipPath></defs>
+      <path d="${shape}" fill="${T.back}"/>
+      <g clip-path="url(#${id})">${imgs}</g>
+      <path d="${shape}" fill="${T.glass}" stroke="${T.stroke}" stroke-width="${sw}" stroke-linejoin="round"/>${extra}`;
+  }
+};
+
 /* ---------- Skip / hook ---------- */
 const BINS={
   skip:[{m3:2,best:["Bathroom reno","Small clean-ups"],note:"Smallest skip. Fits most driveways."},{m3:3,best:["Single room clear-out","Garage or shed"],note:"Good for small household jobs."},{m3:4,best:["Garden clean-ups","Small renovations"],note:"A handy all-rounder."},{m3:6,best:["Moving house","Kitchen reno"],note:"Fits a typical household clear-out.",popular:true},{m3:8,best:["Renovations","Large clear-outs"],note:"For bigger projects and bulky items."},{m3:10,best:["Full house clear-out","Deceased estates"],note:"Clears most of a house in one go."},{m3:12,best:["Large renovations","Commercial clean-outs"],note:"Biggest standard skip. Check access."}],
@@ -1247,36 +1318,10 @@ function drawBin(){
   $('#sk-best').innerHTML='<span class="chip light">Good for</span>'+b.best.map(x=>`<span class="chip">${esc(x)}</span>`).join('');
   const top=BINS[binKind][BINS[binKind].length-1].m3;
   $('#sk-note').textContent= v>top?(binKind==='skip'?`More than the biggest skip (${top} m³). Try a hook bin, or two skips.`:`More than the biggest hook bin (${top} m³). Collectors may quote for two bins.`):b.note;
-  const s=Math.cbrt(b.m3/max); // scale by volume
-  const base=282;
-  let shape;
-  const lbl=(x,y)=>`<text x="${x}" y="${y}" text-anchor="middle" font-size="${Math.max(18,46*s)}" font-weight="900" fill="var(--accent)" font-family="Archivo,sans-serif" style="font-variation-settings:'wdth' 125">${b.m3} m³</text>`;
-  if(binKind==='skip'){
-    const W=520*s, H=200*s, x0=380-W/2;
-    const fy=base-8-(H-8)*full, inset=(y)=>W*.16*(y-(base-H))/(H-8);
-    shape=`<path d="M${x0} ${base-H} H${x0+W} L${x0+W-W*.16} ${base-8} H${x0+W*.16} Z" fill="#000"/>
-      ${full>0?`<path d="M${x0+inset(fy)+6} ${fy} H${x0+W-inset(fy)-6} L${x0+W-W*.16-4} ${base-12} H${x0+W*.16+4} Z" fill="var(--accent)" opacity=".5"/>`:''}
-      <rect x="${x0-6}" y="${base-H-10}" width="${W+12}" height="14" rx="4" fill="#000"/>
-      ${lbl(x0+W/2, base-H/2+10)}`;
-  }else{
-    /* hook bin side view, front on the left: chamfered lower front edge, A-frame hook post above the front, rear door and rollers */
-    const W=600*s, H=170*s, x0=380-W/2+20, c=Math.min(46,H*.32), yb=base-14, yt=yb-H;
-    const fy=yb-(H-6)*full;
-    const body=`M${x0} ${yt} H${x0+W} V${yb} H${x0+c} L${x0} ${yb-c} Z`;
-    shape=`<defs><clipPath id="hb-clip"><path d="${body}" transform="translate(${x0+W/2} ${yt+H/2}) scale(${(W-16)/W} ${(H-12)/H}) translate(${-(x0+W/2)} ${-(yt+H/2)})"/></clipPath></defs>
-      <path d="${body}" fill="#000"/>
-      ${full>0?`<rect x="${x0}" y="${fy}" width="${W}" height="${yb-fy}" fill="var(--accent)" opacity=".5" clip-path="url(#hb-clip)"/>`:''}
-      <path d="M${x0+10} ${yt+H*.45} L${x0-10} ${yt-26}" stroke="#000" stroke-width="8" stroke-linecap="round"/>
-      <path d="M${x0+30} ${yt} L${x0-10} ${yt-26}" stroke="#000" stroke-width="8" stroke-linecap="round"/>
-      <path d="M${x0-10} ${yt-26} a10 10 0 1 1 -16 6" stroke="#000" stroke-width="7" fill="none" stroke-linecap="round"/>
-      <rect x="${x0+W-22}" y="${yt+10}" width="10" height="${H-24}" fill="none" stroke="var(--accent)" stroke-width="3" opacity=".55"/>
-      <rect x="${x0+c}" y="${yb}" width="${W-c}" height="8" fill="#000"/>
-      <circle cx="${x0+W-16}" cy="${base-4}" r="8" fill="#000"/>
-      ${lbl(x0+W/2+c/2, yt+H/2+12)}`;
-  }
-  $('#skipart').innerHTML=`
-    <line x1="0" y1="${base}" x2="760" y2="${base}" stroke="#000" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round"/>
-    ${shape}`;
+  const ids=v>0?order.slice():BL.example(binKind,b.m3), ppm=binKind==='skip'?140:98;
+  $('#skipart').innerHTML=`<line x1="0" y1="282" x2="760" y2="282" stroke="#000" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round"/>`+
+    BL.draw(binKind,b.m3,{ids,ppm,cx:380,base:282,theme:{stroke:'#000',glass:'rgba(255,255,255,.22)',back:'rgba(255,255,255,.35)',sw:4}});
+  $('#sk-fits').innerHTML=v>0?`Your items in a ${b.m3}&nbsp;m³ ${binKind==='skip'?'skip':'hook bin'}${v>b.m3?' (some won’t fit)':''}.`:`<b>Fits about:</b> ${BL.caption(ids)}.`;
 }
 function fitBin(){
   const v=vol(); if(v<=0){drawBin();return;}
@@ -1535,16 +1580,15 @@ let binTab='skip';
 function binArt(kind,v){
   if(kind==='wheelie'){const big=v>=660,h={120:70,240:92,360:104,660:120,1100:132}[v],w=big?h*1.25:h*.62,x=(260-w)/2,b=150;
     return `<svg viewBox="0 0 260 160" aria-hidden="true"><line x1="0" y1="${b}" x2="260" y2="${b}" stroke="#000" stroke-width="2" stroke-dasharray="2 8" stroke-linecap="round"/>${wheelie(x,b,h,big)}</svg>`;}
-  const max=kind==='skip'?12:30,s=Math.cbrt(v/max),b=150;
-  if(kind==='skip'){const W=200*s,H=100*s,x0=130-W/2;return `<svg viewBox="0 0 260 160" aria-hidden="true"><line x1="0" y1="${b}" x2="260" y2="${b}" stroke="#000" stroke-width="2" stroke-dasharray="2 8" stroke-linecap="round"/><path d="M${x0} ${b-H} H${x0+W} L${x0+W-W*.16} ${b-4} H${x0+W*.16} Z" fill="#000"/><rect x="${x0-4}" y="${b-H-7}" width="${W+8}" height="9" rx="3" fill="#000"/></svg>`;}
-  const W=230*s,H=95*s,x0=140-W/2;return `<svg viewBox="0 0 260 160" aria-hidden="true"><line x1="0" y1="${b}" x2="260" y2="${b}" stroke="#000" stroke-width="2" stroke-dasharray="2 8" stroke-linecap="round"/><path d="M${x0+14} ${b-8-H} H${x0+W} V${b-8} H${x0} V${b-8-H+24} Z" fill="#000"/><path d="M${x0+2} ${b-8-H+24} L${x0-9} ${b-8-H+18} V${b-8-H+4}" stroke="#000" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M${x0-9} ${b-8-H+4} a5 5 0 1 0 -8 0" stroke="#000" stroke-width="4" fill="none" stroke-linecap="round"/><rect x="${x0}" y="${b-8}" width="${W}" height="5" fill="#000"/></svg>`;
+  const ppm=kind==='skip'?54:34;
+  return `<svg viewBox="0 0 260 160" aria-hidden="true"><line x1="0" y1="150" x2="260" y2="150" stroke="#000" stroke-width="2" stroke-dasharray="2 8" stroke-linecap="round"/>${BL.draw(kind,v,{ids:BL.example(kind,v),ppm,cx:130,base:150,theme:{stroke:'#000',glass:'rgba(255,255,255,.2)',back:'rgba(255,255,255,.4)',sw:2.5}})}</svg>`;
 }
 function renderBins(){
   $$('#bin-tabs button').forEach(b=>{const on=b.dataset.bk===binTab;b.setAttribute('aria-pressed',on);b.setAttribute('aria-selected',on);});
   $('#bin-blurb').textContent=BIN_BLURB[binTab];
   const list=binTab==='wheelie'?WHEELIE:BINS[binTab];
   $('#size-grid').innerHTML=list.map(k=>{const v=binTab==='wheelie'?k.l:k.m3;return `<article class="sz"><div class="art">${k.popular?'<span class="pop">Most popular</span>':''}${binArt(binTab,v)}</div>
-    <div class="sz-b"><h3>${binTab==='wheelie'?v+' L':v+' m³'}</h3><div class="mchips">${k.best.map(x=>`<span>${esc(x)}</span>`).join('')}</div><p>${esc(k.note)}</p>
+    <div class="sz-b"><h3>${binTab==='wheelie'?v+' L':v+' m³'}</h3><div class="mchips">${k.best.map(x=>`<span>${esc(x)}</span>`).join('')}</div>${binTab==='wheelie'?'':`<p class="fits"><b>Fits about:</b> ${BL.caption(BL.example(binTab,v))}.</p>`}<p>${esc(k.note)}</p>
     <button type="button" class="btn btn-ink" data-binreq="${binTab}" data-v="${v}">Get quotes for this size</button></div></article>`;}).join('');
   renderReqs();
 }
