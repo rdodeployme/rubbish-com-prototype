@@ -626,7 +626,7 @@
             <div class="readout"><div class="big" id="pu-vol">0 m³</div><div class="small" id="pu-fill">Tap items below to start</div></div>
           </div>
           <div class="canvas"><div class="rtruck" id="truck" role="img" aria-label="Your Rubbish.com.au truck, loaded with the items you add">
-            <img class="rt-truck" src="t-boxtruck.webp" alt="" width="1288" height="610">
+            <img class="rt-truck" src="t-boxtruck.webp?v=2" alt="" width="1288" height="610">
             <div class="rt-load" id="rt-load"></div>
             <img class="rt-panel" src="t-boxframe.webp" alt="" width="930" height="440">
             <span class="rt-empty" id="rt-empty">Tap items below<span class="rt-long"> to load the truck</span></span>
@@ -1186,7 +1186,7 @@ const RT_ITEM={couch:{h:.85,ar:1.649},chair:{h:.95,ar:1.041},mattress:{h:.28,ar:
    Ute/trailer figures still to be confirmed by Richard (RB-07). ppm = image pixels per metre, so items draw to real scale. */
 const TRAILER_M3=3, UTE_M3=1.5, TRUCK_M3=20;
 const BOX={L:42,T:36,R:893,B:399};
-const VEH={trailer:{tip:[500,165],n:'trailer',a:'a trailer',load:'trailer load',cap:TRAILER_M3,ppm:367,img:'t-trailer.webp',panel:'t-trailerside.webp',box:{L:52,T:62,R:948,B:370}},ute:{tip:[344,170],n:'ute',a:'a ute',load:'ute load',cap:UTE_M3,ppm:245,img:'t-ute.webp',panel:'t-uteside.webp',box:{L:50,T:60,R:638,B:374}},truck:{tip:[468,215],n:'truck',a:'a truck',load:'truckload',cap:TRUCK_M3,ppm:152,img:'t-boxtruck.webp',panel:'t-boxframe.webp',box:BOX}};
+const VEH={trailer:{tip:[500,165],n:'trailer',a:'a trailer',load:'trailer load',cap:TRAILER_M3,ppm:367,img:'t-trailer.webp',panel:'t-trailerside.webp',box:{L:52,T:62,R:948,B:370}},ute:{tip:[344,170],n:'ute',a:'a ute',load:'ute load',cap:UTE_M3,ppm:245,img:'t-ute.webp',panel:'t-uteside.webp',box:{L:50,T:60,R:638,B:374}},truck:{tip:[468,215],n:'truck',a:'a truck',load:'truckload',cap:TRUCK_M3,ppm:152,img:'t-boxtruck.webp?v=2',panel:'t-boxframe.webp',box:BOX}};
 let veh='truck';
 function setVeh(k,force){
   if(k===veh&&!force)return;
