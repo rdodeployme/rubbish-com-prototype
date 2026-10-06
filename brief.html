@@ -31,6 +31,8 @@ th{background:var(--soft);font-size:13px;text-transform:uppercase;letter-spacing
 .tbl{overflow-x:auto}
 .tag{display:inline-block;font-size:12px;font-weight:700;padding:1px 8px;border-radius:99px;white-space:nowrap}
 .t-red{background:#fde8e6;color:var(--red)}.t-amb{background:#fff1cc;color:var(--amber)}.t-grn{background:#e3f4e8;color:var(--green)}
+h1,h2,h3{text-wrap:balance} p,li,td{text-wrap:pretty}
+@media(max-width:620px){ .tbl table,.tbl tbody,.tbl tr,.tbl td{display:block;width:100%!important} .tbl tr:first-child{display:none} .tbl tr{border-bottom:1px solid var(--line);padding:10px 0} .tbl td{border:0;padding:2px 0} .tbl td:first-child{font-weight:700} }
 footer{margin-top:48px;color:var(--muted);font-size:14px;border-top:1px solid var(--line);padding-top:16px}
 </style>
 </head>
@@ -249,7 +251,7 @@ footer{margin-top:48px;color:var(--muted);font-size:14px;border-top:1px solid va
 
 <h3>6.1 How the money moves</h3>
 <ol>
-  <li><strong>Accept:</strong> the customer accepts a quote and is charged the full amount, plus any customer fee, straight away. Funds sit in the platform's Stripe balance.<br><span style="color:#555;font-size:14px">We charge upfront rather than placing a hold on the card because card holds expire after about 7 days, and many jobs will be booked further ahead than that.</span></li>
+  <li><strong>Accept:</strong> the customer accepts a quote and is charged the full amount, plus any customer fee, straight away. Funds sit in the platform's Stripe balance.<br><span style="color:#555;font-size:14px">We charge upfront rather than placing a hold on the card because card holds expire after about 7&nbsp;days, and many jobs will be booked further ahead than that.</span></li>
   <li><strong>Price change:</strong> an approved increase is charged to the saved card; a decrease is refunded.</li>
   <li><strong>Complete:</strong> the collector marks the job done and uploads the required photos and proof of disposal.</li>
   <li><strong>Release:</strong> when the customer confirms, or the job auto-confirms, the collector's share is transferred to their Stripe account and paid out on Stripe's standard schedule.</li>
@@ -305,7 +307,7 @@ footer{margin-top:48px;color:var(--muted);font-size:14px;border-top:1px solid va
 
 <h3>7.2 Protecting customer data</h3>
 <ul>
-  <li>Collectors see the <strong>suburb only</strong> before booking. The street address and phone number unlock only for the booked collector, and access is removed 7 days after completion.</li>
+  <li>Collectors see the <strong>suburb only</strong> before booking. The street address and phone number unlock only for the booked collector, and access is removed 7&nbsp;days after completion.</li>
   <li>Job photos are checked for people's faces and house numbers. <span class="tag t-amb">Proposed</span> This is optional and can be quoted separately.</li>
   <li>All data is encrypted in transit and at rest, and hosted in Australia.</li>
   <li>Card data goes only to Stripe, using hosted payment fields. No card numbers are stored or seen by us.</li>
@@ -394,5 +396,22 @@ footer{margin-top:48px;color:var(--muted);font-size:14px;border-top:1px solid va
   This prototype is confidential concept work. Please don't share it publicly.
 </footer>
 </div>
+<script>
+/* Clean line breaks: join the last two words of each text block so a single word never sits alone on the last line. */
+(function(){
+  const SEL='p,li,dd,td,h2,h3,figcaption,blockquote,summary,.tag,.c-desc span';
+  function glue(){document.querySelectorAll(SEL).forEach(el=>{
+    if(el.closest('form,button,select,label'))return;
+    const tw=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);let last=null,n;
+    while((n=tw.nextNode()))if(n.data.trim())last=n;
+    if(!last)return;
+    const m=last.data.match(/^([\s\S]*\S) +(\S{1,12}\s*)$/);
+    if(m)last.data=m[1]+'\u00a0'+m[2];
+  });}
+  let q=0;const run=()=>{if(q)return;q=requestAnimationFrame(()=>{q=0;glue();});};
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{glue();new MutationObserver(run).observe(document.body,{childList:true,subtree:true});});
+  else{glue();new MutationObserver(run).observe(document.body,{childList:true,subtree:true});}
+})();
+</script>
 </body>
 </html>
