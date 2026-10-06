@@ -1143,24 +1143,15 @@ const RT_ITEM={couch:{h:.85,ar:1.649},chair:{h:.95,ar:1.041},mattress:{h:.28,ar:
 
 /* Vehicles: trailer and ute capacities are PROPOSED (Richard call 5 Oct 2026, RB-07) - confirm with Richard. */
 const TRAILER_M3=2, UTE_M3=1.5, TRUCK_M3=20;
-const vehSvg=(body)=>'data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1288 610">${body}</svg>`);
-const WHEEL=(cx)=>`<circle cx="${cx}" cy="482" r="74" fill="#111"/><circle cx="${cx}" cy="482" r="34" fill="#9a9a9a"/><circle cx="${cx}" cy="482" r="12" fill="#111"/>`;
-const TRAILER_IMG=vehSvg(`<ellipse cx="560" cy="566" rx="560" ry="18" fill="#000" opacity=".12"/>
-<rect x="42" y="36" width="851" height="363" fill="#f4f4f2"/>
-<g stroke="#c9c9c4" stroke-width="3">${Array.from({length:13},(_,i)=>`<line x1="${42+65*(i+1)}" y1="36" x2="${42+65*(i+1)}" y2="399"/>`).join('')}${Array.from({length:5},(_,i)=>`<line x1="42" y1="${36+60*(i+1)}" x2="893" y2="${36+60*(i+1)}"/>`).join('')}</g>
-<rect x="42" y="36" width="851" height="363" fill="none" stroke="#000" stroke-width="14"/>
-<rect x="24" y="399" width="887" height="42" rx="6" fill="#000"/>
-<path d="M911 420 L1186 452" stroke="#000" stroke-width="22" stroke-linecap="round"/><circle cx="1200" cy="455" r="20" fill="#000"/>
-<path d="M330 441 a140 140 0 0 1 280 0" fill="none" stroke="#000" stroke-width="16"/>${WHEEL(470)}`);
 const BOX={L:42,T:36,R:893,B:399};
-const VEH={trailer:{n:'trailer',load:'trailer load',cap:TRAILER_M3,img:TRAILER_IMG,box:BOX},ute:{n:'ute',load:'ute load',cap:UTE_M3,img:'t-ute.webp',panel:'t-uteside.webp',box:{L:50,T:60,R:638,B:374}},truck:{n:'truck',load:'truckload',cap:TRUCK_M3,img:'t-boxtruck.webp',panel:'t-boxframe.webp',box:BOX}};
+const VEH={trailer:{n:'trailer',load:'trailer load',cap:TRAILER_M3,img:'t-trailer.webp',panel:'t-trailerside.webp',box:{L:52,T:62,R:948,B:370}},ute:{n:'ute',load:'ute load',cap:UTE_M3,img:'t-ute.webp',panel:'t-uteside.webp',box:{L:50,T:60,R:638,B:374}},truck:{n:'truck',load:'truckload',cap:TRUCK_M3,img:'t-boxtruck.webp',panel:'t-boxframe.webp',box:BOX}};
 let veh='truck';
 function setVeh(k){
   veh=k; RT.CAP=VEH[k].cap;
   $$('[data-veh]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.veh===k));
   $('#veh-title').textContent='Load the '+VEH[k].n;
   $('#truck .rt-truck').src=VEH[k].img;
-  const P=$('#truck .rt-panel'), V=VEH[k], bx=V.box; P.hidden=!V.panel; if(V.panel)P.src=V.panel; P.style.width=k==='ute'?'100%':'';
+  const P=$('#truck .rt-panel'), V=VEH[k], bx=V.box; P.hidden=!V.panel; if(V.panel)P.src=V.panel; P.style.width=k==='truck'?'':'100%';
   Object.assign(RT,bx); Object.assign($('#rt-load').style,{left:bx.L/RT.W*100+'%',top:bx.T/RT.H*100+'%',width:(bx.R-bx.L)/RT.W*100+'%',height:(bx.B-bx.T)/RT.H*100+'%'});
   $('#truck').setAttribute('aria-label',`Your ${VEH[k].n}, loaded with the items you add`);
   $('#rt-empty').textContent='Tap items below to load the '+VEH[k].n;
