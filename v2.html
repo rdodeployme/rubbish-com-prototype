@@ -1152,29 +1152,8 @@ const TRAILER_IMG=vehSvg(`<ellipse cx="560" cy="566" rx="560" ry="18" fill="#000
 <rect x="24" y="399" width="887" height="42" rx="6" fill="#000"/>
 <path d="M911 420 L1186 452" stroke="#000" stroke-width="22" stroke-linecap="round"/><circle cx="1200" cy="455" r="20" fill="#000"/>
 <path d="M330 441 a140 140 0 0 1 280 0" fill="none" stroke="#000" stroke-width="16"/>${WHEEL(470)}`);
-const UTE_IMG=vehSvg(`<ellipse cx="660" cy="562" rx="630" ry="16" fill="#000" opacity=".14"/>
-<rect x="60" y="404" width="1150" height="26" fill="#111"/>
-<path d="M612 452 V176 Q614 142 652 140 L858 136 Q896 136 918 164 L1012 292 L1188 306 Q1244 312 1254 356 V432 Q1254 452 1232 452 H1146 A96 96 0 0 0 954 452 Z" fill="#f5f5f3" stroke="#111" stroke-width="6" stroke-linejoin="round"/>
-<path d="M640 180 Q642 162 664 162 L848 158 Q874 158 890 178 L974 290 H640 Z" fill="#b7c2ca" stroke="#111" stroke-width="5"/>
-<line x1="812" y1="160" x2="812" y2="290" stroke="#111" stroke-width="7"/>
-<path d="M640 300 H990 M812 300 V446" stroke="#c4c4c0" stroke-width="4" fill="none"/>
-<rect x="770" y="322" width="34" height="9" rx="4" fill="#111"/>
-<path d="M990 262 l-30 -4 v26 h30 z" fill="#111"/>
-<path d="M1020 300 L1188 312" stroke="#d0d0cc" stroke-width="4"/>
-<rect x="1222" y="324" width="30" height="24" rx="5" fill="#fff" stroke="#111" stroke-width="5"/>
-<rect x="1236" y="356" width="18" height="44" fill="#111"/>
-<rect x="1160" y="412" width="104" height="36" rx="10" fill="#111"/>
-<path d="M940 452 A110 110 0 0 1 1160 452" fill="none" stroke="#111" stroke-width="16"/>
-${WHEEL(1050)}`);
-const UTE_PANEL=vehSvg(`<path d="M66 300 H612 V452 H426 A96 96 0 0 0 234 452 H66 Z" fill="#f5f5f3" stroke="#111" stroke-width="6" stroke-linejoin="round"/>
-<rect x="58" y="290" width="562" height="16" rx="5" fill="#111"/>
-<path d="M84 362 H598" stroke="#c4c4c0" stroke-width="4"/>
-<rect x="68" y="318" width="18" height="46" rx="3" fill="#b3261e"/>
-<rect x="44" y="418" width="60" height="30" rx="6" fill="#111"/>
-<path d="M220 452 A110 110 0 0 1 440 452" fill="none" stroke="#111" stroke-width="16"/>
-${WHEEL(330)}`);
 const BOX={L:42,T:36,R:893,B:399};
-const VEH={trailer:{n:'trailer',load:'trailer load',cap:TRAILER_M3,img:TRAILER_IMG,box:BOX},ute:{n:'ute',load:'ute load',cap:UTE_M3,img:UTE_IMG,panel:UTE_PANEL,box:{L:72,T:80,R:608,B:406}},truck:{n:'truck',load:'truckload',cap:TRUCK_M3,img:'t-boxtruck.webp',panel:'t-boxframe.webp',box:BOX}};
+const VEH={trailer:{n:'trailer',load:'trailer load',cap:TRAILER_M3,img:TRAILER_IMG,box:BOX},ute:{n:'ute',load:'ute load',cap:UTE_M3,img:'t-ute.webp',panel:'t-uteside.webp',box:{L:50,T:60,R:638,B:374}},truck:{n:'truck',load:'truckload',cap:TRUCK_M3,img:'t-boxtruck.webp',panel:'t-boxframe.webp',box:BOX}};
 let veh='truck';
 function setVeh(k){
   veh=k; RT.CAP=VEH[k].cap;
