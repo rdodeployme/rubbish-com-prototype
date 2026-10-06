@@ -535,12 +535,15 @@
   .rtruck .rt-truck,.rtruck .rt-panel{transition:opacity .2s}
   .rt-item{position:absolute;height:auto;filter:drop-shadow(0 5px 5px rgba(0,0,0,.35));transform-origin:50% 100%}
   .rt-item.drop{animation:rtdrop .45s cubic-bezier(.3,1.35,.6,1)}
+  @keyframes rtnudge{0%,100%{translate:0 0}50%{translate:0 5px}}
+  .rt-empty::after{content:' ↓'}
+  @media(prefers-reduced-motion:reduce){.rt-empty{animation:none}}
   @keyframes rtdrop{from{translate:0 -140px;opacity:0}to{translate:0 0;opacity:1}}
   .rtruck .rt-panel{position:absolute;z-index:3;left:0;top:0;width:calc(930 / 1288 * 100%);height:auto}
-  .rt-empty{position:absolute;z-index:4;left:calc(42 / 1288 * 100% + 18px);top:40%;font-weight:800;font-size:15px;background:rgba(255,255,255,.85);border-radius:999px;padding:8px 15px}
+  .rt-empty{position:absolute;z-index:4;left:36.3%;top:35.2%;transform:translate(-50%,-50%);white-space:nowrap;box-shadow:0 6px 18px rgba(0,0,0,.18);animation:rtnudge 1.8s ease-in-out infinite;font-weight:800;font-size:15px;background:rgba(255,255,255,.85);border-radius:999px;padding:8px 15px}
   .rt-over{position:absolute;z-index:4;right:2%;top:2%;background:#000;color:var(--accent);border-radius:999px;padding:8px 14px;font-weight:800;font-size:14px}
   .canvas:has(.rtruck){min-height:0}
-  @media(max-width:560px){ .rt-over{font-size:11.5px;padding:5px 10px;top:2%} .rt-empty{font-size:12.5px} }
+  @media(max-width:560px){ .rt-long{display:none} .rt-over{font-size:11.5px;padding:5px 10px;top:2%} .rt-empty{font-size:12.5px} }
   @media(prefers-reduced-motion:reduce){ *{animation:none !important;transition:none !important} html{scroll-behavior:auto} }
 </style>
 </head>
@@ -612,7 +615,7 @@
             <img class="rt-truck" src="t-boxtruck.webp" alt="" width="1288" height="610">
             <div class="rt-load" id="rt-load"></div>
             <img class="rt-panel" src="t-boxframe.webp" alt="" width="930" height="440">
-            <span class="rt-empty" id="rt-empty">Tap items below to load the truck</span>
+            <span class="rt-empty" id="rt-empty">Tap items below<span class="rt-long"> to load the truck</span></span>
             <span class="rt-over" id="rt-over" hidden>Over a full truckload</span>
           </div></div>
           <div class="controls">
@@ -1162,7 +1165,7 @@ const RT_ITEM={couch:{h:.85,ar:1.649},chair:{h:.95,ar:1.041},mattress:{h:.28,ar:
    Ute/trailer figures still to be confirmed by Richard (RB-07). ppm = image pixels per metre, so items draw to real scale. */
 const TRAILER_M3=3, UTE_M3=1.5, TRUCK_M3=20;
 const BOX={L:42,T:36,R:893,B:399};
-const VEH={trailer:{n:'trailer',a:'a trailer',load:'trailer load',cap:TRAILER_M3,ppm:367,img:'t-trailer.webp',panel:'t-trailerside.webp',box:{L:52,T:62,R:948,B:370}},ute:{n:'ute',a:'a ute',load:'ute load',cap:UTE_M3,ppm:245,img:'t-ute.webp',panel:'t-uteside.webp',box:{L:50,T:60,R:638,B:374}},truck:{n:'truck',a:'a truck',load:'truckload',cap:TRUCK_M3,ppm:152,img:'t-boxtruck.webp',panel:'t-boxframe.webp',box:BOX}};
+const VEH={trailer:{tip:[500,165],n:'trailer',a:'a trailer',load:'trailer load',cap:TRAILER_M3,ppm:367,img:'t-trailer.webp',panel:'t-trailerside.webp',box:{L:52,T:62,R:948,B:370}},ute:{tip:[344,170],n:'ute',a:'a ute',load:'ute load',cap:UTE_M3,ppm:245,img:'t-ute.webp',panel:'t-uteside.webp',box:{L:50,T:60,R:638,B:374}},truck:{tip:[468,215],n:'truck',a:'a truck',load:'truckload',cap:TRUCK_M3,ppm:152,img:'t-boxtruck.webp',panel:'t-boxframe.webp',box:BOX}};
 let veh='truck';
 function setVeh(k,force){
   if(k===veh&&!force)return;
@@ -1174,7 +1177,7 @@ function setVeh(k,force){
   const P=$('#truck .rt-panel'), V=VEH[k], bx=V.box; P.hidden=!V.panel; if(V.panel)P.src=V.panel; P.style.width=k==='truck'?'':'100%';
   Object.assign(RT,bx); Object.assign($('#rt-load').style,{left:bx.L/RT.W*100+'%',top:bx.T/RT.H*100+'%',width:(bx.R-bx.L)/RT.W*100+'%',height:(bx.B-bx.T)/RT.H*100+'%'});
   $('#truck').setAttribute('aria-label',`Your ${VEH[k].n}, loaded with the items you add`);
-  $('#rt-empty').textContent='Tap items below to load the '+VEH[k].n;
+  $('#rt-empty').innerHTML='Tap items below<span class="rt-long"> to load the '+VEH[k].n+'</span>'; Object.assign($('#rt-empty').style,{left:V.tip[0]/RT.W*100+'%',top:V.tip[1]/RT.H*100+'%'});
   $('#rt-over').textContent='Over a full '+VEH[k].load;
   drawTruck();
 }
