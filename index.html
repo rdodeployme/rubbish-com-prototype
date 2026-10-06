@@ -585,7 +585,7 @@
   @keyframes tagflash{0%,100%{background:var(--black);color:var(--green);box-shadow:0 0 0 0 rgba(0,0,0,.35)}50%{background:#fff;color:var(--black);box-shadow:0 0 0 5px rgba(0,0,0,.18)}}
   @media(prefers-reduced-motion:reduce){ .choice .tag-we{animation:none} }
 
-  /* Coming 2027 box */
+  /* Coming soon box */
   .hero-copy{position:relative}
   .coming{display:inline-flex;align-items:baseline;gap:8px;background:var(--green);color:#000;border-radius:999px;padding:6px 14px;margin-bottom:16px;font-family:"Inter Tight";font-weight:800}
   .coming small{font-size:13px;text-transform:uppercase;letter-spacing:.1em}
@@ -635,7 +635,7 @@
 <section class="hero">
   <div class="wrap hero-grid">
     <div class="hero-copy">
-    <div class="coming"><small>Coming</small><b>2027</b></div>
+    <div class="coming"><small>Coming</small><b>Soon</b></div>
     <h1>Find Your <em>Cheapest</em> Waste Collector</h1>
     <p>Post job for free. Choose best quote. Pay after pickup.</p>
     <div class="choices">
@@ -2026,7 +2026,7 @@ document.getElementById('f-post').addEventListener('submit', async e => {
 })();
 
 // ---- New-look flows: each original button opens the matching v2 section ----
-const FLOW_BUILD = '20261006l';
+const FLOW_BUILD = '20261006m';
 const FLOW_MAP = {post:'flow/pickup', skipreq:'flow/skip', wheelie:'flow/wheelie', join:'join'};
 const flowOv = document.getElementById('flow-ov'), flowFrame = document.getElementById('flow-frame');
 function currentTheme(){ try{ return localStorage.getItem('rb-theme')||'gold'; }catch(e){ return 'gold'; } }
