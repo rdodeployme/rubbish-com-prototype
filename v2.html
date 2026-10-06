@@ -525,6 +525,14 @@
   .rtruck{position:relative;width:100%;max-width:900px;margin:0 auto;aspect-ratio:1288/610}
   .rtruck .rt-truck{position:absolute;left:0;top:0;width:100%;height:auto;z-index:1;filter:drop-shadow(0 10px 12px rgba(0,0,0,.25))}
   .rt-load{position:absolute;z-index:2;overflow:hidden;left:calc(42 / 1288 * 100%);top:calc(36 / 610 * 100%);width:calc(851 / 1288 * 100%);height:calc(363 / 610 * 100%)}
+  #fit-ov{place-items:center}
+  .fit #fit-body{padding:30px 28px 26px}
+  .fit h3{font-size:clamp(22px,4vw,28px);line-height:1.1;margin:4px 40px 10px 0}
+  .fit p{margin:0 0 6px;color:#333}
+  .fit .fit-k{font-weight:800;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:#000;background:var(--accent);display:inline-block;padding:4px 10px;border-radius:999px}
+  .fit-act{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+  @media(max-width:560px){ .fit-act .btn{flex:1 1 100%} .fit #fit-body{padding:26px 20px 20px} }
+  .rtruck .rt-truck,.rtruck .rt-panel{transition:opacity .2s}
   .rt-item{position:absolute;height:auto;filter:drop-shadow(0 5px 5px rgba(0,0,0,.35));transform-origin:50% 100%}
   .rt-item.drop{animation:rtdrop .45s cubic-bezier(.3,1.35,.6,1)}
   @keyframes rtdrop{from{translate:0 -140px;opacity:0}to{translate:0 0;opacity:1}}
@@ -1014,6 +1022,12 @@
     <div id="jd-body"></div>
   </div>
 </div>
+<div class="overlay" id="fit-ov" hidden>
+  <div class="ov-panel narrow fit" role="dialog" aria-modal="true" aria-labelledby="fit-title">
+    <button class="x ov-x" type="button" data-ov-close aria-label="Close">✕</button>
+    <div id="fit-body"></div>
+  </div>
+</div>
 <div class="overlay" id="bin-ov" hidden>
   <div class="ov-panel narrow" role="dialog" aria-modal="true" aria-labelledby="bf-title">
     <button class="x ov-x" type="button" data-ov-close aria-label="Close">✕</button>
@@ -1125,14 +1139,16 @@ let order=[]; // item ids in the order they were added
 $$('.items').forEach(grid=>grid.addEventListener('click',e=>{
   const b=e.target.closest('button[data-d]'); if(!b)return;
   const row=b.closest('.item'), id=row.dataset.id, d=+b.dataset.d;
+  if(d>0&&grid.id==='items'&&VEH[veh].cap<TRUCK_M3&&vol()+ITEMS.find(i=>i.id===id).v>VEH[veh].cap+1e-6){fitPrompt(id);return;}
   const before=qty[id];
   qty[id]=Math.max(0,Math.min(20,qty[id]+d));
   if(qty[id]>before)order.push(id);
   else if(qty[id]<before){const k=order.lastIndexOf(id);if(k>-1)order.splice(k,1);}
-  $$(`.item[data-id="${id}"]`).forEach(r=>{r.querySelector('output').textContent=qty[id]; r.classList.toggle('has',qty[id]>0);});
+  syncRow(id);
   drawTruck(qty[id]>before?id:null); fitBin(); fitWheelie();
 }));
 $('#pu-clear').addEventListener('click',()=>{ITEMS.forEach(i=>qty[i.id]=0);order=[];$$('.item').forEach(r=>{r.classList.remove('has');r.querySelector('output').textContent=0});drawTruck();fitBin();fitWheelie();});
+const syncRow=id=>$$(`.item[data-id="${id}"]`).forEach(r=>{r.querySelector('output').textContent=qty[id]; r.classList.toggle('has',qty[id]>0);});
 const vol=()=>ITEMS.reduce((a,i)=>a+i.v*qty[i.id],0);
 const fmt=n=>(Math.round(n*10)/10).toString();
 
@@ -1141,12 +1157,16 @@ const fmt=n=>(Math.round(n*10)/10).toString();
 const RT={W:1288,H:610,L:42,T:36,R:893,B:399,PXM:173,S:.88,DEPTH:.55,CAP:20};
 const RT_ITEM={couch:{h:.85,ar:1.649},chair:{h:.95,ar:1.041},mattress:{h:.28,ar:5.614},bed:{h:.45,ar:4.051},fridge:{h:1.7,ar:.442},washer:{h:.85,ar:.736},wardrobe:{h:1.8,ar:.619},table:{h:.78,ar:2.55},tv:{h:.75,ar:1.407},boxes:{h:.9,ar:.716},bags:{h:.7,ar:1.212},green:{h:.8,ar:1.441}};
 
-/* Vehicles: trailer and ute capacities are PROPOSED (Richard call 5 Oct 2026, RB-07) - confirm with Richard. */
-const TRAILER_M3=2, UTE_M3=1.5, TRUCK_M3=20;
+/* Vehicle capacities (m³). Ute: single-cab well-side tub ~2.35 x 1.5 x 0.48 m, less wheel arches = ~1.5.
+   Trailer: 8x5 cage trailer, 2.4 x 1.5 m floor, ~0.9 m sides incl. cage = ~3.2, call it 3 (loading gaps).
+   Ute/trailer figures still to be confirmed by Richard (RB-07). ppm = image pixels per metre, so items draw to real scale. */
+const TRAILER_M3=3, UTE_M3=1.5, TRUCK_M3=20;
 const BOX={L:42,T:36,R:893,B:399};
-const VEH={trailer:{n:'trailer',load:'trailer load',cap:TRAILER_M3,img:'t-trailer.webp',panel:'t-trailerside.webp',box:{L:52,T:62,R:948,B:370}},ute:{n:'ute',load:'ute load',cap:UTE_M3,img:'t-ute.webp',panel:'t-uteside.webp',box:{L:50,T:60,R:638,B:374}},truck:{n:'truck',load:'truckload',cap:TRUCK_M3,img:'t-boxtruck.webp',panel:'t-boxframe.webp',box:BOX}};
+const VEH={trailer:{n:'trailer',a:'a trailer',load:'trailer load',cap:TRAILER_M3,ppm:367,img:'t-trailer.webp',panel:'t-trailerside.webp',box:{L:52,T:62,R:948,B:370}},ute:{n:'ute',a:'a ute',load:'ute load',cap:UTE_M3,ppm:245,img:'t-ute.webp',panel:'t-uteside.webp',box:{L:50,T:60,R:638,B:374}},truck:{n:'truck',a:'a truck',load:'truckload',cap:TRUCK_M3,ppm:152,img:'t-boxtruck.webp',panel:'t-boxframe.webp',box:BOX}};
 let veh='truck';
-function setVeh(k){
+function setVeh(k,force){
+  if(k===veh&&!force)return;
+  if(!force&&VEH[k].cap<VEH.truck.cap&&vol()>VEH[k].cap+1e-6){fitPrompt(null,k);return;}
   veh=k; RT.CAP=VEH[k].cap;
   $$('[data-veh]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.veh===k));
   $('#veh-title').textContent='Load the '+VEH[k].n;
@@ -1159,15 +1179,33 @@ function setVeh(k){
   drawTruck();
 }
 $$('[data-veh]').forEach(b=>b.addEventListener('click',()=>setVeh(b.dataset.veh)));
+(window.requestIdleCallback||setTimeout)(()=>Object.values(VEH).forEach(V=>[V.img,V.panel].forEach(u=>{if(u)new Image().src=u;})));
+/* Ute / trailer are capped: an item that won't fit opens a prompt to step up a vehicle instead of overfilling. */
+let fitPending=null;
+function fitPrompt(id,target){
+  const V=target?VEH[target]:VEH[veh], it=id&&ITEMS.find(i=>i.id===id), need=vol()+(it?it.v:0);
+  fitPending=id;
+  const alt=Object.keys(VEH).find(k=>VEH[k].cap>V.cap&&k!=='truck'&&need<=VEH[k].cap+1e-6);
+  $('#fit-body').innerHTML=`<p class="fit-k">Load is about ${fmt(need)} m³</p>
+    <h3 id="fit-title">${it?`That won't fit in ${V.a}`:`Too much for ${V.a}`}</h3>
+    <p>${V.a[0].toUpperCase()+V.a.slice(1)} carries about ${fmt(V.cap)} m³. ${it?`Adding the ${it.n.toLowerCase()} takes your load to about ${fmt(need)} m³,`:`Your load is about ${fmt(need)} m³,`} ${target&&veh==='truck'?'so it needs the truck':"so you'll need a truck"}${alt?` or ${VEH[alt].a}`:''}.</p>
+    <div class="fit-act">${target&&veh==='truck'?'':'<button class="btn btn-ink" type="button" data-fit="truck">Switch to a truck</button>'}${alt?`<button class="btn btn-line" type="button" data-fit="${alt}">Use ${VEH[alt].a}</button>`:''}<button class="btn btn-line" type="button" data-fit="">${target?'Keep the '+VEH[veh].n:'Keep my '+V.n+' load'}</button></div>`;
+  openOv('fit-ov');
+}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-fit]');if(!b)return;
+  const k=b.dataset.fit, id=fitPending; fitPending=null; closeOv();
+  if(!k)return;
+  if(id){qty[id]=Math.min(20,qty[id]+1);order.push(id);syncRow(id);}
+  setVeh(k,true); if(id)drawTruck(id); fitBin(); fitWheelie();});
 function drawTruck(added){
   const v=vol(), over=v>RT.CAP, pct=Math.max(1,Math.round(v/RT.CAP*100));
   $('#pu-vol').textContent=fmt(v)+' m³';
-  const VL=VEH[veh].load, VK=Math.cbrt(TRUCK_M3/RT.CAP)*(RT.R-RT.L)/851; // smaller vehicle: same items drawn bigger in the load space
-  $('#pu-fill').textContent= v===0?'Tap items below to start': over?`More than a full ${VL}. Collectors may quote for two loads.`:`About ${pct}% of a full ${VL}`;
+  const V=VEH[veh], VL=V.load, full=V.cap<TRUCK_M3&&v>=V.cap-0.05;
+  $('#pu-fill').textContent= v===0?'Tap items below to start': over?`More than a full ${VL}. Collectors may quote for two loads.`: full?`Your ${V.n} is full`:`About ${Math.min(pct,99)}% of a full ${VL}`;
   // skyline packing inside the box: each item drops into the lowest spot where it fits, resting on what's below
   const IW=RT.R-RT.L, IH=RT.B-RT.T, FLOOR=IH+6, STEP=4, N=Math.floor(IW/STEP), sky=new Array(N).fill(FLOOR); const placed=[];
   order.forEach((id,i)=>{
-    const d=RT_ITEM[id]; let h=d.h*RT.PXM*RT.S*VK, w=h*d.ar;
+    const d=RT_ITEM[id]; let h=d.h*V.ppm, w=h*d.ar;
     if(w>IW-8){w=IW-8;h=w/d.ar;} if(h>IH-4){h=IH-4;w=h*d.ar;}
     const span=Math.max(1,Math.round(w/STEP)); let best=0,bestBase=-1e9;
     for(let c=0;c+span<=N;c++){let base=FLOOR;for(let k=c;k<c+span;k++)base=Math.min(base,sky[k]);if(base>bestBase+0.5){bestBase=base;best=c;}}
