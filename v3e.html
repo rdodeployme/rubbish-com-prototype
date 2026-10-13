@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Rubbish.com.au | How a rubbish job works</title>
 <meta name="description" content="Post your rubbish, get quotes from local collectors, book one and it's gone. Coming soon to Melbourne and Brisbane.">
+<!--og--><meta property="og:type" content="website"><meta property="og:site_name" content="Rubbish.com.au"><meta property="og:title" content="Rubbish.com.au | How a rubbish job works"><meta property="og:description" content="Post your rubbish, get quotes from local collectors, book one and it's gone. Coming soon to Melbourne and Brisbane."><meta property="og:url" content="https://rdodeployme.github.io/rubbish-com-prototype/v3e.html"><meta property="og:image" content="https://rdodeployme.github.io/rubbish-com-prototype/hero.jpg?v=5"><meta name="twitter:card" content="summary_large_image"><meta name="theme-color" content="#FBC303"><!--/og-->
 <link rel="icon" href="favicon-v3.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
@@ -13,7 +14,7 @@
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
   body{font-family:Archivo,system-ui,sans-serif;color:var(--k);background:var(--paper);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
-  img,svg{display:block;max-width:100%}
+  img,svg{display:block;max-width:100%} img{height:auto}
   a{color:inherit}
   .wrap{width:min(1240px,100% - 40px);margin-inline:auto}
   h1,h2,h3{font-stretch:125%;font-weight:900;line-height:.98;letter-spacing:-.025em;text-wrap:balance}
@@ -25,10 +26,13 @@
   .btn-line{background:transparent;color:var(--k);box-shadow:inset 0 0 0 2px var(--k)}
   .vtabs{position:sticky;top:0;z-index:150;display:flex;justify-content:center;align-items:center;gap:6px;background:#fff;border-bottom:1px solid #E4E4E1;padding:8px 12px;font-family:Archivo,system-ui,sans-serif;font-size:14px;line-height:1.2}
   .vtabs span{font-weight:700;margin-right:6px;color:#000}
-  .vtabs a{border:2px solid #000;border-radius:999px;padding:5px 13px;text-decoration:none;color:#000;font-weight:700;white-space:nowrap}
+  .vtabs a{border:2px solid #000;border-radius:999px;padding:5px 12px;text-decoration:none;color:#000;font-weight:700;white-space:nowrap}
   .vtabs a i{font-style:normal}
+  .vtabs a:hover{background:#FBC303}
   .vtabs a[aria-current]{background:#000;color:#FBC303}
-  @media(max-width:760px){ .vtabs span{display:none} .vtabs a i{display:none} .vtabs a{min-width:44px;text-align:center;padding:5px 0} .vtabs a[aria-current] i{display:inline} .vtabs a[aria-current]{padding:5px 12px} }
+  @media(max-width:1060px){ .vtabs span{display:none} }
+  @media(max-width:900px){ .vtabs{gap:5px} .vtabs a i{display:none} .vtabs a{min-width:38px;text-align:center;padding:5px 0} .vtabs a[aria-current] i{display:inline} .vtabs a[aria-current]{padding:5px 12px} }
+  @media(max-width:400px){ .vtabs a[aria-current] i{display:none} .vtabs a[aria-current]{padding:5px 0} .vtabs a{min-width:36px} }
 
   .nav{display:flex;align-items:center;gap:20px;padding:18px 0}
   .nav img{height:44px;width:auto}
@@ -105,7 +109,7 @@
   .steps{list-style:none}
   .step{min-height:78vh;display:flex;flex-direction:column;justify-content:center;padding:20px 0}
   .step .n{font-stretch:125%;font-weight:900;font-size:15px;display:inline-block;background:var(--k);color:var(--y);border-radius:999px;padding:4px 12px;margin-bottom:16px;width:max-content}
-  .step h2{font-size:clamp(30px,3.7vw,54px);margin-bottom:14px}
+  .step h2{font-size:clamp(28px,3.5vw,52px);margin-bottom:14px}
   .step p{font-size:clamp(17px,1.4vw,20px);color:#2a2a27;max-width:24em}
   .step .btn{margin-top:22px;width:max-content}
   .step:first-child{min-height:60vh}
@@ -155,7 +159,7 @@
 </style>
 </head>
 <body>
-<nav class="vtabs" aria-label="Site versions"><span>Site version</span><a href="v3.html">A<i>: Docket</i></a><a href="v3b.html">B<i>: Search</i></a><a href="v3c.html">C<i>: Two doors</i></a><a href="v3d.html">D<i>: Load it</i></a><a href="v3e.html" aria-current="page">E<i>: The story</i></a></nav>
+<nav class="vtabs" aria-label="Site versions"><span>Site version</span><a href="v3.html" title="Version A: Docket">A<i>: Docket</i></a><a href="v3b.html" title="Version B: Search">B<i>: Search</i></a><a href="v3c.html" title="Version C: Two doors">C<i>: Two doors</i></a><a href="v3d.html" title="Version D: Load it">D<i>: Load it</i></a><a href="v3e.html" aria-current="page" title="Version E: The story">E<i>: The story</i></a><a href="v3f.html" title="Version F: Snap it">F<i>: Snap it</i></a><a href="v3g.html" title="Version G: Before/after">G<i>: Before/after</i></a></nav>
 <header class="wrap nav" id="top">
   <a href="#top" aria-label="Rubbish.com.au home"><img src="logo-v3-dark.png" alt="Rubbish.com.au" width="122" height="44"></a>
   <button class="btn btn-line" type="button" data-flow="join">Become a collector</button>
@@ -208,10 +212,10 @@
 
   <ol class="steps">
     <li class="step" data-s="1"><span class="n">1 · Post</span><h2>Post what needs to go.</h2><p>List the items or add photos, your suburb and when suits. It's free and takes about two minutes.</p></li>
-    <li class="step" data-s="2"><span class="n">2 · Quote</span><h2>Local&nbsp;collectors send prices.</h2><p>Verified collectors nearby quote on the job. Your address stays private until you book.</p></li>
+    <li class="step" data-s="2"><span class="n">2 · Quote</span><h2>Local collectors send prices.</h2><p>Verified collectors nearby quote on the job. Your address stays private until you book.</p></li>
     <li class="step" data-s="3"><span class="n">3 · Book</span><h2>Pick the one that suits.</h2><p>Compare price, reviews and timing. Cheapest isn't the only option. Choose what works for you.</p></li>
-    <li class="step" data-s="4"><span class="n">4 · Collect</span><h2>They turn up and do&nbsp;the&nbsp;lifting.</h2><p>Your collector arrives at the booked time and loads everything. You don't need to carry a thing to the kerb.</p></li>
-    <li class="step" data-s="5"><span class="n">5 · Gone</span><h2>It's gone. Then&nbsp;they're paid.</h2><p>The collector is paid once the job's done, and they're pointed to the nearest place to recycle or reuse what they took.</p><button class="btn btn-k" type="button" data-flow="flow/pickup">Post your rubbish</button></li>
+    <li class="step" data-s="4"><span class="n">4 · Collect</span><h2>They turn up and do the lifting.</h2><p>Your collector arrives at the booked time and loads everything. You don't need to carry a thing to the kerb.</p></li>
+    <li class="step" data-s="5"><span class="n">5 · Gone</span><h2>It's gone. Then they're paid.</h2><p>The collector is paid once the job's done, and they're pointed to the nearest place to recycle or reuse what they took.</p><button class="btn btn-k" type="button" data-flow="flow/pickup">Post your rubbish</button></li>
   </ol>
 </section>
 
@@ -344,8 +348,8 @@ const BL={
       <circle cx="${x+w*.22}" cy="${base-4}" r="${Math.max(4,h*.05)}" fill="#000"/>${big?`<circle cx="${x+w*.78}" cy="${base-4}" r="${Math.max(4,h*.05)}" fill="#000"/>`:''}</g>`;
   }
   const wh=wheelie(56,180,92,false)+wheelie(118,180,104,false)+wheelie(186,180,132,true);
-  document.querySelectorAll('#b-skip,#c-skip,#d-skip,#e-skip').forEach(el=>el.innerHTML=`<svg viewBox="0 0 360 190" width="100%" height="100%">${g}</svg>`);
-  document.querySelectorAll('#b-wheelie,#c-wheelie,#d-wheelie,#e-wheelie').forEach(el=>el.innerHTML=`<svg viewBox="0 0 360 190" width="100%" height="100%">${wh}</svg>`);
+  document.querySelectorAll('#b-skip,#c-skip,#d-skip,#e-skip,#f-skip,#g-skip').forEach(el=>el.innerHTML=`<svg viewBox="0 0 360 190" width="100%" height="100%">${g}</svg>`);
+  document.querySelectorAll('#b-wheelie,#c-wheelie,#d-wheelie,#e-wheelie,#f-wheelie,#g-wheelie').forEach(el=>el.innerHTML=`<svg viewBox="0 0 360 190" width="100%" height="100%">${wh}</svg>`);
 })();
 
 /* every "Post", "Get quotes" and "Register" button opens the matching flow from the main site */

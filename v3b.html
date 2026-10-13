@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Rubbish.com.au | Post your rubbish, get quotes from local collectors</title>
 <meta name="description" content="Tell us what needs to go and get quotes from verified local rubbish collectors. Coming soon to Melbourne and Brisbane.">
+<!--og--><meta property="og:type" content="website"><meta property="og:site_name" content="Rubbish.com.au"><meta property="og:title" content="Rubbish.com.au | Post your rubbish, get quotes from local collectors"><meta property="og:description" content="Tell us what needs to go and get quotes from verified local rubbish collectors. Coming soon to Melbourne and Brisbane."><meta property="og:url" content="https://rdodeployme.github.io/rubbish-com-prototype/v3b.html"><meta property="og:image" content="https://rdodeployme.github.io/rubbish-com-prototype/hero.jpg?v=5"><meta name="twitter:card" content="summary_large_image"><meta name="theme-color" content="#FBC303"><!--/og-->
 <link rel="icon" href="favicon-v3.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
@@ -13,7 +14,7 @@
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
   body{font-family:Archivo,system-ui,sans-serif;color:var(--k);background:var(--paper);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
-  img,svg{display:block;max-width:100%}
+  img,svg{display:block;max-width:100%} img{height:auto}
   a{color:inherit}
   .wrap{width:min(1180px,100% - 40px);margin-inline:auto}
   h1,h2,h3{font-stretch:112%;font-weight:900;line-height:1.02;letter-spacing:-.02em;text-wrap:balance}
@@ -24,10 +25,13 @@
   .btn-y{background:var(--y);color:var(--k)}
   .vtabs{position:sticky;top:0;z-index:150;display:flex;justify-content:center;align-items:center;gap:6px;background:#fff;border-bottom:1px solid #E4E4E1;padding:8px 12px;font-family:Archivo,system-ui,sans-serif;font-size:14px;line-height:1.2}
   .vtabs span{font-weight:700;margin-right:6px;color:#000}
-  .vtabs a{border:2px solid #000;border-radius:999px;padding:5px 13px;text-decoration:none;color:#000;font-weight:700;white-space:nowrap}
+  .vtabs a{border:2px solid #000;border-radius:999px;padding:5px 12px;text-decoration:none;color:#000;font-weight:700;white-space:nowrap}
   .vtabs a i{font-style:normal}
+  .vtabs a:hover{background:#FBC303}
   .vtabs a[aria-current]{background:#000;color:#FBC303}
-  @media(max-width:760px){ .vtabs span{display:none} .vtabs a i{display:none} .vtabs a{min-width:44px;text-align:center;padding:5px 0} .vtabs a[aria-current] i{display:inline} .vtabs a[aria-current]{padding:5px 12px} }
+  @media(max-width:1060px){ .vtabs span{display:none} }
+  @media(max-width:900px){ .vtabs{gap:5px} .vtabs a i{display:none} .vtabs a{min-width:38px;text-align:center;padding:5px 0} .vtabs a[aria-current] i{display:inline} .vtabs a[aria-current]{padding:5px 12px} }
+  @media(max-width:400px){ .vtabs a[aria-current] i{display:none} .vtabs a[aria-current]{padding:5px 0} .vtabs a{min-width:36px} }
 
   .bar{background:var(--k);color:#fff;font-size:15px;text-align:center;padding:10px 20px;text-wrap:balance}
   .bar a{color:var(--y);font-weight:800;white-space:nowrap}
@@ -127,7 +131,7 @@
 </style>
 </head>
 <body>
-<nav class="vtabs" aria-label="Site versions"><span>Site version</span><a href="v3.html">A<i>: Docket</i></a><a href="v3b.html" aria-current="page">B<i>: Search</i></a><a href="v3c.html">C<i>: Two doors</i></a><a href="v3d.html">D<i>: Load it</i></a><a href="v3e.html">E<i>: The story</i></a></nav>
+<nav class="vtabs" aria-label="Site versions"><span>Site version</span><a href="v3.html" title="Version A: Docket">A<i>: Docket</i></a><a href="v3b.html" aria-current="page" title="Version B: Search">B<i>: Search</i></a><a href="v3c.html" title="Version C: Two doors">C<i>: Two doors</i></a><a href="v3d.html" title="Version D: Load it">D<i>: Load it</i></a><a href="v3e.html" title="Version E: The story">E<i>: The story</i></a><a href="v3f.html" title="Version F: Snap it">F<i>: Snap it</i></a><a href="v3g.html" title="Version G: Before/after">G<i>: Before/after</i></a></nav>
 <div class="bar">Coming soon. Local collectors in Melbourne and Brisbane can register now. <a href="#" data-flow="join">Register as a collector</a></div>
 <header>
   <div class="wrap nav">
@@ -322,8 +326,8 @@ const BL={
       <circle cx="${x+w*.22}" cy="${base-4}" r="${Math.max(4,h*.05)}" fill="#000"/>${big?`<circle cx="${x+w*.78}" cy="${base-4}" r="${Math.max(4,h*.05)}" fill="#000"/>`:''}</g>`;
   }
   const wh=wheelie(56,180,92,false)+wheelie(118,180,104,false)+wheelie(186,180,132,true);
-  document.querySelectorAll('#b-skip,#c-skip,#d-skip,#e-skip').forEach(el=>el.innerHTML=`<svg viewBox="0 0 360 190" width="100%" height="100%">${g}</svg>`);
-  document.querySelectorAll('#b-wheelie,#c-wheelie,#d-wheelie,#e-wheelie').forEach(el=>el.innerHTML=`<svg viewBox="0 0 360 190" width="100%" height="100%">${wh}</svg>`);
+  document.querySelectorAll('#b-skip,#c-skip,#d-skip,#e-skip,#f-skip,#g-skip').forEach(el=>el.innerHTML=`<svg viewBox="0 0 360 190" width="100%" height="100%">${g}</svg>`);
+  document.querySelectorAll('#b-wheelie,#c-wheelie,#d-wheelie,#e-wheelie,#f-wheelie,#g-wheelie').forEach(el=>el.innerHTML=`<svg viewBox="0 0 360 190" width="100%" height="100%">${wh}</svg>`);
 })();
 
 /* every "Post", "Get quotes" and "Register" button opens the matching flow from the main site */
