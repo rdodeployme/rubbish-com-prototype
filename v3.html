@@ -32,7 +32,13 @@
   .btn-line{background:transparent;color:inherit;box-shadow:inset 0 0 0 2px currentColor}
   .btn small{font-weight:600;opacity:.75}
 
-  /* preview switcher (for choosing the skip picture) */
+  /* version tabs */
+  .vtabs{position:sticky;top:0;z-index:150;display:flex;justify-content:center;align-items:center;gap:6px;background:#fff;border-bottom:1px solid #E4E4E1;padding:8px 12px;font-family:Archivo,system-ui,sans-serif;font-size:14px}
+  .vtabs span{font-weight:700;margin-right:6px}
+  .vtabs a{border:2px solid #000;border-radius:999px;padding:5px 14px;text-decoration:none;color:#000;font-weight:700;white-space:nowrap}
+  .vtabs a[aria-current]{background:#000;color:#FBC303}
+  @media(max-width:520px){ .vtabs span{display:none} .vtabs a{padding:5px 10px} }
+  /* skip picture */
   .pv{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;background:#fff;border-bottom:1px solid var(--rule);padding:8px 12px;font-size:14px}
   .pv span{font-weight:700;margin-right:6px}
   @media(max-width:480px){ .pv span{display:none} .pv button{padding:5px 11px} }
@@ -179,7 +185,7 @@
 </head>
 <body>
 
-<div class="pv" role="group" aria-label="Choose the skip bin picture"><span>Skip bin picture</span><button type="button" data-skipv="glass" aria-pressed="true">See-through</button><button type="button" data-skipv="photo" aria-pressed="false">Photo</button><button type="button" data-skipv="sizes" aria-pressed="false">Sizes</button></div>
+<nav class="vtabs" aria-label="Site versions"><span>Site version</span><a href="v3.html" aria-current="page">A: Docket</a><a href="v3b.html">B: Search</a><a href="v3c.html">C: Two doors</a></nav>
 <div class="bar">Coming soon. We're signing up local collectors in Melbourne and Brisbane now. <a href="#" data-flow="join">Register as a collector</a></div>
 
 <header>
@@ -254,7 +260,7 @@
         <button class="btn btn-k" type="button" data-flow="flow/pickup">Get pick-up quotes</button>
       </article>
       <article class="row">
-        <div class="pic" id="pic-skip" data-v="glass" aria-hidden="true"><div class="sv sv-glass"></div><div class="sv sv-photo"><img src="skip-photo.jpg" alt="" loading="lazy"></div><div class="sv sv-sizes"></div></div>
+        <div class="pic" id="pic-skip" data-v="sizes" aria-hidden="true"><div class="sv sv-glass"></div><div class="sv sv-photo"><img src="skip-photo.jpg" alt="" loading="lazy"></div><div class="sv sv-sizes"></div></div>
         <div><span class="who">You load it</span><h3>Skip and hook bins</h3><p>Bins from 2&nbsp;m³ to 42&nbsp;m³ dropped off at your place. Fill it at your own pace and it gets collected.</p></div>
         <button class="btn btn-k" type="button" data-flow="flow/skip">Get bin quotes</button>
       </article>

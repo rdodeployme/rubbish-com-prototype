@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rubbish.com.au | Post your rubbish, get quotes from local collectors</title>
+<meta name="description" content="Tell us what needs to go and get quotes from verified local rubbish collectors. Coming soon to Melbourne and Brisbane.">
+<link rel="icon" href="favicon-v3.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
+<style>
+  :root{--y:#FBC303;--k:#000;--paper:#fff;--rule:#E4E4E1;--mute:#5B5B57;--wash:#F6F6F4}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:Archivo,system-ui,sans-serif;color:var(--k);background:var(--paper);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  img,svg{display:block;max-width:100%}
+  a{color:inherit}
+  .wrap{width:min(1180px,100% - 40px);margin-inline:auto}
+  h1,h2,h3{font-stretch:112%;font-weight:900;line-height:1.02;letter-spacing:-.02em;text-wrap:balance}
+  p,li{text-wrap:pretty}
+  :focus-visible{outline:3px solid var(--k);outline-offset:3px;border-radius:6px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:12px;padding:16px 24px;font:inherit;font-weight:800;font-size:17px;text-decoration:none;cursor:pointer;white-space:nowrap}
+  .btn-k{background:var(--k);color:var(--y)}
+  .btn-y{background:var(--y);color:var(--k)}
+  .vtabs{position:sticky;top:0;z-index:150;display:flex;justify-content:center;align-items:center;gap:6px;background:#fff;border-bottom:1px solid #E4E4E1;padding:8px 12px;font-family:Archivo,system-ui,sans-serif;font-size:14px}
+  .vtabs span{font-weight:700;margin-right:6px}
+  .vtabs a{border:2px solid #000;border-radius:999px;padding:5px 14px;text-decoration:none;color:#000;font-weight:700;white-space:nowrap}
+  .vtabs a[aria-current]{background:#000;color:#FBC303}
+  @media(max-width:520px){ .vtabs span{display:none} .vtabs a{padding:5px 10px} }
+
+  .bar{background:var(--k);color:#fff;font-size:15px;text-align:center;padding:10px 20px;text-wrap:balance}
+  .bar a{color:var(--y);font-weight:800;white-space:nowrap}
+  header{border-bottom:1px solid var(--rule)}
+  .nav{display:flex;align-items:center;gap:26px;padding:14px 0}
+  .nav img{height:42px;width:auto}
+  .nav nav{display:flex;gap:24px;margin-left:auto}
+  .nav nav a{text-decoration:none;font-weight:600;color:#333}
+  .nav .btn{padding:11px 18px;font-size:15px}
+  @media(max-width:860px){ .nav nav{display:none} .nav .btn{margin-left:auto} }
+
+  /* hero: the ask is the page */
+  .hero{padding:56px 0 72px;background:linear-gradient(var(--y) 0 0) right/38% 100% no-repeat}
+  .hero-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:48px;align-items:center}
+  .hero h1{font-size:clamp(30px,3.3vw,50px)} .hero h1 span{display:block} @media(max-width:600px){.hero h1{font-size:6.3vw}}
+  .hero .lede{font-size:clamp(18px,1.5vw,21px);color:var(--mute);margin:18px 0 28px;max-width:30em}
+  .ask{background:#fff;border:3px solid var(--k);border-radius:20px;padding:18px;box-shadow:8px 8px 0 var(--k);max-width:600px}
+  .ask label{display:block;font-weight:800;font-size:15px;margin-bottom:6px}
+  .ask .row{display:grid;grid-template-columns:1fr 180px;gap:12px;margin-bottom:12px}
+  .ask input{width:100%;font:inherit;font-size:17px;border:2px solid var(--rule);border-radius:10px;padding:13px 14px}
+  .ask input:focus{border-color:var(--k);outline:none}
+  .ask .btn{width:100%}
+  .ask small{display:block;text-align:center;color:var(--mute);margin-top:10px;font-size:14px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;max-width:600px}
+  .chips button{font:inherit;font-size:15px;font-weight:700;background:var(--wash);border:0;border-radius:999px;padding:8px 14px;cursor:pointer;white-space:nowrap}
+  .chips button:hover{background:var(--y)}
+  .photo{position:relative;border-radius:22px;overflow:hidden;aspect-ratio:4/5;max-height:560px;margin-left:auto}
+  .photo img{width:100%;height:100%;object-fit:cover;object-position:40% 50%}
+  .note{position:absolute;left:16px;right:16px;background:#fff;border-radius:14px;padding:12px 14px;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;box-shadow:0 10px 30px rgba(0,0,0,.25);font-size:15px}
+  .note b{display:block}
+  .note .ic{width:38px;height:38px;border-radius:50%;background:var(--y);display:grid;place-items:center;font-weight:900}
+  .note .pr{font-weight:900;font-size:20px;font-stretch:112%}
+  .note.n1{top:16px} .note.n2{bottom:16px}
+  .note .ex{position:absolute;top:-10px;right:12px;background:var(--k);color:var(--y);font-size:11px;font-weight:800;border-radius:999px;padding:2px 8px}
+  @media(max-width:900px){ .hero{background:linear-gradient(var(--y) 0 0) bottom/100% 34% no-repeat} .hero-grid{grid-template-columns:1fr} .ask .row{grid-template-columns:1fr} .photo{aspect-ratio:1/1;margin:0} }
+
+  section{padding:88px 0}
+  .sec-h{max-width:720px;margin-bottom:40px}
+  .sec-h h2{font-size:clamp(30px,3.6vw,48px)}
+  .sec-h p{font-size:19px;color:var(--mute);margin-top:12px}
+
+  /* how it works with pictures */
+  .how{background:var(--wash)}
+  .how-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;list-style:none;counter-reset:s}
+  .how-grid li{counter-increment:s;background:#fff;border-radius:20px;padding:20px 20px 26px}
+  .how-grid .art{height:180px;border-radius:14px;background:var(--y);position:relative;overflow:hidden;margin-bottom:18px}
+  .how-grid h3{font-size:24px;margin-bottom:8px;display:flex;gap:10px;align-items:baseline}
+  .how-grid h3::before{content:counter(s);font-size:15px;background:var(--k);color:var(--y);border-radius:999px;padding:2px 10px;flex:none}
+  .how-grid p{color:var(--mute)}
+  .pile img{position:absolute;bottom:14px;filter:drop-shadow(0 4px 4px rgba(0,0,0,.25))}
+  .mini{position:absolute;inset:18px;display:grid;gap:8px;align-content:center}
+  .mini div{background:#fff;border-radius:10px;padding:8px 12px;display:flex;justify-content:space-between;font-weight:700;font-size:15px}
+  .mini div:nth-child(2){background:var(--k);color:var(--y)}
+  .gone img{position:absolute;left:50%;bottom:6px;width:86%;translate:-50% 0}
+  @media(max-width:860px){ .how-grid{grid-template-columns:1fr} }
+
+  /* popular jobs: tap a picture to start */
+  .tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+  .tile{display:grid;grid-template-columns:120px 1fr;align-items:center;gap:16px;background:var(--wash);border:0;border-radius:18px;padding:14px;text-align:left;font:inherit;cursor:pointer}
+  .tile:hover{background:var(--y)}
+  .tile .im{height:96px;border-radius:12px;background:#fff;display:grid;place-items:center;padding:8px}
+  .tile .im img{max-height:80px;width:auto}
+  .tile b{display:block;font-size:19px}
+  .tile span{color:var(--mute);font-size:15px}
+  @media(max-width:900px){ .tiles{grid-template-columns:1fr 1fr} } @media(max-width:560px){ .tiles{grid-template-columns:1fr} }
+
+  .bins{background:var(--wash)}
+  .bin-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px}
+  .bin{background:#fff;border-radius:20px;padding:22px;display:grid;gap:12px}
+  .bin .pic{height:170px;border-radius:14px;background:var(--y)}
+  .bin .pic svg{width:100%;height:100%}
+  .bin h3{font-size:26px}
+  .bin p{color:var(--mute)}
+  .bin .btn{justify-self:start}
+  @media(max-width:860px){ .bin-grid{grid-template-columns:1fr} }
+
+  .col{background:var(--y)}
+  .col-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px;align-items:center}
+  .col h2{font-size:clamp(32px,4vw,52px)}
+  .col p{font-size:19px;margin:16px 0 24px;max-width:32em}
+  .col ul{list-style:none;display:grid;gap:10px;margin-bottom:28px;font-size:18px;font-weight:600}
+  .col ul li::before{content:"";display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--k);margin-right:12px;vertical-align:2px}
+  .fleet{display:grid;grid-template-columns:.8fr 1fr 1.25fr;align-items:end;gap:10px}
+  @media(max-width:860px){ .col-grid{grid-template-columns:1fr} }
+
+  .trust{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:36px}
+  .trust h3{font-size:22px;margin-bottom:8px}
+  .trust p{color:var(--mute)}
+  @media(max-width:860px){ .trust{grid-template-columns:1fr} }
+  details{border-bottom:1px solid var(--rule);padding:18px 0;max-width:820px}
+  summary{font-weight:800;font-size:19px;cursor:pointer;text-wrap:balance}
+  details p{margin-top:10px;color:var(--mute);max-width:62ch}
+  footer{background:var(--k);color:#bdbdbd;padding:48px 0;font-size:15px}
+  footer img{height:38px;width:auto;margin-bottom:10px}
+  .flow-ov{position:fixed;inset:0;z-index:200;background:#000}.flow-ov[hidden]{display:none}.flow-ov iframe{width:100%;height:100%;border:0;display:block}
+  .nw{white-space:nowrap}
+</style>
+</head>
+<body>
+<nav class="vtabs" aria-label="Site versions"><span>Site version</span><a href="v3.html">A: Docket</a><a href="v3b.html" aria-current="page">B: Search</a><a href="v3c.html">C: Two doors</a></nav>
+<div class="bar">Coming soon. Local collectors in Melbourne and Brisbane can register now. <a href="#" data-flow="join">Register as a collector</a></div>
+<header>
+  <div class="wrap nav">
+    <a href="#top" aria-label="Rubbish.com.au home"><img src="logo-v3-dark.png" alt="Rubbish.com.au" width="118" height="42"></a>
+    <nav aria-label="Main"><a href="#how">How it works</a><a href="#jobs">Popular jobs</a><a href="#bins">Bins</a><a href="#collectors">For collectors</a></nav>
+    <button class="btn btn-k" type="button" data-flow="join">Become a collector</button>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <h1><span>Post your rubbish.</span> <span>Local collectors quote.</span> <span>You choose.</span></h1>
+      <p class="lede">Rubbish.com.au is the marketplace for rubbish removal. It's free to post, and you pay after it's gone.</p>
+      <form class="ask" id="ask">
+        <div class="row">
+          <div><label for="what">What needs to go?</label><input id="what" placeholder="e.g. old couch, fridge and 10 bags" autocomplete="off"></div>
+          <div><label for="where">Suburb</label><input id="where" placeholder="e.g. Brunswick" autocomplete="address-level2"></div>
+        </div>
+        <button class="btn btn-k" type="submit">Get free quotes</button>
+        <small>Coming soon. You'll join the waitlist and we'll send your job out when bookings open.</small>
+      </form>
+      <div class="chips" aria-label="Or pick a job">
+        <button type="button" data-flow="flow/pickup">House clear-out</button>
+        <button type="button" data-flow="flow/pickup">Garden waste</button>
+        <button type="button" data-flow="flow/pickup">Furniture</button>
+        <button type="button" data-flow="flow/skip">Skip bin</button>
+        <button type="button" data-flow="flow/wheelie">Wheelie bins</button>
+      </div>
+    </div>
+    <div class="photo">
+      <img src="hero.jpg?v=5" alt="A collector lifting an old armchair onto a Rubbish.com.au truck">
+      <div class="note n1"><span class="ex">Example</span><span class="ic">3</span><div><b>3 quotes for your clear-out</b>Brunswick VIC</div><span class="pr">from $165</span></div>
+      <div class="note n2"><span class="ic">✓</span><div><b>Tidy Trailer booked</b>Saturday, 9am</div><span class="pr">$165</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="how" id="how">
+  <div class="wrap">
+    <div class="sec-h"><h2>How it works</h2><p>Like getting quotes for any job, without ringing around.</p></div>
+    <ol class="how-grid">
+      <li><div class="art pile" aria-hidden="true">
+          <img src="t-couch.webp" alt="" style="left:6%;width:50%"><img src="t-fridge.webp" alt="" style="left:55%;width:18%"><img src="t-bags.webp" alt="" style="left:70%;width:26%">
+        </div><h3>Post what needs to go</h3><p>List your items or add photos. Free, and about two minutes.</p></li>
+      <li><div class="art" aria-hidden="true"><div class="mini"><div><span>Dave's Ute Runs</span><span>$180</span></div><div><span>Tidy Trailer</span><span>$165</span></div><div><span>Northside Haulage</span><span>$230</span></div></div></div>
+        <h3>Collectors send quotes</h3><p>Verified collectors nearby send you a price. Your address stays private.</p></li>
+      <li><div class="art gone" aria-hidden="true"><img src="t-ute.webp" alt=""></div>
+        <h3>Pick one and it's gone</h3><p>Choose on price, reviews and timing. Pay after the job's done.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section id="jobs">
+  <div class="wrap">
+    <div class="sec-h"><h2>Popular jobs</h2><p>Tap one to start. Big or small, collectors quote on it.</p></div>
+    <div class="tiles">
+      <button class="tile" type="button" data-flow="flow/pickup"><span class="im"><img src="t-couch.webp" alt=""></span><span><b>Furniture</b><span>Couches, beds, tables</span></span></button>
+      <button class="tile" type="button" data-flow="flow/pickup"><span class="im"><img src="t-fridge.webp" alt=""></span><span><b>Whitegoods</b><span>Fridges, washers, dryers</span></span></button>
+      <button class="tile" type="button" data-flow="flow/pickup"><span class="im"><img src="t-mattress.webp" alt=""></span><span><b>Mattresses</b><span>Any size, any number</span></span></button>
+      <button class="tile" type="button" data-flow="flow/pickup"><span class="im"><img src="t-green.webp" alt=""></span><span><b>Green waste</b><span>Branches, prunings, soil</span></span></button>
+      <button class="tile" type="button" data-flow="flow/pickup"><span class="im"><img src="t-boxes.webp" alt=""></span><span><b>House clear-outs</b><span>Moving, end of lease, estates</span></span></button>
+      <button class="tile" type="button" data-flow="flow/pickup"><span class="im"><img src="t-bags.webp" alt=""></span><span><b>General rubbish</b><span>Bags, boxes, odds and ends</span></span></button>
+    </div>
+  </div>
+</section>
+
+<section class="bins" id="bins">
+  <div class="wrap">
+    <div class="sec-h"><h2>Rather load it yourself?</h2><p>Get quotes for a bin, fill it at your own pace, and it gets collected.</p></div>
+    <div class="bin-grid">
+      <article class="bin"><div class="pic" id="b-skip" aria-hidden="true"></div><h3>Skip and hook bins</h3><p>From 2&nbsp;m³ for a bathroom reno to 42&nbsp;m³ for a building site.</p><button class="btn btn-k" type="button" data-flow="flow/skip">Get bin quotes</button></article>
+      <article class="bin"><div class="pic" id="b-wheelie" aria-hidden="true"></div><h3>Wheelie bins</h3><p>240&nbsp;L to 1,100&nbsp;L, emptied once or on a schedule. Homes, apartments and businesses.</p><button class="btn btn-k" type="button" data-flow="flow/wheelie">Get wheelie bin quotes</button></article>
+    </div>
+  </div>
+</section>
+
+<section class="col" id="collectors">
+  <div class="wrap col-grid">
+    <div>
+      <h2>Earn with your ute, trailer or truck.</h2>
+      <p>We're signing up collectors in Melbourne and Brisbane before bookings open. Register now to be first in line for jobs near you.</p>
+      <ul><li>Free to register, no joining fees</li><li>Quote on the jobs you want</li><li>Paid after every completed job</li></ul>
+      <button class="btn btn-k" type="button" data-flow="join">Register as a collector</button>
+    </div>
+    <div class="fleet" aria-hidden="true"><img src="t-ute.webp" alt=""><img src="t-trailer.webp" alt=""><img src="t-boxtruck.webp?v=2" alt=""></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="trust">
+      <div><h3>Every collector is checked</h3><p>ID, driver's licence, vehicle registration and insurance, before they can quote.</p></div>
+      <div><h3>$1,500 dumping guarantee</h3><p>If a collector booked through us dumps your rubbish illegally, we cover costs and fines up to $1,500.</p></div>
+      <div><h3>97% kept out of landfill</h3><p>Collectors are pointed to the nearest place to recycle or reuse each material.</p></div>
+    </div>
+    <div style="margin-top:64px">
+      <details><summary>What is Rubbish.com.au?</summary><p>A marketplace for rubbish removal. You post what needs to go, verified local collectors send quotes, and you choose who does the job.</p></details>
+      <details><summary>What does it cost?</summary><p>Posting is free. You pay the price in the quote you accept, after the job is done.</p></details>
+      <details><summary>When can I book?</summary><p>We're signing up collectors first. Post your job now to join the waitlist and we'll let you know when you can get quotes.</p></details>
+      <details><summary>What can't be collected?</summary><p>Asbestos, chemicals, paint, gas bottles and other hazardous waste. Rules can vary between states and territories.</p></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap"><img src="logo-v3.png" alt="Rubbish.com.au" width="106" height="38"><p>Australia's marketplace for rubbish removal. Coming soon.</p></div></footer>
+<div class="flow-ov" id="flow-ov" hidden><iframe id="flow-frame" title="Rubbish.com.au" src="about:blank"></iframe></div>
+
+<script>
+/* ---------- See-through bins: real-size side view, packed with an example load ---------- */
+const BL={
+  /* id: [m³, height m, width/height ratio of the cutout image, label] */
+  items:{couch:[1.5,.85,1.649,'couch'],chair:[.6,.95,1.041,'armchair'],mattress:[.6,.28,5.614,'mattress'],bed:[.6,.45,4.051,'bed base'],fridge:[.8,1.7,.442,'fridge'],washer:[.4,.85,.736,'washer'],wardrobe:[1.2,1.8,.619,'wardrobe'],table:[.6,.78,2.55,'table'],tv:[.15,.75,1.407,'TV'],boxes:[.3,.9,.716,'box'],bags:[.4,.7,1.212,'bag'],green:[1,.8,1.441,'green waste']},
+  /* approx. outside dimensions: [top length m, height m]. Typical Australian sizes; suppliers vary. */
+  dim:{skip:{2:[2.0,.9],3:[2.2,1.0],4:[2.6,1.05],6:[3.4,1.2],8:[3.7,1.4],10:[3.9,1.6],12:[4.1,1.7]},
+       hook:{10:[4.0,1.2],12:[4.5,1.2],15:[5.0,1.35],20:[5.8,1.55],23:[6.2,1.7],30:[6.8,1.9]}},
+  seq:['bags','boxes','fridge','green','chair','washer','couch','mattress','table','bags','boxes','wardrobe','green','tv','bed','bags','boxes','couch','chair','green','fridge','bags','boxes','table'],
+  dims(kind,m3){const t=this.dim[kind];if(t[m3])return t[m3];const ks=Object.keys(t).map(Number).sort((a,b)=>a-b);const k=ks.reduce((p,c)=>Math.abs(c-m3)<Math.abs(p-m3)?c:p);const f=Math.cbrt(m3/k);return [t[k][0]*f,t[k][1]*f];},
+  example(kind,m3){
+    const [L]=this.dims(kind,m3), maxLen=L*(kind==='skip'?.66:.95), out=[]; let v=0, stall=0, i=0;
+    while(stall<this.seq.length&&out.length<80){const id=this.seq[i++%this.seq.length], d=this.items[id];
+      if(d[1]*d[2]<=maxLen&&v+d[0]<=m3*.98+1e-6){out.push(id);v+=d[0];stall=0;}else stall++;}
+    return out;
+  },
+  caption(ids){
+    const c={}; ids.forEach(id=>c[id]=(c[id]||0)+1);
+    const order=['couch','wardrobe','fridge','washer','chair','table','mattress','bed','tv','green','bags','boxes'];
+    const pl={couch:'couches',mattress:'mattresses',tv:'TVs',bed:'bed bases'};
+    const parts=order.filter(id=>c[id]).map(id=>{const n=c[id];
+      if(id==='bags')return `${n*5}&nbsp;rubbish bags`; if(id==='boxes')return `${n*5}&nbsp;boxes`; if(id==='green')return `${n}&nbsp;m³ of green waste`;
+      const l=this.items[id][3]; return `${n}&nbsp;${n>1?(pl[id]||l+'s'):l}`;});
+    const head=parts.slice(0,5).join(', ');
+    return parts.length>5?head+' and more':head.replace(/, ([^,]*)$/,' and $1');
+  },
+  pack(ids,xL,xR,yF,ppm){
+    const STEP=2,N=Math.max(1,Math.floor((xR-xL)/STEP)),sky=new Array(N).fill(yF),out=[];
+    ids.forEach((id,i)=>{const d=this.items[id];let h=d[1]*ppm,w=h*d[2];if(w>xR-xL-2){w=xR-xL-2;h=w/d[2];}
+      const span=Math.max(1,Math.round(w/STEP));let best=0,bb=-1e9;
+      for(let c=0;c+span<=N;c++){let b=yF;for(let k=c;k<c+span;k++)b=Math.min(b,sky[k]);if(b>bb+.5){bb=b;best=c;}}
+      for(let k=best;k<best+span;k++)sky[k]=bb-h*.5;
+      out.push({id,x:xL+best*STEP,y:bb-h,w,h,i});});
+    return out;
+  },
+  n:0,
+  /* o: {ids, ppm, cx, base, theme:{stroke,glass,back,sw}} -> SVG markup (no <svg> wrapper) */
+  draw(kind,m3,o){
+    const id='bl'+(++this.n), T=o.theme, [Lm,Hm]=this.dims(kind,m3), L=Lm*o.ppm, H=Hm*o.ppm, sw=T.sw||3;
+    let shape, xL, xR, yF, extra='';
+    if(kind==='skip'){
+      const bot=L*.68, x0=o.cx-L/2, yT=o.base-6-H; yF=o.base-6; xL=x0+(L-bot)/2; xR=xL+bot; var pL=x0+(L-bot)/4, pR=x0+L-(L-bot)/4;
+      shape=`M${x0} ${yT} H${x0+L} L${xR} ${yF} H${xL} Z`;
+      extra=`<rect x="${x0-3}" y="${yT-5}" width="${L+6}" height="8" rx="3" fill="${T.stroke}"/>
+        <path d="M${xL+8} ${yF} v6 M${xR-8} ${yF} v6" stroke="${T.stroke}" stroke-width="${sw+1}"/>
+        <circle cx="${x0+L*.12}" cy="${yT+H*.32}" r="${Math.max(3,H*.05)}" fill="none" stroke="${T.stroke}" stroke-width="${sw}"/>
+        <circle cx="${x0+L*.88}" cy="${yT+H*.32}" r="${Math.max(3,H*.05)}" fill="none" stroke="${T.stroke}" stroke-width="${sw}"/>`;
+    }else{
+      const x0=o.cx-L/2+8, yb=o.base-10, yt=yb-H, c=Math.min(H*.3,L*.08); yF=yb-sw; xL=x0+sw+2; xR=x0+L-sw-2; var pL=xL, pR=xR;
+      shape=`M${x0} ${yt} H${x0+L} V${yb} H${x0+c} L${x0} ${yb-c} Z`;
+      const hp=Math.max(10,H*.28);
+      extra=`<path d="M${x0+sw} ${yt+H*.45} L${x0-hp*.6} ${yt-hp} M${x0+hp*.8} ${yt} L${x0-hp*.6} ${yt-hp}" stroke="${T.stroke}" stroke-width="${sw+2}" stroke-linecap="round"/>
+        <path d="M${x0-hp*.6} ${yt-hp} a${hp*.28} ${hp*.28} 0 1 1 ${-hp*.42} ${hp*.18}" fill="none" stroke="${T.stroke}" stroke-width="${sw+1}" stroke-linecap="round"/>
+        <rect x="${x0+c}" y="${yb}" width="${L-c}" height="${Math.max(4,H*.05)}" fill="${T.stroke}"/>
+        <circle cx="${x0+L-L*.06}" cy="${o.base-4}" r="${Math.max(3,H*.06)}" fill="${T.stroke}"/>
+        <line x1="${x0+L-L*.08}" y1="${yt+6}" x2="${x0+L-L*.08}" y2="${yb-6}" stroke="${T.stroke}" stroke-width="${Math.max(1,sw-1)}" opacity=".6"/>`;
+    }
+    /* two rows deep: the back row sits a little higher and shaded, like looking into the bin from the side */
+    const ids=o.ids||[], back=ids.filter((_,i)=>i%2===0), front=ids.filter((_,i)=>i%2===1);
+    const img=(p,dy)=>`<image href="t-${p.id}.webp" x="${p.x.toFixed(1)}" y="${(p.y+dy).toFixed(1)}" width="${p.w.toFixed(1)}" height="${p.h.toFixed(1)}" preserveAspectRatio="none"/>`;
+    const lift=Math.min(H*.08,10);
+    const imgs=this.pack(back,pL,pR,yF,o.ppm).map(p=>img(p,-lift)).join('')+`<rect x="0" y="0" width="9999" height="9999" fill="${T.shade||'rgba(255,255,255,.28)'}"/>`+this.pack(front,pL,pR,yF,o.ppm).map(p=>img(p,0)).join('');
+    return `<defs><clipPath id="${id}"><path d="${shape}"/></clipPath></defs>
+      <path d="${shape}" fill="${T.back}"/>
+      <g clip-path="url(#${id})">${imgs}</g>
+      <path d="${shape}" fill="${T.glass}" stroke="${T.stroke}" stroke-width="${sw}" stroke-linejoin="round"/>${extra}`;
+  }
+};
+
+/* bin pictures: solid skips in three sizes, and three wheelie bins */
+(function(){
+  const solid={stroke:'#000',glass:'#000',back:'#000',sw:2};
+  const sz=[2,6,12], ppm=33.5, gap=12;
+  const widths=sz.map(v=>BL.dims('skip',v)[0]*ppm), total=widths.reduce((a,b)=>a+b,0)+gap*(sz.length-1);
+  let x=(360-total)/2, g='';
+  sz.forEach((v,i)=>{const w=widths[i];g+=BL.draw('skip',v,{ids:[],ppm,cx:x+w/2,base:150,theme:solid})+`<text x="${x+w/2}" y="178" text-anchor="middle" font-family="Archivo,sans-serif" font-weight="900" font-size="17">${v} m³</text>`;x+=w+gap;});
+  function wheelie(x,base,h,big){
+    const w=big?h*1.25:h*.62;
+    return `<g><rect x="${x}" y="${base-h}" width="${w}" height="${h-8}" rx="${Math.min(8,w*.1)}" fill="#000"/>
+      <rect x="${x-3}" y="${base-h-6}" width="${w+6}" height="9" rx="3" fill="#000"/>
+      <rect x="${x+w*.15}" y="${base-h+12}" width="${w*.7}" height="${Math.max(4,h*.06)}" rx="2" fill="#FBC303" opacity=".9"/>
+      <circle cx="${x+w*.22}" cy="${base-4}" r="${Math.max(4,h*.05)}" fill="#000"/>${big?`<circle cx="${x+w*.78}" cy="${base-4}" r="${Math.max(4,h*.05)}" fill="#000"/>`:''}</g>`;
+  }
+  const wh=wheelie(56,180,92,false)+wheelie(118,180,104,false)+wheelie(186,180,132,true);
+  document.querySelectorAll('#b-skip,#c-skip').forEach(el=>el.innerHTML=`<svg viewBox="0 0 360 190" width="100%" height="100%">${g}</svg>`);
+  document.querySelectorAll('#b-wheelie,#c-wheelie').forEach(el=>el.innerHTML=`<svg viewBox="0 0 360 190" width="100%" height="100%">${wh}</svg>`);
+})();
+
+/* every "Post", "Get quotes" and "Register" button opens the matching flow from the main site */
+const FLOW_BUILD='20261013a';
+const flowOv=document.getElementById('flow-ov'), flowFrame=document.getElementById('flow-frame');
+function openFlow(path){
+  flowFrame.src='v2.html?embed=1&v='+FLOW_BUILD+'&theme=gold#/'+path;
+  flowOv.hidden=false; document.body.style.overflow='hidden'; setTimeout(()=>flowFrame.focus(),50);
+}
+function closeFlow(){flowOv.hidden=true;document.body.style.overflow='';flowFrame.src='about:blank';}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-flow]');if(!b)return;e.preventDefault();openFlow(b.dataset.flow);});
+window.addEventListener('message',e=>{const d=e.data;if(!d||!d.rb)return;
+  if(d.type==='close')closeFlow();
+  if(d.type==='nav'){closeFlow();location.hash='#top';}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!flowOv.hidden)closeFlow();});
+
+/* clean line breaks: keep the last two words of each text block together */
+document.querySelectorAll('p,li,h2,h3,summary').forEach(el=>{
+  const tw=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);let last=null,n;
+  while((n=tw.nextNode()))if(n.data.trim())last=n;
+  if(!last)return;const m=last.data.match(/^([\s\S]*\S) +(\S{1,12}\s*)$/);if(m)last.data=m[1]+' '+m[2];
+});
+
+document.getElementById('ask').addEventListener('submit',e=>{e.preventDefault();openFlow('flow/pickup');});
+</script>
+</body>
+</html>
