@@ -33,11 +33,12 @@
   .btn small{font-weight:600;opacity:.75}
 
   /* version tabs */
-  .vtabs{position:sticky;top:0;z-index:150;display:flex;justify-content:center;align-items:center;gap:6px;background:#fff;border-bottom:1px solid #E4E4E1;padding:8px 12px;font-family:Archivo,system-ui,sans-serif;font-size:14px}
-  .vtabs span{font-weight:700;margin-right:6px}
-  .vtabs a{border:2px solid #000;border-radius:999px;padding:5px 14px;text-decoration:none;color:#000;font-weight:700;white-space:nowrap}
+  .vtabs{position:sticky;top:0;z-index:150;display:flex;justify-content:center;align-items:center;gap:6px;background:#fff;border-bottom:1px solid #E4E4E1;padding:8px 12px;font-family:Archivo,system-ui,sans-serif;font-size:14px;line-height:1.2}
+  .vtabs span{font-weight:700;margin-right:6px;color:#000}
+  .vtabs a{border:2px solid #000;border-radius:999px;padding:5px 13px;text-decoration:none;color:#000;font-weight:700;white-space:nowrap}
+  .vtabs a i{font-style:normal}
   .vtabs a[aria-current]{background:#000;color:#FBC303}
-  @media(max-width:520px){ .vtabs span{display:none} .vtabs a{padding:5px 10px} }
+  @media(max-width:760px){ .vtabs span{display:none} .vtabs a i{display:none} .vtabs a{min-width:44px;text-align:center;padding:5px 0} .vtabs a[aria-current] i{display:inline} .vtabs a[aria-current]{padding:5px 12px} }
   /* skip picture */
   .pv{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;background:#fff;border-bottom:1px solid var(--rule);padding:8px 12px;font-size:14px}
   .pv span{font-weight:700;margin-right:6px}
@@ -185,7 +186,7 @@
 </head>
 <body>
 
-<nav class="vtabs" aria-label="Site versions"><span>Site version</span><a href="v3.html" aria-current="page">A: Docket</a><a href="v3b.html">B: Search</a><a href="v3c.html">C: Two doors</a></nav>
+<nav class="vtabs" aria-label="Site versions"><span>Site version</span><a href="v3.html" aria-current="page">A<i>: Docket</i></a><a href="v3b.html">B<i>: Search</i></a><a href="v3c.html">C<i>: Two doors</i></a><a href="v3d.html">D<i>: Load it</i></a><a href="v3e.html">E<i>: The story</i></a></nav>
 <div class="bar">Coming soon. We're signing up local collectors in Melbourne and Brisbane now. <a href="#" data-flow="join">Register as a collector</a></div>
 
 <header>
