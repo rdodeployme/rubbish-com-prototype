@@ -32,6 +32,16 @@
   .btn-line{background:transparent;color:inherit;box-shadow:inset 0 0 0 2px currentColor}
   .btn small{font-weight:600;opacity:.75}
 
+  /* preview switcher (for choosing the skip picture) */
+  .pv{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;background:#fff;border-bottom:1px solid var(--rule);padding:8px 12px;font-size:14px}
+  .pv span{font-weight:700;margin-right:6px}
+  @media(max-width:480px){ .pv span{display:none} .pv button{padding:5px 11px} }
+  .pv button{font:inherit;font-weight:700;border:2px solid var(--k);background:#fff;border-radius:999px;padding:5px 14px;cursor:pointer;white-space:nowrap}
+  .pv button[aria-pressed="true"]{background:var(--k);color:var(--y)}
+  #pic-skip .sv{display:none;width:100%;height:100%}
+  #pic-skip[data-v="glass"] .sv-glass,#pic-skip[data-v="photo"] .sv-photo,#pic-skip[data-v="sizes"] .sv-sizes{display:block}
+  #pic-skip[data-v="photo"]{background:#ddd}
+  .sv-photo img{width:100%;height:100%;object-fit:cover;object-position:40% 55%}
   /* launch bar */
   .bar{background:var(--y);font-size:15px;text-align:center;padding:10px 20px;text-wrap:balance}
   .bar a{font-weight:800;white-space:nowrap}
@@ -169,6 +179,7 @@
 </head>
 <body>
 
+<div class="pv" role="group" aria-label="Choose the skip bin picture"><span>Skip bin picture</span><button type="button" data-skipv="glass" aria-pressed="true">See-through</button><button type="button" data-skipv="photo" aria-pressed="false">Photo</button><button type="button" data-skipv="sizes" aria-pressed="false">Sizes</button></div>
 <div class="bar">Coming soon. We're signing up local collectors in Melbourne and Brisbane now. <a href="#" data-flow="join">Register as a collector</a></div>
 
 <header>
@@ -243,7 +254,7 @@
         <button class="btn btn-k" type="button" data-flow="flow/pickup">Get pick-up quotes</button>
       </article>
       <article class="row">
-        <div class="pic" id="pic-skip" aria-hidden="true"></div>
+        <div class="pic" id="pic-skip" data-v="glass" aria-hidden="true"><div class="sv sv-glass"></div><div class="sv sv-photo"><img src="skip-photo.jpg" alt="" loading="lazy"></div><div class="sv sv-sizes"></div></div>
         <div><span class="who">You load it</span><h3>Skip and hook bins</h3><p>Bins from 2&nbsp;m³ to 42&nbsp;m³ dropped off at your place. Fill it at your own pace and it gets collected.</p></div>
         <button class="btn btn-k" type="button" data-flow="flow/skip">Get bin quotes</button>
       </article>
@@ -380,8 +391,14 @@ const BL={
 
 /* bin pictures for the services rows */
 (function(){
-  const skip=document.getElementById('pic-skip');
+  const skip=document.querySelector('#pic-skip .sv-glass');
   skip.innerHTML=`<svg viewBox="0 0 360 190">${BL.draw('skip',6,{ids:BL.example('skip',6),ppm:88,cx:180,base:182,theme:{stroke:'#000',glass:'rgba(255,255,255,.22)',back:'rgba(255,255,255,.4)',sw:3}})}</svg>`;
+  const solid={stroke:'#000',glass:'#000',back:'#000',sw:2};
+  const sz=[2,6,12], ppm=33.5, gap=12;
+  const widths=sz.map(v=>BL.dims('skip',v)[0]*ppm), total=widths.reduce((a,b)=>a+b,0)+gap*(sz.length-1);
+  let x=(360-total)/2, g='';
+  sz.forEach((v,i)=>{const w=widths[i];g+=BL.draw('skip',v,{ids:[],ppm,cx:x+w/2,base:150,theme:solid})+`<text x="${x+w/2}" y="178" text-anchor="middle" font-family="Archivo,sans-serif" font-weight="900" font-size="17">${v} m³</text>`;x+=w+gap;});
+  document.querySelector('#pic-skip .sv-sizes').innerHTML=`<svg viewBox="0 0 360 190" width="100%" height="100%">${g}</svg>`;
   function wheelie(x,base,h,big){
     const w=big?h*1.25:h*.62;
     return `<g><rect x="${x}" y="${base-h}" width="${w}" height="${h-8}" rx="${Math.min(8,w*.1)}" fill="#000"/>
@@ -390,6 +407,16 @@ const BL={
       <circle cx="${x+w*.22}" cy="${base-4}" r="${Math.max(4,h*.05)}" fill="#000"/>${big?`<circle cx="${x+w*.78}" cy="${base-4}" r="${Math.max(4,h*.05)}" fill="#000"/>`:''}</g>`;
   }
   document.getElementById('pic-wheelie').innerHTML=`<svg viewBox="0 0 360 190">${wheelie(56,180,92,false)+wheelie(118,180,104,false)+wheelie(186,180,132,true)}</svg>`;
+})();
+
+/* skip picture switcher */
+(function(){
+  const pic=document.getElementById('pic-skip'), btns=document.querySelectorAll('[data-skipv]');
+  const set=(v,scroll)=>{pic.dataset.v=v;btns.forEach(b=>b.setAttribute('aria-pressed',b.dataset.skipv===v));
+    const u=new URL(location);u.searchParams.set('skip',v);history.replaceState(null,'',u);
+    if(scroll)pic.scrollIntoView({behavior:'smooth',block:'center'});};
+  btns.forEach(b=>b.addEventListener('click',()=>set(b.dataset.skipv,true)));
+  const q=new URLSearchParams(location.search).get('skip'); if(['glass','photo','sizes'].includes(q))set(q,false);
 })();
 
 /* the docket plays once on load; "Play again" restarts it */
