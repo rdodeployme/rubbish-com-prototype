@@ -24,15 +24,24 @@
   .btn-y{background:var(--y);color:var(--k)}
   .btn-k{background:var(--k);color:var(--y)}
   .btn-line{background:transparent;color:var(--k);box-shadow:inset 0 0 0 2px var(--k)}
-  .vtabs{position:sticky;top:0;z-index:150;display:flex;justify-content:center;align-items:center;gap:6px;background:#fff;border-bottom:1px solid #E4E4E1;padding:8px 12px;font-family:Archivo,system-ui,sans-serif;font-size:14px;line-height:1.2}
-  .vtabs span{font-weight:700;margin-right:6px;color:#000}
-  .vtabs a{border:2px solid #000;border-radius:999px;padding:5px 12px;text-decoration:none;color:#000;font-weight:700;white-space:nowrap}
-  .vtabs a i{font-style:normal}
-  .vtabs a:hover{background:#FBC303}
-  .vtabs a[aria-current]{background:#000;color:#FBC303}
-  @media(max-width:1060px){ .vtabs span{display:none} }
-  @media(max-width:900px){ .vtabs{gap:5px} .vtabs a i{display:none} .vtabs a{min-width:38px;text-align:center;padding:5px 0} .vtabs a[aria-current] i{display:inline} .vtabs a[aria-current]{padding:5px 12px} }
-  @media(max-width:400px){ .vtabs a[aria-current] i{display:none} .vtabs a[aria-current]{padding:5px 0} .vtabs a{min-width:36px} }
+  :root{--vt-h:64px}
+  html{scroll-padding-top:calc(var(--vt-h) + 8px)}
+  .vtabs{position:sticky;top:0;z-index:150;height:var(--vt-h);display:flex;align-items:center;gap:10px;background:#FBC303;color:#000;border-bottom:3px solid #000;padding:0 16px;font-family:Archivo,system-ui,sans-serif;font-size:15px;line-height:1.1;box-shadow:0 4px 14px rgba(0,0,0,.18)}
+  .vtabs .vt-lbl{font-weight:900;font-stretch:115%;white-space:nowrap;display:grid;line-height:1.05}
+  .vtabs .vt-lbl small{font-weight:700;font-stretch:100%;font-size:12.5px}
+  .vtabs .vt-row{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;flex:1;padding:4px 2px;scroll-padding:0 40px;justify-content:safe center}
+  .vtabs .vt-row::-webkit-scrollbar{display:none}
+  .vtabs a{flex:none;display:inline-flex;align-items:center;gap:7px;background:#fff;border:2px solid #000;border-radius:999px;padding:6px 14px 6px 6px;text-decoration:none;color:#000;font-weight:800;white-space:nowrap;transition:transform .12s}
+  .vtabs a b{width:26px;height:26px;border-radius:50%;background:#000;color:#FBC303;display:grid;place-items:center;font-weight:900;font-size:14px}
+  .vtabs a:hover{transform:translateY(-2px)}
+  .vtabs a[aria-current]{background:#000;color:#fff;box-shadow:0 0 0 3px #fff}
+  .vtabs a[aria-current] b{background:#FBC303;color:#000}
+  .vtabs .vt-nav{flex:none;width:40px;height:40px;border-radius:50%;border:2px solid #000;background:#000;color:#FBC303;display:grid;place-items:center;font-size:20px;font-weight:900;text-decoration:none;padding:0}
+  .vtabs .vt-nav:hover{background:#fff;color:#000}
+  .vt-about{background:#000;color:#fff;font-family:Archivo,system-ui,sans-serif;font-size:15px;line-height:1.35;padding:10px 16px;text-align:center}
+  .vt-about b{color:#FBC303}
+  @media(max-width:1180px){ .vtabs .vt-lbl{display:none} }
+  @media(max-width:700px){ :root{--vt-h:58px} .vtabs{gap:6px;padding:0 8px;font-size:14px} .vtabs .vt-nav{width:36px;height:36px;font-size:18px} .vtabs .vt-row{justify-content:flex-start} .vt-about{font-size:14px;text-align:left} }
 
   .nav{display:flex;align-items:center;gap:20px;padding:18px 0}
   .nav img{height:44px;width:auto}
@@ -122,7 +131,7 @@
 </style>
 </head>
 <body>
-<nav class="vtabs" aria-label="Site versions"><span>Site version</span><a href="v3.html" title="Version A: Docket">A<i>: Docket</i></a><a href="v3b.html" title="Version B: Search">B<i>: Search</i></a><a href="v3c.html" title="Version C: Two doors">C<i>: Two doors</i></a><a href="v3d.html" title="Version D: Load it">D<i>: Load it</i></a><a href="v3e.html" title="Version E: The story">E<i>: The story</i></a><a href="v3f.html" title="Version F: Snap it">F<i>: Snap it</i></a><a href="v3g.html" aria-current="page" title="Version G: Before/after">G<i>: Before/after</i></a></nav>
+<nav class="vtabs" aria-label="Design options"><span class="vt-lbl">Design options<small>7 to compare</small></span><a class="vt-nav" href="v3f.html" aria-label="Previous option: Snap it" title="Previous (left arrow key)">&#8592;</a><div class="vt-row"><a href="v3.html" title="A quote docket fills in by itself to show how the marketplace works."><b>A</b>Docket</a><a href="v3b.html" title="Search-led: type what needs to go and your suburb, like Airtasker."><b>B</b>Search</a><a href="v3c.html" title="Two big choices up front: I have rubbish, or I collect rubbish."><b>C</b>Two doors</a><a href="v3d.html" title="Tap items and watch the ute, trailer or truck fill up."><b>D</b>Load it</a><a href="v3e.html" title="Scroll down and watch one job play out from post to gone."><b>E</b>The story</a><a href="v3f.html" title="Photo-first: snap your rubbish, quotes come back like messages."><b>F</b>Snap it</a><a href="v3g.html" aria-current="page" title="Drag the handle to clear a cluttered garage."><b>G</b>Before/after</a></div><a class="vt-nav" href="v3.html" aria-label="Next option: Docket" title="Next (right arrow key)">&#8594;</a></nav><div class="vt-about"><b>Option G of 7: Before/after.</b> Drag the handle to clear a cluttered garage.</div><script>(function(){var c=document.querySelector(".vtabs a[aria-current]");if(c&&c.scrollIntoView&&innerWidth<=1000){var r=c.parentNode;r.scrollLeft=c.offsetLeft-r.clientWidth/2+c.clientWidth/2;}addEventListener("keydown",function(e){if(e.altKey||e.ctrlKey||e.metaKey||/INPUT|TEXTAREA|SELECT/.test((document.activeElement||{}).tagName))return;var ov=document.getElementById("flow-ov");if(ov&&!ov.hidden)return;if(e.key==="ArrowRight")location.href="v3.html";if(e.key==="ArrowLeft")location.href="v3f.html";});})();</script>
 <header class="wrap nav" id="top">
   <a href="#top" aria-label="Rubbish.com.au home"><img src="logo-v3-dark.png" alt="Rubbish.com.au" width="122" height="44"></a>
   <button class="btn btn-line" type="button" data-flow="join">Become a collector</button>
