@@ -327,7 +327,7 @@ const BL={
 })();
 
 /* every "Post", "Get quotes" and "Register" button opens the matching flow from the main site */
-const FLOW_BUILD='20261013a';
+const FLOW_BUILD='20261014a';
 const flowOv=document.getElementById('flow-ov'), flowFrame=document.getElementById('flow-frame');
 function openFlow(path){
   flowFrame.src='v2.html?embed=1&v='+FLOW_BUILD+'&theme=gold#/'+path;
@@ -347,7 +347,10 @@ document.querySelectorAll('p,li,h2,h3,summary').forEach(el=>{
   if(!last)return;const m=last.data.match(/^([\s\S]*\S) +(\S{1,12}\s*)$/);if(m)last.data=m[1]+' '+m[2];
 });
 
-document.getElementById('ask').addEventListener('submit',e=>{e.preventDefault();openFlow('flow/pickup');});
+document.getElementById('ask').addEventListener('submit',e=>{e.preventDefault();
+  const w=document.getElementById('what').value.trim(), s=document.getElementById('where').value.trim();
+  if(!w&&!s){openFlow('flow/pickup');return;}
+  const q=new URLSearchParams();if(w)q.set('desc',w);if(s)q.set('suburb',s);openFlow('post?'+q.toString());});
 </script>
 </body>
 </html>

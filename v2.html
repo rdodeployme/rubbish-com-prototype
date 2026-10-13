@@ -1485,11 +1485,11 @@ $$('#done-row .dj').forEach((card,i)=>{const ci=COLS.findIndex(c=>c.n===DONE[i].
 const views=$$('[data-view]');
 function show(v){views.forEach(s=>s.hidden=s.dataset.view!==v);}
 function route(){
-  const h=location.hash||'#/';
+  const full=location.hash||'#/', h=full.split('?')[0], HQ=new URLSearchParams(full.split('?')[1]||'');
   closeOv();
   if(EMBED){
     const p=h.slice(2).split('/'), v=p[0]||'home';
-    if(v==='flow'){show('home');setMode(p[1]||'pickup');window.scrollTo(0,0);return;}
+    if(v==='flow'){show('home');setMode(p[1]||'pickup');if(HQ.get('load'))applyLoad(HQ.get('load'));window.scrollTo(0,0);return;}
     if(!['post','join'].includes(v)){toParent({type:'nav',to:{jobs:'jobs',job:'jobs',bins:'skips',how:'how'}[v]||''});return;}
   }
   let m;
@@ -1501,7 +1501,7 @@ function route(){
     else if(['jobs','bins','how','post','join'].includes(v)){show(v);
       if(v==='jobs')renderJobGrid();
       if(v==='bins')renderBins();
-      if(v==='post')resetPost();
+      if(v==='post'){resetPost();if(HQ.get('desc'))$('#pf-desc').value=HQ.get('desc');if(HQ.get('suburb'))pForm.querySelector('[name=suburb]').value=HQ.get('suburb');updateSum();}
       if(v==='join')resetJoin();
     } else show('home');
     window.scrollTo(0,0);
@@ -1513,6 +1513,13 @@ function route(){
   }
 }
 window.addEventListener('hashchange',route);
+/* a load built on another page arrives as ?load=couch.1,fridge.2 */
+function applyLoad(s){
+  ITEMS.forEach(i=>qty[i.id]=0);order.length=0;
+  s.split(',').forEach(x=>{const [id,n]=x.split('.');if(qty[id]===undefined)return;const c=Math.max(0,Math.min(20,parseInt(n,10)||0));qty[id]=c;for(let k=0;k<c;k++)order.push(id);});
+  ITEMS.forEach(i=>syncRow(i.id));
+  const v=vol();setVeh(v<=UTE_M3+1e-6?'ute':v<=TRAILER_M3+1e-6?'trailer':'truck',true);drawTruck();fitBin();fitWheelie();
+}
 
 /* ---------- Jobs page ---------- */
 const fState={q:'',city:'all',km:999,size:new Set(),win:new Set(),mat:new Set(),open:false,sort:'new'};

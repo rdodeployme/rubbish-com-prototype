@@ -131,7 +131,7 @@
 <body>
 <nav class="vtabs" aria-label="Site versions"><span>Site version</span><a href="v3.html">A<i>: Docket</i></a><a href="v3b.html">B<i>: Search</i></a><a href="v3c.html">C<i>: Two doors</i></a><a href="v3d.html" aria-current="page">D<i>: Load it</i></a><a href="v3e.html">E<i>: The story</i></a></nav>
 <header class="wrap nav" id="top">
-  <img src="logo-v3.png" alt="Rubbish.com.au" width="122" height="44">
+  <a href="#top" aria-label="Rubbish.com.au home"><img src="logo-v3.png" alt="Rubbish.com.au" width="122" height="44"></a>
   <span class="soon">Coming soon to Melbourne and Brisbane</span>
   <button class="btn btn-line" type="button" data-flow="join">Become a collector</button>
 </header>
@@ -324,6 +324,7 @@ const BL={
     $('#vol').textContent=fmt(v)+' m³';
     $('#fill').textContent=v===0?'Tap items to start loading':v>VEH.truck.cap?'More than a truckload. Collectors may quote for two loads.':`About ${Math.min(99,Math.max(1,Math.round(v/V.cap*100)))}% of a ${V.n} load`;
     $('#rt-tip').hidden=v>0; $('#go').disabled=v===0;
+    $('#go').dataset.flow='flow/pickup'+(v>0?'?load='+ITEMS.filter(([id])=>qty[id]).map(([id])=>id+'.'+qty[id]).join(','):'');
     if(k!==veh)setVeh(k); else draw(added);
     document.querySelectorAll('.tile').forEach(t=>{const n=qty[t.dataset.id];t.classList.toggle('has',n>0);t.querySelector('.ct').textContent=n;});
   }
@@ -355,7 +356,7 @@ const BL={
 })();
 
 /* every "Post", "Get quotes" and "Register" button opens the matching flow from the main site */
-const FLOW_BUILD='20261013a';
+const FLOW_BUILD='20261014a';
 const flowOv=document.getElementById('flow-ov'), flowFrame=document.getElementById('flow-frame');
 function openFlow(path){
   flowFrame.src='v2.html?embed=1&v='+FLOW_BUILD+'&theme=gold#/'+path;
