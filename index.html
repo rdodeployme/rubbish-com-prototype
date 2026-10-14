@@ -607,6 +607,7 @@
   h1,h2,h3,h4,.display{text-wrap:balance}
   p,li,dd,figcaption,blockquote{text-wrap:pretty}
   .btn,.chip,.tag,.pill{white-space:nowrap}
+  .swatches{display:none !important} /* brand colour settled: logo gold #FBC303 */
 </style>
 </head>
 <body>
@@ -1997,14 +1998,7 @@ document.getElementById('f-post').addEventListener('submit', async e => {
 // Colour preview switcher
 (function(){
   const themes=[
-    {id:'gold',name:'Logo gold',note:'Current brand yellow',c:'#FBC303',rot:0},
-    {id:'bright',name:'Bright yellow',note:'Punchier, high-vis',c:'#FFE600',rot:8},
-    {id:'orange',name:'Safety orange',note:'Hi-vis workwear feel',c:'#FF8A00',rot:-16},
-    {id:'lime',name:'Hi-vis lime',note:'Fresh, recycling-forward',c:'#B6F000',rot:30},
-    {id:'aqua',name:'Electric aqua',note:'Clean and techy',c:'#22E3D2',rot:128},
-    {id:'pink',name:'Hot pink',note:'Bold disruptor',c:'#FF5FA8',rot:-80},
-    {id:'blue',name:'Bright blue',note:'Trust, corporate-friendly',c:'#3D8BFF',rot:170},
-    {id:'navy',name:'Navy + yellow',note:'Navy base, bright yellow accent',c:'#FFE600',rot:8,base:'#0B1C38',grey:'#13284A'}
+    {id:'gold',name:'Logo gold',note:'Current brand yellow',c:'#FBC303',rot:0}
   ];
   const root=document.documentElement, box=document.getElementById('swatches');
   if(!box) return;
@@ -2026,10 +2020,10 @@ document.getElementById('f-post').addEventListener('submit', async e => {
 })();
 
 // ---- New-look flows: each original button opens the matching v2 section ----
-const FLOW_BUILD = '20261006m';
+const FLOW_BUILD = '20261014b';
 const FLOW_MAP = {post:'flow/pickup', skipreq:'flow/skip', wheelie:'flow/wheelie', join:'join'};
 const flowOv = document.getElementById('flow-ov'), flowFrame = document.getElementById('flow-frame');
-function currentTheme(){ try{ return localStorage.getItem('rb-theme')||'gold'; }catch(e){ return 'gold'; } }
+function currentTheme(){ return 'gold'; }
 function openFlow(path){
   flowFrame.src = 'v2.html?embed=1&v=' + FLOW_BUILD + '&theme=' + encodeURIComponent(currentTheme()) + '#/' + path;
   flowOv.hidden = false; document.body.style.overflow = 'hidden';

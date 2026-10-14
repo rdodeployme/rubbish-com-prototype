@@ -559,6 +559,7 @@
   h1,h2,h3,h4,.display{text-wrap:balance}
   p,li,dd,figcaption,blockquote{text-wrap:pretty}
   .btn,.chip,.pill{white-space:nowrap}
+  #dots{display:none !important} /* brand colour settled: logo gold #FBC303 */
 </style>
 </head>
 <body>
@@ -1083,15 +1084,8 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':
 
 /* ---------- Colour preview ---------- */
 const themes=[
-  {id:'gold',name:'Logo gold',c:'#FBC303',rot:0},
-  {id:'bright',name:'Bright yellow',c:'#FFE600',rot:8},
-  {id:'orange',name:'Safety orange',c:'#FF8A00',rot:-16},
-  {id:'lime',name:'Hi-vis lime',c:'#B6F000',rot:30},
-  {id:'aqua',name:'Electric aqua',c:'#22E3D2',rot:128},
-  {id:'pink',name:'Hot pink',c:'#FF5FA8',rot:-80},
-  {id:'blue',name:'Bright blue',c:'#3D8BFF',rot:170},
-  {id:'navy',name:'Navy + yellow',c:'#FFE600',rot:8,ink:'#0B1C38',asphalt:'#13284A'}
-];
+  {id:'gold',name:'Logo gold',c:'#FBC303',rot:0}
+  ];
 let themeIdx=0;
 function applyTheme(t){
   themeIdx=themes.indexOf(t);
